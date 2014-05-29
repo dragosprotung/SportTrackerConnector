@@ -1,0 +1,26 @@
+{
+    "name": "symfony/FitnessTrackingPorting",
+    "description": "A set of tools to dump / upload / port workouts from different online fitness trackers to another.",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragos Protung",
+            "email": "dragos@protung.ro"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.4",
+        "symfony/dom-crawler": "2.5.*@dev",
+        "symfony/console": "2.5.*@dev",
+        "symfony/yaml": "2.5.*@dev",
+        "fabpot/goutte": "~2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "FitnessTrackingPorting\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
