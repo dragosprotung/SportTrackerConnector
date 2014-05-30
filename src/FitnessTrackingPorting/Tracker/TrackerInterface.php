@@ -3,6 +3,7 @@
 namespace FitnessTrackingPorting\Tracker;
 
 use FitnessTrackingPorting\Workout\Workout;
+use DateTimeZone;
 
 /**
  * Interface for trackers.
@@ -24,6 +25,20 @@ interface TrackerInterface
      * @return string
      */
     public static function getID();
+
+    /**
+     * Set the timezone of the tracker.
+     *
+     * @param DateTimeZone $timeZone The timezone.
+     */
+    public function setTimeZone(DateTimeZone $timeZone);
+
+    /**
+     * Get the timezone of the tracker.
+     *
+     * @return DateTimeZone
+     */
+    public function getTimeZone();
 
     /**
      * Upload a workout.

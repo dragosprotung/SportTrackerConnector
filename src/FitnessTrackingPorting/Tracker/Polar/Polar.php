@@ -2,11 +2,12 @@
 
 namespace FitnessTrackingPorting\Tracker\Polar;
 
-use FitnessTrackingPorting\Tracker\TrackerInterface;
+use FitnessTrackingPorting\Tracker\AbstractTracker;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
+use DateTimeZone;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use RuntimeException;
@@ -16,7 +17,7 @@ use Symfony\Component\DomCrawler\Form;
 /**
  * Polar Flow tracker.
  */
-class Polar implements TrackerInterface
+class Polar extends AbstractTracker
 {
 
     const POLAR_FLOW_URL_ROOT = 'https://flow.polar.com';
@@ -49,17 +50,6 @@ class Polar implements TrackerInterface
     {
         $this->username = $username;
         $this->password = $password;
-    }
-
-    /**
-     * Get a new instance using a config array.
-     *
-     * @param array $config The config for the new instance.
-     * @return Polar
-     */
-    public static function fromConfig(array $config)
-    {
-        return new static($config['username'], $config['password']);
     }
 
     /**
@@ -100,6 +90,11 @@ class Polar implements TrackerInterface
         $trackPoints = $this->parseTrackPointsFromHTMLToJSON($html);
         foreach ($trackPoints as $point) {
             $time = new DateTime('@' . substr($point[1], 0, -3));
+            // Time is a UNIX timestamp so we have to set the timezone after we create the DateTime.
+            $time->setTimezone($this->getTimeZone());
+            // Adjust for time zone.
+            $time->modify($this->getTimeZoneOffset() . ' seconds');
+
             $trackPoint = new TrackPoint($point[0]->lat, $point[0]->lon, $time);
             $trackPoint->addExtension(new HR($point[3]));
             $workout->addTrackPoint($trackPoint);

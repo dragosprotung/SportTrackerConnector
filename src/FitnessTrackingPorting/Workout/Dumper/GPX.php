@@ -4,6 +4,8 @@ namespace FitnessTrackingPorting\Workout\Dumper;
 
 use FitnessTrackingPorting\Workout\Workout;
 use XMLWriter;
+use DateTime;
+use DateTimeZone;
 use InvalidArgumentException;
 
 /**
@@ -60,7 +62,9 @@ class GPX extends AbstractDumper
             $XMLWriter->writeElement('ele', $trackPoint->getElevation());
 
             // Time of position
-            $XMLWriter->writeElement('time', $trackPoint->getTime()->format('Y-m-d\TH:i:s\Z'));
+            $dateTime = clone $trackPoint->getTime();
+            $dateTime->setTimezone(new DateTimeZone('UTC'));
+            $XMLWriter->writeElement('time', $dateTime->format(DateTime::W3C));
 
             // Extensions.
             $this->writeExtensions($XMLWriter, $trackPoint->getExtensions());

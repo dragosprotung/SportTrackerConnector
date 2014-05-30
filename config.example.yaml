@@ -1,7 +1,10 @@
 polar:
-  username: your@email.com
-  password: your-password
-
+  auth:
+    username: your@email.com
+    password: your-password
+  timezone: "Europe/Berlin"
 endomondo:
-  username: your@email.com
-  password: your-password
+  auth:
+    username: your@email.com
+    password: your-password
+  timezone: "Europe/Berlin"

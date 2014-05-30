@@ -2,7 +2,7 @@
 
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
-use FitnessTrackingPorting\Tracker\TrackerInterface;
+use FitnessTrackingPorting\Tracker\AbstractTracker;
 use FitnessTrackingPorting\Workout\Dumper\GPX;
 use FitnessTrackingPorting\Workout\Workout;
 use Goutte\Client;
@@ -12,7 +12,7 @@ use BadMethodCallException;
 /**
  * Endomondo tracker.
  */
-class Endomondo implements TrackerInterface
+class Endomondo extends AbstractTracker
 {
 
     const ENDOMONDO_URL_ROOT = 'http://www.endomondo.com/';
@@ -49,17 +49,6 @@ class Endomondo implements TrackerInterface
         $this->username = $username;
         $this->password = $password;
         $this->dumper = new GPX();
-    }
-
-    /**
-     * Get a new instance using a config array.
-     *
-     * @param array $config The config for the new instance.
-     * @return Endomondo
-     */
-    public static function fromConfig(array $config)
-    {
-        return new static($config['username'], $config['password']);
     }
 
     /**
