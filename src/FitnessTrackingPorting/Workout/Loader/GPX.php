@@ -34,9 +34,9 @@ class GPX extends AbstractLoader
         // Track points.
         foreach ($simpleXML->trk->trkseg->trkpt as $point) {
             $attributes = $point->attributes();
-            $dateTime = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $point->time);
-            $trackPoint = new TrackPoint($attributes['lat'], $attributes['lon'], $dateTime);
-            $trackPoint->setElevation($point->ele);
+            $dateTime = new DateTime($point->time);
+            $trackPoint = new TrackPoint((string)$attributes['lat'], (string)$attributes['lon'], $dateTime);
+            $trackPoint->setElevation((int)$point->ele);
             if (isset($point->extensions)) {
                 $trackPoint->setExtensions($this->parseExtensions($point->extensions));
             }

@@ -48,9 +48,9 @@ class TrackPoint
      *
      * @param float $latitude The latitude.
      * @param float $longitude The longitude.
-     * @param float $time The time.
+     * @param DateTime $time The time.
      */
-    public function __construct($latitude, $longitude, $time)
+    public function __construct($latitude, $longitude, DateTime $time)
     {
         $this->setLatitude($latitude);
         $this->setLongitude($longitude);

@@ -84,6 +84,16 @@ class Workout
     }
 
     /**
+     * Set the track points.
+     *
+     * @param TrackPoint[] $trackPoints The track points to set.
+     */
+    public function setTrackPoints(array $trackPoints)
+    {
+        $this->trackPoints = $trackPoints;
+    }
+
+    /**
      * Get the track points.
      *
      * @return TrackPoint[]
