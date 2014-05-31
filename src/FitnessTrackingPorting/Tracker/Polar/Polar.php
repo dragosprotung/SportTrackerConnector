@@ -10,9 +10,9 @@ use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Form;
 use RuntimeException;
 use BadMethodCallException;
-use Symfony\Component\DomCrawler\Form;
 
 /**
  * Polar Flow tracker.
@@ -88,21 +88,28 @@ class Polar extends AbstractTracker
 
         $sport = $this->parseWorkoutSportFromHTML($html);
 
-        $trackPoints = $this->parseTrackPointsFromHTMLToJSON($html);
-        $track = new Track();
-        $track->setSport($sport);
-        foreach ($trackPoints as $point) {
-            $time = new DateTime('@' . substr($point[1], 0, -3));
-            // Time is a UNIX timestamp so we have to set the timezone after we create the DateTime.
-            $time->setTimezone($this->getTimeZone());
-            // Adjust for time zone.
-            $time->modify($this->getTimeZoneOffset() . ' seconds');
+        $polarExercise = $this->parseExerciseFromHTMLToJSON($html);
+        foreach ($polarExercise->exercises as $exercise) {
+            $exercise = array_combine(array_keys((array)$polarExercise->ExerciseKeys), $exercise);
+            if ($exercise['HAS_SAMPLES'] === true) {
+                $track = new Track();
+                $track->setSport($sport);
+                for ($i = $exercise['SAMPLES_START_INDEX']; $i < $exercise['SAMPLES_STOP_INDEX']; $i++) {
+                    $point = $polarExercise->samples[$i];
+                    $time = new DateTime('@' . substr($point[1], 0, -3));
+                    // Time is a UNIX timestamp so we have to set the timezone after we create the DateTime.
+                    $time->setTimezone($this->getTimeZone());
+                    // Adjust for time zone.
+                    $time->modify($this->getTimeZoneOffset() . ' seconds');
 
-            $trackPoint = new TrackPoint($point[0]->lat, $point[0]->lon, $time);
-            $trackPoint->addExtension(new HR($point[3]));
-            $track->addTrackPoint($trackPoint);
+                    $trackPoint = new TrackPoint($point[0]->lat, $point[0]->lon, $time);
+                    $trackPoint->addExtension(new HR($point[3]));
+                    $track->addTrackPoint($trackPoint);
+                }
+
+                $workout->addTrack($track);
+            }
         }
-        $workout->addTrack($track);
 
         return $workout;
     }
@@ -165,16 +172,16 @@ class Polar extends AbstractTracker
      * @return array
      * @throws RuntimeException If the JSON can not be parsed.
      */
-    protected function parseTrackPointsFromHTMLToJSON($html)
+    protected function parseExerciseFromHTMLToJSON($html)
     {
         $crawler = new Crawler();
         $crawler->addContent($html);
         $json = $crawler->filterXPath('//script')->last()->text();
 
-        $pattern = '/var mapSection = (.*)"samples":(.*)\}\,(.*)publicExercise\);/';
+        $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/';
         preg_match($pattern, $json, $matches);
 
-        $json = json_decode($matches[2]);
+        $json = json_decode($matches[1]);
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new RuntimeException('Could not parse the JSON from the HTML. ' . static::getJSONLastErrorMessage());
         }
