@@ -69,7 +69,6 @@ class GPXTest extends \PHPUnit_Framework_TestCase
 
         $gpx = new GPX();
         $actual = $gpx->dumpToString($workout);
-        file_put_contents('test.gpx', $actual);
 
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpToStringMultiTrack.gpx', $actual);
     }
