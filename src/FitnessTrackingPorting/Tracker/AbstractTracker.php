@@ -56,9 +56,10 @@ abstract class AbstractTracker implements TrackerInterface
 
     /**
      * Get offset between the tracker time zone and UTC time zone in seconds.
+     *
      * @return integer
      */
-    protected function getTimeZoneOffset()
+    public function getTimeZoneOffset()
     {
         $originDateTime = new DateTime('now', $this->getTimeZone());
 
