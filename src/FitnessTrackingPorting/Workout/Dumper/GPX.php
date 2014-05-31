@@ -39,6 +39,7 @@ class GPX extends AbstractDumper
         $XMLWriter->writeAttributeNs('xmlns', 'gpxx', null, 'http://www.garmin.com/xmlschemas/GpxExtensions/v3');
         $XMLWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
 
+        $this->writeMetaData($XMLWriter, $workout);
         $this->writeTrack($XMLWriter, $workout);
 
         $XMLWriter->endDocument();
@@ -46,6 +47,12 @@ class GPX extends AbstractDumper
         return $XMLWriter->outputMemory(true);
     }
 
+    /**
+     * Write a track to the GPX.
+     *
+     * @param XMLWriter $XMLWriter The XML writer.
+     * @param Workout $workout The workout.
+     */
     protected function writeTrack(XMLWriter $XMLWriter, Workout $workout)
     {
         $XMLWriter->startElement('trk');
@@ -108,8 +115,7 @@ class GPX extends AbstractDumper
      */
     protected function writeMetaData(XMLWriter $XMLWriter, Workout $workout)
     {
-
-        $XMLWriter->startElement('medatada');
+        $XMLWriter->startElement('metadata');
         if ($workout->getAuthor() !== null) {
             $XMLWriter->startElement('author');
             $XMLWriter->writeElement('name', $workout->getAuthor()->getName());
