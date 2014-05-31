@@ -47,6 +47,8 @@ class Polar extends AbstractTracker
      */
     public function __construct($username, $password)
     {
+        parent::__construct();
+
         $this->username = $username;
         $this->password = $password;
     }
@@ -79,7 +81,7 @@ class Polar extends AbstractTracker
      * @param string $html The HTML to fetch from.
      * @return Workout
      */
-    protected function fetchWorkoutFromHTML($html)
+    public function fetchWorkoutFromHTML($html)
     {
         $workout = new Workout();
 

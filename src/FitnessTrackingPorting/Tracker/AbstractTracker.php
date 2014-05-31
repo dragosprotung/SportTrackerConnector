@@ -19,6 +19,14 @@ abstract class AbstractTracker implements TrackerInterface
     protected $timeZone;
 
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->timeZone = new DateTimeZone('UTC');
+    }
+
+    /**
      * Get a new instance using a config array.
      *
      * @param array $config The config for the new instance.

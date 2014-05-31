@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" class="no-js"><![endif]-->
+<!--[if gt IE 9]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>
+
+        Session analysis - Polar Flow
+
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="Polar Electro Oy">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <link href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/html5.min.js" rel="stylesheet" type="text/css">
+    <![endif]-->
+    <link href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/stylesheets/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/stylesheets/styles2.min.css" rel="stylesheet" type="text/css">
+    <!--<link href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/stylesheets/custom/flow-theme.css" rel="stylesheet" type="text/css">-->
+
+
+    <link href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/stylesheets/jqueryUI/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css">
+
+
+
+
+    <style>
+        @font-face {
+            font-family: 'Nimbus Sans Novus Cond Bold';
+
+
+
+
+            src: url('https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/typography/nimbus/nimbus-sans-novus-cond-bold.eot?origin=5c36aec148e1005a2c8e66226f824484');
+            src: url('https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/typography/nimbus/nimbus-sans-novus-cond-bold.eot?#iefix?origin=5c36aec148e1005a2c8e66226f824484') format('embedded-opentype'),
+            url('https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/typography/nimbus/nimbus-sans-novus-cond-bold.woff?origin=5c36aec148e1005a2c8e66226f824484') format('woff'),
+            url('https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/typography/nimbus/nimbus-sans-novus-cond-bold.ttf?origin=5c36aec148e1005a2c8e66226f824484') format('truetype'),
+            url('https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/typography/nimbus/nimbus-sans-novus-cond-bold.svg#ywftsvg?origin=5c36aec148e1005a2c8e66226f824484') format('svg');
+            font-weight: normal;
+            font-style: normal;
+
+
+        }
+    </style>
+
+
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/modernizr-2.6.1/modernizr-2.6.1.js" type="text/javascript"></script>
+
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#333333">
+    <meta name="msapplication-TileImage" content="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/mstile-144x144.png">
+
+
+
+
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/utils/appGlobal.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/utils/browserCheck.min.js" type="text/javascript"></script>
+
+    <script>
+        var compCheck = new BrowserCompatibility();
+        compCheck.check();
+    </script>
+
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/jquery-1.8.1.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/jquery-ui-1.9.0/jquery-ui-1.9.0.custom.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/jquery-ui-touch-punch-0.2.2/jquery.ui.touch-punch-0.2.2.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/underscore-1.5.2-min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/spin.js" type="text/javascript"></script>
+    <script src="/assets/javascripts/3rd_party/jquery.cookie.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/utils/preferences.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/utils/common_helpers.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/utils/modal.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/jQueryTools/jquery.tools.min.js" type="text/javascript"></script>
+
+
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/bootstrap-modal/bootstrap-modalmanager.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/bootstrap-modal/bootstrap-modal.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/jquery-placeholder/jquery.placeholder.js" type="text/javascript"></script>
+    <script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/fancyselect.js"></script>
+
+    <script src="/jsRoutes" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36098126-1']);
+        _gaq.push(['_setDomainName', 'flow.polar.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</head>
+<body class="fixed-navigation override ">
+<div class="notification-panel center noscript">
+    <p> <b>Javascript is disabled</b></p>
+    <p>Enable Javascript to continue using the service.</p>
+</div>
+
+<div id="loading-spinner"><div id="spinner"></div></div>
+
+<div class="bottom-canvas">
+    <div class="row">
+        <div class="span12">
+            <!-- <h2>Settings</h2> -->
+        </div>
+    </div>
+    <div class="row no-margin" id="ajaxed-settings" data-toggle="buttons-checkbox">
+
+    </div>
+</div>
+
+<div class="mobile-nav nav-element">
+
+    <a href="/settings" class="place-image user-image" style="cursor:pointer;">
+
+        <img id="main-user-image" class="main-user-image profile-picture" src="https://d9snzuuztz987.cloudfront.net/ecosystem/profile/picture/964b22a9f9d7e3619276791b9cb6421a-2014-05-27_20_04_51" />
+        <p><strong>Dragos Protung</strong></p>
+    </a>
+
+    <ul class="nav main-nav" id="primaryNavigation">
+
+        <li id="main_feed"
+
+
+
+            class=''><a href="/feed">Feed</a></li>
+        <li id="main_dashboard"
+
+
+
+            class=''><a href="/">Explore</a></li>
+        <li id="main_training"
+
+
+
+            class='active '><a href="/diary">Diary</a></li>
+        <li id="main_progress"
+
+
+
+            class=''><a href="/training/report">Progress</a></li>
+
+
+        <li><a href="/training/profiles/5638871">View your profile</a></li>
+        <li><a href="/settings">Settings</a></li>
+
+        <li><a href="/settings/sports">Sport profiles</a></li>
+        <li><a href="/settings/products">Products</a></li>
+        <li><a href="/favorites/trainingTargets">Favorites</a></li>
+        <li><a href="/logout">Sign out</a></li>
+
+    </ul>
+</div>
+
+<div class="notification-wrapper">
+    <h3>Notifications <a class="open-panel close-notifications"><i class="x-icon-close st-icon-white"></i></a></h3>
+    <div id="notification-list" class="notification-listing">
+        <div class="items-holder clearfix">
+
+            <p class="text-center spinner"><img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/landing/ajax-loader.gif"></p>
+            <!-- Loaded via javascript -->
+        </div>
+    </div>
+</div>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div>
+            <a id="btn-navbar" class="btn-navbar open-nav nav-element open-panel">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand logged-in" role="branding" href="/"></a>
+            <div class="nav-collapse">
+
+                <ul class="nav" id="primaryNavigation">
+                    <li id="main_feed"
+
+
+
+                        class=''><a href="/feed">Feed</a></li>
+                    <li id="main_dashboard"
+
+
+
+                        class=''><a href="/">Explore</a></li>
+                    <li id="main_training"
+
+
+
+                        class='active '><a href="/diary">Diary</a></li>
+                    <li id="main_progress"
+
+
+
+                        class=''><a href="/training/report">Progress</a></li>
+                </ul>
+
+
+                <ul class="nav pull-right" id="user-profile-navigation">
+
+                    <li class="dropdown">
+                        <div class="place-image " data-toggle="dropdown" class="dropdown-toggle" style="cursor:pointer;">
+                            Dragos Protung
+                            <img id="main-user-image" class="main-user-image profile-picture" src="https://d9snzuuztz987.cloudfront.net/ecosystem/profile/picture/964b22a9f9d7e3619276791b9cb6421a-2014-05-27_20_04_51" />
+                        </div>
+                        <ul class="dropdown-menu user-profile-links" aria-labelledby="headerDropdownMenu" style="margin-top:0px;">
+                            <li><a href="/training/profiles/5638871">View your profile</a></li>
+                            <li><a href="/settings">Settings</a></li>
+                            <li><a href="/settings/sports">Sport profiles</a></li>
+                            <li><a href="/settings/products">Products</a></li>
+                            <li><a href="/logout">Sign out</a></li>
+                        </ul>
+                    </li>
+                    <li
+
+
+
+                            class='hidden-phone hidden-tablet'>
+                        <a href="/favorites/trainingTargets" style="padding-top:20px"><i class="x-icon-favorite st-icon-black"></i></a>
+                    </li>
+                    <li>
+                        <a class="open-notification icon-link open-panel"><i class="x-icon-notification st-icon-black"></i>
+
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+
+
+
+
+
+
+
+
+<div class="container-fluid primary-heading-chapter">
+    <div class="row-fluid">
+        <div>
+            <div class="usr-navigation-details">
+
+                <a class="btn btn-transparent btn-upper-nav btn-large" href="/training/analysis/15411724"><i class="x-icon-arrow-left st-icon-black"></i></a>
+                <a class="btn btn-transparent btn-upper-nav btn-large"  href="/training/analysis/15504868"><i class="x-icon-arrow-right st-icon-black"></i></a>
+
+                <div class="sport-heading-placeholder">
+                    <figure><img id="sport-icon-image" class="" title=' Running ' src="https://d9snzuuztz987.cloudfront.net/ecosystem/sport/icon/f539d3e293e2ebc692314e6c01160f5b-2014-04-29_03_40_03"></figure>
+                    <h4 class="inline-block uppercase">  Running <br>
+                        Friday, May 30, 2014 19:12</h4>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row-fluid">
+                <div class="span12 share-center">
+
+                    <a class="btn btn-transparent btn-large " href="#" id="btn-like"><i class="x-icon-likes st-icon-black"></i> <span id="btn-like-count"> 0</span></a>
+
+                    <div class="inline-block relative dropdown-open">
+                        <a class="dropdown-toggle btn btn-transparent btn-large" href="#" id="btn-comment"><i class="x-icon-comment st-icon-black"></i> <span id="btn-comment-count">0</span></a>
+                        <div class="comments-holder">
+                            <div class="ajax-loader"><p><img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/landing/ajax-loader.gif" /></p></div>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="comments-content">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-transparent btn-large" href="/training/relive/15504862" id="btn-relive" target="_blank"><i class="x-icon-relive st-icon-black"></i> <span>Relive</span></a>
+
+
+
+
+                    <div class="dropdown privacy-btn">
+                        <a id="trainingVisibilityValue" data-toggle="dropdown" class="dropdown-toggle btn btn-transparent btn-large" href="#">
+                            <i class="x-icon-followers st-icon-black"></i> <span>Followers</span>
+
+                        </a>
+                        <ul class="dropdown-menu text-left" role="menu" aria-labelledby="dLabel" id="changeTrainingVisibility">
+                            <li><a href="#" ref="public" ><i class="x-icon-views st-icon-black"></i> <span>Public</span></a></li>
+                            <li><a href="#" ref="followers" ><i class="x-icon-followers st-icon-black"></i> <span>Followers</span></a></li>
+                            <li><a href="#" ref="private" ><i class="x-icon-lock st-icon-black"></i> <span>Private</span></a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form action="/training/analysis/15504862" method="POST" id="bdForm" class="flow-form">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="hidden" id="id" name="id" value="15504862" >
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="hidden" id="userId" name="userId" value="5638871" >
+
+
+
+
+
+<div class="container-fluid border-bottom-gray content-starter">
+
+
+<div class="row-fluid basic-data-panel no-padding editable no-margin">
+    <div class="span12 mobile-12 basic-datapanel-header">
+        <div class="item basic-data">
+            <div class="summary gfx-settings clearfix">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_duration.svg" alt="" class="bdp-svg">
+                <div class="number-data">
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="control-group ">
+                        <div class="controls">
+
+                            <input type="text" id="duration" name="duration" value="00:14:30" class="input-no-border enableEditing" oldval="00:14:30" readonly="readonly" maxlength="8">
+
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+
+
+                    <span class="total-value hidden">&nbsp;</span>
+                </div>
+                <div class="label-data">Duration <span class="label-unit">[hh:mm:ss]</span></div>
+            </div>
+        </div>
+
+        <div class="item basic-data ">
+            <div class="summary gfx-settings clearfix">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_distance.svg" alt="" class="bdp-svg">
+                <div class="number-data">
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="control-group ">
+                        <div class="controls">
+
+                            <input type="text" id="distanceStr" name="distanceStr" value="2.78" class="input-no-border enableEditing" oldval="2.78" readonly="readonly" maxlength="7">
+
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+
+
+                    <span class="total-value hidden">&nbsp;</span>
+                </div>
+                <div class="label-data">Distance <span class="label-unit">[km]</span></div>
+            </div>
+        </div>
+
+
+
+        <div class="item basic-data">
+            <div class="summary gfx-settings clearfix">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_hr.svg" alt="" class="bdp-svg">
+                <div class="number-data">
+
+
+
+
+
+
+
+
+
+
+                    <div class="control-group ">
+                        <div class="controls">
+
+                            <input type="text" id="heartRateAvg" name="heartRateAvg" value="159" class="input-no-border" readonly="readonly">
+
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <span class="total-value hidden">&nbsp;</span>
+                </div>
+                <div class="label-data">Average heart rate <span class="label-unit">[bpm]</span></div>
+                <div class="label-data black">
+                    Max
+                    166
+                    &nbsp;/&nbsp;
+                    Min
+                    87
+                </div>
+            </div>
+        </div>
+
+
+        <div class="item basic-data">
+            <div class="summary gfx-settings clearfix">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_calories.svg" alt="" class="bdp-svg">
+                <div class="number-data">
+
+
+
+
+
+
+
+
+
+
+                    <div class="control-group ">
+                        <div class="controls">
+
+                            <input type="text" id="kiloCalories" name="kiloCalories" value="239" class="input-no-border" readonly="readonly">
+
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+
+                    <span class="total-value hidden">&nbsp;</span></div>
+                <div class="label-data">Calories <span class="label-unit">[kcal]</span></div>
+            </div>
+        </div>
+
+
+        <div class="item btn-large-holder">
+            <a href="#" class="btn btn-large btn-white btn-mobile-full" id="feedbackModalBoxBtn">Tempo training </a>
+        </div>
+
+        <div class="btn-holder">
+            <a href="#" class="btn btn-white btn-large collapse-toggle-button exercise-collapse btn-mobile-full" ref="trainingDetailsContainerBox" data-text="Less">More</a>
+        </div>
+        <a href="#" class="hidden" id="basicDataPanelButton"></a>
+    </div>
+</div>
+
+
+
+
+
+<div class="row-fluid training-edit-container no-margin hidden" id="trainingDetailsContainerBox">
+<div class="span4">
+<fieldset>
+
+<div class="row-fluid" id="sportProfileSelection">
+    <div class="span12">
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="control-group span12 ">
+
+            <div class="span12">
+                <label for="sport" class="control-label">Sport</label>
+            </div>
+
+            <div class="controls span12">
+
+
+
+                <div>
+
+
+
+
+
+
+                    <select id="sport" name="sport" j="true">
+
+                        <option value="temp" disabled selected>Select sport</option>
+
+
+
+                        <option value="2" >Cycling</option>
+
+                        <option value="83" >Other indoor</option>
+
+                        <option value="16" >Other outdoor</option>
+
+                        <option value="1" selected>Running</option>
+
+                        <option value="15" >Strength training</option>
+
+                        <option value="23" >Swimming</option>
+
+                        <option value="3" >Walking</option>
+
+                        <option value="61" >Aerobics</option>
+
+                        <option value="62" >Aqua fitness</option>
+
+                        <option value="14" >Badminton</option>
+
+                        <option value="42" >Baseball</option>
+
+                        <option value="41" >Basketball</option>
+
+                        <option value="49" >Beach volley</option>
+
+                        <option value="64" >Body&amp;Mind</option>
+
+                        <option value="58" >Bootcamp</option>
+
+                        <option value="20" >Circuit training</option>
+
+                        <option value="25" >Classic XC skiing</option>
+
+                        <option value="60" >Classic roller skiing</option>
+
+                        <option value="40" >Cricket</option>
+
+                        <option value="55" >Cross-trainer</option>
+
+                        <option value="34" >Crossfit</option>
+
+                        <option value="52" >Dancing</option>
+
+                        <option value="7" >Downhill skiing</option>
+
+                        <option value="44" >Field hockey</option>
+
+                        <option value="67" >Fitness dancing</option>
+
+                        <option value="56" >Fitness martial arts</option>
+
+                        <option value="51" >Floorball</option>
+
+                        <option value="47" >Football</option>
+
+                        <option value="24" >Freestyle XC skiing</option>
+
+                        <option value="59" >Freestyle roller skiing</option>
+
+                        <option value="57" >Functional training</option>
+
+                        <option value="50" >Futsal</option>
+
+                        <option value="35" >Golf</option>
+
+                        <option value="32" >Group exercise</option>
+
+                        <option value="48" >Handball</option>
+
+                        <option value="11" >Hiking</option>
+
+                        <option value="46" >Ice hockey</option>
+
+                        <option value="28" >Ice skating</option>
+
+                        <option value="18" >Indoor cycling</option>
+
+                        <option value="29" >Inline skating</option>
+
+                        <option value="4" >Jogging</option>
+
+                        <option value="5" >Mountain biking</option>
+
+                        <option value="9" >Nordic walking</option>
+
+                        <option value="65" >Pilates</option>
+
+                        <option value="54" >Riding</option>
+
+                        <option value="38" >Road biking</option>
+
+                        <option value="19" >Road running</option>
+
+                        <option value="30" >Roller skating</option>
+
+                        <option value="8" >Rowing</option>
+
+                        <option value="43" >Rugby</option>
+
+                        <option value="10" >Skating</option>
+
+                        <option value="6" >Skiing</option>
+
+                        <option value="22" >Snowboarding</option>
+
+                        <option value="39" >Soccer</option>
+
+                        <option value="13" >Squash</option>
+
+                        <option value="63" >Step workout</option>
+
+                        <option value="66" >Stretching</option>
+
+                        <option value="12" >Tennis</option>
+
+                        <option value="36" >Track&amp;field running</option>
+
+                        <option value="27" >Trail running</option>
+
+                        <option value="17" >Treadmill running</option>
+
+                        <option value="53" >Trotting</option>
+
+                        <option value="45" >Volleyball</option>
+
+                        <option value="33" >Yoga</option>
+
+                    </select>
+
+
+
+
+
+
+                </div>
+
+
+                <p class="help-block"></p>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <label>How do you feel?</label>
+
+        <select name="feeling" >
+            <option data-class="feeling-1" value="0.19" ><i class="x-icon-feeling-1"></i><br><span>Awesome</span></option>
+            <option data-class="feeling-2"value="0.39" selected><i class="x-icon-feeling-2"></i><br><span>Great</span></option>
+            <option data-class="feeling-3"value="0.59" ><i class="x-icon-feeling-3"></i><br><span>Okay</span></option>
+            <option data-class="feeling-4"value="0.79" ><i class="x-icon-feeling-4"></i><br><span>Not so good</span></option>
+            <option data-class="feeling-5"value="0.99" ><i class="x-icon-feeling-5"></i><br><span>Bad</span></option>
+        </select>
+
+
+
+    </div>
+</div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <label>Training notes</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="control-group  ">
+
+            <div class="">
+                <label for="note" class="control-label"></label>
+            </div>
+
+            <div class="controls ">
+
+
+
+                <div>
+
+
+
+
+
+
+                    <textarea id="note" name="note"  j="true" placeholder="Write a note about this training" oldval="" class="input-block-level" rows="8" cols="70"></textarea>
+
+
+
+
+
+
+                </div>
+
+
+                <p class="help-block"></p>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+</fieldset>
+</div>
+<div class="span8 exercise-statistics-wrapper">
+    <fieldset class="basic-data-panel">
+        <div class="row-fluid">
+
+
+
+
+            <aside data-type="sample-data" class="span4 clearfix PACE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_speed.svg" alt="" class="bdp-svg">
+                <div class="number-data avg">05:12</div>
+                <div class="label-data">
+                    Average pace
+                    <span class="label-unit">[min/km]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    04:19
+                </div>
+            </aside>
+
+
+
+
+
+            <aside data-type="sample-data" class="span4 clearfix RUNNINGINDEX">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_runningindex.svg" alt="" class="bdp-svg">
+                <div class="number-data fat">52</div>
+                <div class="label-data">
+                    Running Index
+                </div>
+            </aside>
+
+
+            <aside data-type="sample-data" class="span4 clearfix TRAININGLOAD">
+                <div><ul class="trainingLoad"><li class="full"></li><li></li><li></li><li></li><li></li>
+                </ul><span class="trainingLoadText">Mild</span></div>
+                <div class="label-data">
+                    Training Load
+                </div>
+
+                <div class="label-data black trainingLoadText">
+
+                    Recovery need 2 hours
+
+                </div>
+
+            </aside>
+
+
+            <aside data-type="sample-data" class="span4 clearfix ASCENT">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_ascent.svg" alt="" class="bdp-svg">
+                <div class="number-data fat">5</div>
+                <div class="label-data">
+                    Ascent
+                    <span class="label-unit">[m]</span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span4 clearfix DESCENT">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_descent.svg" alt="" class="bdp-svg">
+                <div class="number-data fat">0</div>
+                <div class="label-data">
+                    Descent
+                    <span class="label-unit">[m]</span>
+                </div>
+            </aside>
+
+
+            <aside data-type="sample-data" class="span4 clearfix FAT">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_calories.svg" alt="" class="bdp-svg">
+                <div class="number-data fat">15</div>
+                <div class="label-data">
+                    Fat percentage of calories
+                    <span class="label-unit">[%]</span>
+                </div>
+            </aside>
+
+
+
+        </div>
+
+    </fieldset>
+
+    <div class="row-fluid"> <a href="#" id="saveTraining" class="disabled btn btn-red btn-transparent btn-large pull-right">Save</a> </div>
+
+</div>
+</div>
+
+
+</div>
+
+
+
+</form>
+
+
+
+<div class="container-fluid">
+    <div class="row-fluid no-margin">
+
+
+
+
+
+        <div class="multisport-sportdetails__single hidden" data-id="15428920">
+        </div>
+
+
+
+
+
+    </div>
+</div>
+<div class="container-fluid full-width map-wrap">
+    <div class="row-fluid no-margin hidden">
+
+
+
+        <!-- <div id="map-canvas" style="height: 300px"></div> -->
+        <div class="span12">
+            <div id="mapComponentContainer">
+                <div id="mapTouchOverlay">
+                    <canvas id="myCanvas" width="250" height="250" class="locked"></canvas>
+                </div>
+                <div id="mapFullscreenHeader" class="hidden">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="sport-icon-placeholder">
+                                <figure>
+                                    <img id="sport-icon-image" class="" title=" Running" src="https://d9snzuuztz987.cloudfront.net/ecosystem/sport/icon/f539d3e293e2ebc692314e6c01160f5b-2014-04-29_03_40_03">
+                                </figure>
+                            </div>
+                            <div class="sport-heading-placeholder">
+                                <span> Running</span>
+
+                        <span>Friday, May 30, 2014 19:12
+                        </span>
+
+                            </div>
+                            <div id="resetFullScreenMap" class="pull-right"><a href='#' class='btn btn-large btn-red' title="Exit fullscreen map" ><i class="x-icon-close"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exe-map-controls-left subpage">
+                    <a href="#" id="mapZoomIn" title="Zoom in" class="btn btn-white btn-large"><i class="x-icon-plus st-icon-black"></i></a>
+                    <a href="#" id="mapZoomOut" title="Zoom out" class="btn btn-white btn-large"><i class="x-icon-minus st-icon-black"></i></a>
+                </div>
+
+                <div class="right-of-container exe-map-controls-right">
+                    <a href="#" title="Lock map" id="lockMap" class="btn btn-white btn-large hidden"><i class="x-icon-lock st-icon-black"></i></a>
+                    <div class="dropdown" style="margin-bottom:10px;">
+                        <a title="Map settings" class="dropdown-toggle btn btn-white btn-large" style="margin-bottom:0;" data-toggle="dropdown" href="#"><i class="x-icon-settings st-icon-black"></i></a>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="mapSelLabel">
+                            <li id="mapSettingsHighlightRouteLabel" class="nav-header hidden">Highlight route</li>
+                            <li id="mapSettingsHighlightRoute" class="hidden" style="padding:5px;" >
+                                <div class="radio-group" >
+                                    <label class="radio" onclick=""><input type="radio" name="routetype"  id="removeRouteHighlight" checked="checked"><span></span>No route highlight</label>
+
+                                    <label class="radio" onclick=""><input type="radio" name="routetype"  id="showZoneBasedRoute"><span></span>Heart rate zones</label>
+
+
+                                    <label class="radio" onclick=""><input type="radio" name="routetype"   id="showSpeedBasedRoute"><span></span>Speed</label>
+
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Change map type</li>
+                            <li style="padding:5px;">
+                                <div class="radio-group" style="padding 5px;">
+                                    <label class="radio" onclick=""><input type="radio" name="maptype" id="showRoadMap"><span></span>Road map</label>
+                                    <label class="radio" onclick=""><input type="radio" name="maptype" id="showSatelliteMap"><span></span>Satellite map</label>
+                                    <label class="radio" onclick=""><input type="radio" name="maptype" id="showTerrainMap" checked="checked"><span></span>Terrain map</label>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Laps</li>
+                            <li style="padding:5px;">
+                                <div class="checkbox-group" style="padding 5px;">
+                                    <label class="checkbox" onclick=""><input type="checkbox" checked="checked" id="showLapMarkers"><span></span>Laps</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" title="Fullscreen map" id="fullScreenMap" class="btn btn-white btn-large"><i class="x-icon-full-screen st-icon-black"></i></a>
+                </div>
+
+
+                <div id="map_canvas" class="analyse" style="height: 400px"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-wrapper">
+<div class="analysisview-spinner-bg" id="analysisview-spinner"></div>
+<div class="container-fluid">
+<div class="row-fluid">
+<div id="chartComponentContainer">
+
+<div id="graphFullscreenHeader" class="hidden">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="sport-icon-placeholder"><img id="sport-icon-image" class="" title=' Running' src="https://d9snzuuztz987.cloudfront.net/ecosystem/sport/icon/f539d3e293e2ebc692314e6c01160f5b-2014-04-29_03_40_03"></div>
+            <div class="sport-heading-placeholder">
+                <span> Running</span>
+                <span>Friday, May 30, 2014 19:12</span>
+            </div>
+            <div id="resetFullScreenCurve" title="Exit fullscreen chart" class="pull-right"><a href='#' class='btn btn-large btn-red' ><i class="x-icon-close"></i></a></div>
+        </div>
+    </div>
+</div>
+
+<div class="curve-wrapper">
+
+
+<div id="analyzeChartTooltip" class="tooltipWrap">
+    <div class="clearfix">
+        <div class='flow-chart-tooltip-element'>
+            <div class='x-icon-duration st-icon-black'></div>
+            <span class="DURATION"></span>
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='x-icon-distance st-icon-black'></div>
+            <span class="DISTANCE"></span>
+
+
+
+            km
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-altitude' style=''></div>
+            <span class="ALTITUDE"></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            m
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-averageCandence' style=''></div>
+            <span class="CADENCE"></span>
+            rpm
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-averageHr' style=''></div>
+            <span class="HEART_RATE"></span>
+            bpm
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-maxSpeed' style=''></div>
+            <span class="SPEED"></span>
+
+
+
+
+
+
+
+            km/h
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-maxSpeed' style=''></div>
+            <span class="PACE"></span>
+
+
+
+
+
+
+
+
+
+
+
+            min/km
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-strideLength' style=''></div>
+            <span class="STRIDE_LENGTH"></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            cm
+
+
+
+
+
+        </div>
+        <div class='flow-chart-tooltip-element'>
+            <div class='flow-chart-tooltip-icon-container chart-icon-temperature' style=''></div>
+            <span class="TEMPERATURE"></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            C
+
+        </div>
+        <div class='bottom-arrow'></div>
+    </div>
+    <div class="bottom-arrow-new"></div>
+</div>
+
+
+
+
+
+<div id="trainingSessionCurve" class="span9 mobile-8 no-margin" style="height:330px;">
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="span3 relative zones mob mobile-4 hide-in-fullscreen" >
+    <h4 class="uppercase" id="hrTitle">
+        Heart rate zones
+    </h4>
+    <h4 class="uppercase" id="fitFatTitle" style="display:none;">
+        FIT/FAT ZONES
+    </h4>
+
+    <div id="zoneSummary">
+
+
+        <div id="hrZones">
+            <div id="zoneElement_training" class="zone-element active">
+
+
+
+                <div class="zone-component clearfix">
+                    <div class="zone-distribution">
+                        00:00:00
+                    </div>
+                    <div class="progress" style="width:80%">
+                        <span class="order for-zone5">5</span>
+                        <div class="bar-container">
+                            <div id="zone_5" class="bar zone-5" style="width:0.0%;">
+                                                        <span class="time-in-zone">
+
+
+                                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="zone-component clearfix">
+                    <div class="zone-distribution">
+                        00:13:21
+                    </div>
+                    <div class="progress" style="width:80%">
+                        <span class="order for-zone4">4</span>
+                        <div class="bar-container">
+                            <div id="zone_4" class="bar zone-4" style="width:92.92343387470999%;">
+                                                        <span class="time-in-zone">
+
+
+                                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="zone-component clearfix">
+                    <div class="zone-distribution">
+                        00:00:37
+                    </div>
+                    <div class="progress" style="width:80%">
+                        <span class="order for-zone3">3</span>
+                        <div class="bar-container">
+                            <div id="zone_3" class="bar zone-3" style="width:4.292343387470997%;">
+                                                        <span class="time-in-zone">
+
+
+                                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="zone-component clearfix">
+                    <div class="zone-distribution">
+                        00:00:15
+                    </div>
+                    <div class="progress" style="width:80%">
+                        <span class="order for-zone2">2</span>
+                        <div class="bar-container">
+                            <div id="zone_2" class="bar zone-2" style="width:1.740139211136891%;">
+                                                        <span class="time-in-zone">
+
+
+                                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="zone-component clearfix">
+                    <div class="zone-distribution">
+                        00:00:09
+                    </div>
+                    <div class="progress" style="width:80%">
+                        <span class="order for-zone1">1</span>
+                        <div class="bar-container">
+                            <div id="zone_1" class="bar zone-1" style="width:1.0440835266821344%;">
+                                                        <span class="time-in-zone">
+
+
+                                                        </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+
+        <div id="fitFatZones" style="display:none;">
+            <div class="zone-component clearfix">
+                <div class="zone-distribution">
+                </div>
+                <div class="progress" style="width:80%">
+                    <span class="order for-zone-fitfat-2">FIT</span>
+                    <div class="bar-container">
+                        <div id="zone_1" class="bar zone-fitfat-2" style="0%;">
+			                                   <span class="time-in-zone">
+			                                   </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="zone-component clearfix">
+                <div class="zone-distribution">
+                </div>
+                <div class="progress" style="width:80%">
+                    <span class="order for-zone-fitfat-1">FAT</span>
+                    <div class="bar-container">
+                        <div id="zone_0" class="bar zone-fitfat-1" style="0%;">
+			                                   <span class="time-in-zone">
+			                                   </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="curve-buttons chart-controls">
+    <a id="curveSettingsButton" class="btn btn-white btn-large margin-button" href="#">
+        <i class="x-icon-settings st-icon-black">
+        </i>
+    </a>
+    <a id="fullScreenChart" title="Full screen chart" class="btn btn-white btn-large margin-button no-margin" style="display:block;" href="#">
+        <i class="x-icon-full-screen st-icon-black">
+        </i>
+    </a>
+</div>
+
+
+
+<div id="curveResetZoom" style="display: none; position: absolute;">
+    <a href="#"
+       title='Reset zoom'
+       class="btn btn-white btn-large margin-button">
+        <i class="x-icon-xit-full-screen st-icon-black"></i>
+    </a>
+</div>
+
+<div id="chartHandlerTooltip">
+    <div class="row-fluid no-margin">
+        <div class="span3"><i class="x-icon-duration st-icon-white"></i></div>
+        <div class="span3" style="margin:0;"><i class="x-icon-distance st-icon-white"></i></div>
+        <div class="span9"><em class="value"></em></div>
+    </div>
+    <div class="bottom-arrow"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="row-fluid slider-container">
+    <div id="rangeComponentContainer">
+        <section id="rangeSelector">
+            <span class="rangeSelector-slider-bg"></span>
+        </section>
+    </div>
+</div>
+<div class="row-fluid no-margin">
+
+
+
+
+    <section role="list" class="range-statistics-wrapper">
+        <article class="basic-data-panel span12 range-statistics">
+
+            <aside data-type="sample-data" class="span3 clearfix DURATION">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_duration.svg" alt="" class="bdp-svg">
+                <div class="number-data duration"></div>
+                <div class="label-data">
+                    Duration
+                    <span class="label-unit">[hh:mm:ss]</span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix DISTANCE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_distance.svg" alt="" class="bdp-svg">
+                <div class="number-data distance"></div>
+                <div class="label-data">
+                    Distance
+                    <span class="label-unit">[km]</span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix HEART_RATE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_hr.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average heart rate
+                    <span class="label-unit">[bpm]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                    &nbsp;/&nbsp;
+                    Min
+                    <span class="min"></span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix SPEED">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_speed.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average speed
+                    <span class="label-unit">[km/h]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix PACE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_speed.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average pace
+                    <span class="label-unit">[min/km]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix CADENCE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_cadence.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average cadence
+                    <span class="label-unit">[rpm]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix ASCENT">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_ascent.svg" alt="" class="bdp-svg">
+                <div class="number-data ascent"></div>
+                <div class="label-data">
+                    Ascent
+                    <span class="label-unit">[m]</span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix DESCENT">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_descent.svg" alt="" class="bdp-svg">
+                <div class="number-data descent"></div>
+                <div class="label-data">
+                    Descent
+                    <span class="label-unit">[m]</span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix ALTITUDE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_altitude.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average altitude
+                    <span class="label-unit">[m]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                    &nbsp;/&nbsp;
+                    Min
+                    <span class="min"></span>
+                </div>
+            </aside>
+
+            <aside data-type="sample-data" class="span3 clearfix TEMPERATURE">
+                <img src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/images/icons/flowiconssvgworkfile_temperature.svg" alt="" class="bdp-svg">
+                <div class="number-data avg"></div>
+                <div class="label-data">
+                    Average temperature
+                    <span class="label-unit">[C]</span>
+                </div>
+                <div class="label-data black">
+                    Max
+                    <span class="max"></span>
+                    &nbsp;/&nbsp;
+                    Min
+                    <span class="min"></span>
+                </div>
+            </aside>
+
+            <div class="pull-right">
+                <a href="#" id="resetSelectedRange" class="btn btn-white btn-large"><i class="x-icon-close"></i></a>
+            </div>
+
+        </article>
+    </section>
+
+</div>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <section class="span12" role="table">
+            <div class="LapsTable" id="LapsTable" style="display:none;">
+
+
+
+
+
+
+
+                <ul id="lapTabsHeader" class="nav nav-pills laps tabbable">
+                    <li><a href="#lapDiv" type="autolap" data-toggle="tab" id="lapsTab">Laps</a></li>
+                    <li><a href="#lapDiv" type="autolap" data-toggle="tab" id="autoLapsTab">Automatic laps</a></li>
+                    <li class="dropdown">
+                        <a ref="lapGenerationList" class="laps-collapse" href="#" id="lapGenerationListHandle">Split into laps <i class="x-icon-arrow-down"></i></a>
+                        <ul class="dropdown-menu pull-right generateLaps" id="lapGenerationList" >
+                            <li><a href="#" class="generateAutolaps" type="autolap" split="off">Off</a></li>
+                            <li><a href="#" class="generateAutolaps" type="autolap" split="0.5">0.5
+
+
+                                km
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </a></li>
+                            <li><a href="#" class="generateAutolaps" type="autolap" split="1">1.0
+
+
+                                km
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </a></li>
+                            <li><a href="#" class="generateAutolaps" type="autolap" split="2">2.0
+
+
+                                km
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </a></li>
+                            <li><a href="#" class="generateAutolaps" type="autolap" split="5">5.0
+
+
+                                km
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div id="lapsContainer" class="tab-content training-lap-container">
+                    <div id="lapDiv" class="tab-pane active"></div>
+                </div>
+
+                <div id="newLapDiv">
+
+                    <div id="newLapHtmlContainer"></div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+</div>
+
+<section class="container-fluid" style="margin-bottom:1em;">
+    <aside class="row-fluid">
+
+        <aside class="span12">
+            <a href="#" class="btn btn-large btn-dark-gray" id="deleteTraining" >Remove training</a>
+        </aside>
+
+    </aside>
+</section>
+
+
+
+
+<footer role="footer" class="footer">
+    <nav role="contentinfo" class="clearfix">
+        <aside role="list" class="pull-left">
+            <a role="list-item" href="http://www.polar.com" target="_blank">© Polar Electro 2014</a>
+            <a role="list-item" href="/termsOfUse">Terms of Use</a>
+            <a role="list-item" href="/privacyPolicy">Privacy Policy</a>
+            <a role="list-item" href="/support">Customer care</a>
+        </aside>
+        <aside role="list" class="pull-right muted">
+            <p>Follow us on <a role="list-item" href="http://www.facebook.com/PolarGlobal" target="_blank" class="fb">Facebook</a><a href="https://twitter.com/PolarGlobal" target="_blank" class="twitter" role="list-item">Twitter</a><a href="http://instagram.com/polarglobal" target="_blank" class="instagram">Instagram</a><a href="http://www.youtube.com/polar" class="youtube" target="_blank">Youtube</a></p>
+        </aside>
+    </nav>
+</footer>
+</div>
+<div class="overlay" id="flow_overlay"></div>
+
+<script type="text/javascript" charset="utf-8">
+
+    // Initializing app wide global object
+    AppGlobal.init("5638871", "https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/");
+
+
+    CommonHelpers.weekStartDay = 1;
+    CommonHelpers.dateFormat = 'dd-MM-yyyy';
+    CommonHelpers.timeFormat = 'HH:mm';
+    CommonHelpers.hourFormat = 'HH';
+    CommonHelpers.units = 'METRIC';
+    CommonHelpers.dateSeparator = '-';
+
+
+    var loginSuccess = false,
+            notification = $('.alert-message');
+
+    window.onload = function(){
+        // Error notification transition trigger
+        if(notification.length){
+            $(notification).addClass('visible');
+        }
+        setTimeout(function(){
+            $(notification).removeClass('visible');
+        }, CommonHelpers.flashMessageTimeout);
+    }
+    $(document).ready(function() {
+
+
+        $.cookie('timezone', new Date().getTimezoneOffset()*-1, { path: '/' });
+
+        if(window.Highcharts) {
+            Highcharts.setOptions({
+                credits: {
+                    enabled: false
+                }
+            });
+        }
+
+        //Init overlay
+        var wrapper = document.querySelector('div.wrapper');
+        $("#flow_overlay").overlay({
+            top: "center",
+            mask: {
+                color: '#000',
+                loadSpeed: 200,
+                opacity: 0.2
+            },
+            closeOnClick: false,
+            load: false,
+            onBeforeLoad: function(){
+                $(wrapper).addClass('modal-loaded');
+            },
+            onClose: function(){
+                $(wrapper).removeClass('modal-loaded');
+                $('#flow_overlay').trigger('modal.close');
+            }
+
+        });
+
+        $(notification).on('click', function(){
+            $(this).removeClass('visible');
+        });
+
+        //initializing our main header sing in link
+        $('.sign-in').click(function(e) {
+            //Stop the $(document) click method above from closing the sign-in box
+            e.stopPropagation();
+
+            // Check if sign-in container is open
+            if(!$('a.sign-in').parent().hasClass('open')) {
+                $('a.sign-in').parent().addClass('open');
+
+                // Close sign-in container if someone clicked outside container
+                $('body').one('click', function(e) {
+                    $('a.sign-in').parent().removeClass('open');
+                });
+            } else {
+                $('a.sign-in').parent().removeClass('open');
+            }
+
+            //Check window size:
+            AppGlobal.updateScreenWidth();
+
+            // Reset error message
+            if ($('.alert-error').not('.display-none')) {
+                $(".alert-error").addClass('display-none');
+                //$('#login, #fbLogin').removeClass('btn-loading');
+            }
+
+            // how to check that this is only needed to be done at index page when not logged in???
+            if(AppGlobal.isMobile === true || AppGlobal.screenWidth < 979) {
+                //Mobile login
+                window.location = '/login';
+            } else {
+                //DO NOT remove cache: false! This call saved the current referrer into browser cache, and it caused several
+                //issues with FTU:s. See bugs 30139 and 29261.
+                $.ajax({
+                    url: '/ajaxLogin',
+                    cache: false,
+                    success: function(data) {
+                        $('#sign-in-container').html(data);
+                        $('#email').focus();
+                    }
+                });
+            }
+        });
+    });
+
+
+    /**
+     * Base level DOM ready call
+     * NOTE: include here only code which needs to be executed in every single page(!)
+     */
+    $(function() {
+        $('select').fancySelect();
+        // Toggling off jQuery animations
+        if(AppGlobal.isMobile === true) {
+            $.fx.off = !$.fx.off;
+        }
+
+        // Following code wont be needed in every page, move to right place!
+        // $(window).resize(function() {
+        // 	('[rel=tooltip-dispose]').tooltip('hide');
+        // });
+
+        $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+        $('input, textarea').placeholder({force: false});
+
+
+    });
+
+</script>
+
+<script>
+    var Messages = {};
+
+    Messages["analyseview.lap.number_header"] = "No.";
+
+    Messages["analyseview.lap.duration_header"] = "Duration";
+
+    Messages["analyseview.lap.distance_header"] = "Distance";
+
+    Messages["analyseview.lap.avg_hr_header"] = "HR avg";
+
+    Messages["analyseview.lap.avg_speed_header"] = "Speed avg";
+
+    Messages["analyseview.lap.avg_pace_header"] = "Pace avg";
+
+    Messages["analyseview.lap.split_distance_header"] = "Split distance";
+
+    Messages["analyseview.lap.split_duration_header"] = "Split duration";
+
+    Messages["analyseview.lap.max_hr_header"] = "HR max";
+
+    Messages["analyseview.lap.max_pace_header"] = "Pace max";
+
+    Messages["analyseview.lap.max_speed_header"] = "Speed max";
+
+    Messages["analyseview.lap.max_cadence_header"] = "Cadence max";
+
+    Messages["analyseview.lap.avg_cadence_header"] = "Cadence avg";
+
+    Messages["analyseview.lap.avg_stride_length_header"] = "Stride length avg";
+
+    Messages["analyseview.followOption.REQUEST"] = "Request to follow";
+
+    Messages["analyseview.followOption.PENDING"] = "Request pending";
+
+    Messages["analyseview.followOption.FOLLOW"] = "Follow";
+
+    Messages["analyseview.followOption.UNFOLLOW"] = "Stop following";
+
+    Messages["analyseview.followOption.SELF"] = "View your profile";
+
+    Messages["analyseview.followOption.DECLINED"] = "Request declined";
+
+    Messages["common.abbreviations.unitOfKilometers"] = "km";
+
+    Messages["common.abbreviations.unitOfMiles"] = "mi";
+
+    Messages["common.abbreviations.unitOfKilometersPerHour"] = "km/h";
+
+    Messages["common.abbreviations.unitOfHeartbeat"] = "bpm";
+
+    Messages["common.abbreviations.unitOfMilesPerHour"] = "mi/h";
+
+    Messages["common.abbreviations.unitOfMeters"] = "m";
+
+    Messages["common.abbreviations.unitOfRoundsPerMinute"] = "rpm";
+
+    Messages["common.abbreviations.unitOfCentimeters"] = "cm";
+
+    Messages["common.abbreviations.unitOfMinutesPerMile"] = "min/mi";
+
+    Messages["common.abbreviations.unitOfMinutesPerKilometer"] = "min/km";
+
+    Messages["common.abbreviations.unitOfFeet"] = "ft";
+
+    Messages["common.abbreviations.unitOfInch"] = "in";
+
+    Messages["common.abbreviations.unitOfHoursMinutesSeconds"] = "hh:mm:ss";
+
+    Messages["common.abbreviations.unitOfCelsius"] = "C";
+
+    Messages["common.abbreviations.unitOfFahrenheit"] = "F";
+
+    Messages["curves.type.altitude"] = "Altitude";
+
+    Messages["curves.type.speed"] = "Speed";
+
+    Messages["curves.type.cadence"] = "Cadence";
+
+    Messages["curves.type.stride_length"] = "Stride Length";
+
+    Messages["curves.type.hr"] = "HR";
+
+    Messages["curves.type.temperature"] = "Temperature";
+
+    Messages["curves.type.pace"] = "Pace";
+
+    Messages["analyseview.chart.altitude.avg"] = "analyseview.chart.altitude.avg";
+
+    Messages["analyseview.chart.cadence.avg"] = "Cadence avg";
+
+    Messages["analyseview.chart.hr.avg"] = "HR avg";
+
+    Messages["analyseview.chart.speed.avg"] = "Speed avg";
+
+    Messages["analyseview.chart.pace.avg"] = "Pace avg";
+
+    Messages["analyseview.chart.stridelength.avg"] = "Stride length avg";
+
+    Messages["analyseview.chart.temperature.avg"] = "analyseview.chart.temperature.avg";
+
+    Messages["favorites.routes.liked_the_route"] = "Like the route?";
+
+    Messages["favorites.routes.add_the_route"] = "Add it to your Favorites.";
+
+    Messages["favorites.routes.add_route"] = "Add route to your Favorites";
+
+    Messages["favorites.routes.route_name"] = "Route name";
+
+    Messages["favorites.routes.please_name_route"] = "Name your route for your Favorites list.";
+
+    Messages["favorites.routes.long_route"] = "Cool, you found a suitable route! Just so you know: the navigation works best for routes shorter than 150 km/ 93 mi.";
+
+    Messages["common.cancel"] = "Cancel";
+
+    Messages["common.save"] = "Save";
+
+    Messages["comments.be.the.first.one.exercise.visitor"] = "Create a Polar account or sign in to comment this session.";
+
+    Messages["comments.be.the.first.one.exercise"] = "Be the first to comment this session";
+
+    Messages["error.unknown"] = "An unknown error occured. Please try again later. If the error persists please contact Polar Customer Care.";
+
+    Messages["analyseview.visibility.private"] = "Private";
+
+    Messages["analyseview.visibility.public"] = "Public";
+
+    Messages["analyseview.visibility.followers"] = "Followers";
+
+    Messages["analyseview.visibility.changed.success"] = "Privacy changed successfully";
+
+    Messages["analyseview.visibility.changed.error"] = "Couldn&#x27;t change privacy!";
+
+    Messages["comments.be.the.first.one.exercise"] = "Be the first to comment this session";
+
+    Messages["favorites.routes.please_name_route"] = "Name your route for your Favorites list.";
+
+    Messages["favorites.item_limit_reached_popup"] = "Twenty Favorites added";
+
+    Messages["favorites.routes.liked_the_route"] = "Like the route?";
+
+    Messages["favorites.routes.add_route"] = "Add route to your Favorites";
+
+    Messages["favorites.routes.please_name_route"] = "Name your route for your Favorites list.";
+
+    Messages["favorites.routes.route_name"] = "Route name";
+
+    Messages["favorites.routes.long_route"] = "Cool, you found a suitable route! Just so you know: the navigation works best for routes shorter than 150 km/ 93 mi.";
+
+    Messages["reports.elements.not.ready.loadingText"] = "Fetching data";
+
+    Messages["common.abbreviations.unitOfDays"] = "days";
+    Messages["common.abbreviations.unitOfHours"] = "hours";
+    Messages["common.abbreviations.unitOfMinutes"] = "minutes";
+    Messages["common.abbreviations.unitOfDay"] = "day";
+    Messages["common.abbreviations.unitOfHour"] = "hour";
+    Messages["common.abbreviations.unitOfMinute"] = "min";
+    Messages["common.abbreviations.unitOfDay.short"] = "d";
+    Messages["common.abbreviations.unitOfHour.short"] = "h";
+    Messages["common.abbreviations.unitOfMinute.short"] = "min";
+    Messages["landing_page.resetpassword_ajax.aftermessage.success"] = "Password successfully reset. Check your email.";
+    Messages["landing_page.resetpassword_ajax.aftermessage.error "] = "There was an error resetting your password.";
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?client=gme-polarelectrooy1&v=3.13&libraries=geometry&sensor=false"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/sly.min.js'></script>
+
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/highcharts/highcharts.3.0.10.js' type="text/javascript"></script>
+
+
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/functional.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/search.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/modal.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/selection.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/sport_list.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/mapLabel.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/mapCanvas.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/mapSection.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/curve.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/curve_tooltip.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/rangeSelector.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/rangeStatistics.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/rangeSelectorTooltip.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/laps.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/social.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/sport_zones.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/curve_reset_zoom.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/basicDataSection.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/curve_fullscreen.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/curve_settings.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/benefit-feedback.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/training/analysis/delete_training.min.js' type="text/javascript"></script>
+<script src='https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascript/views/favorites/favorites.min.js' type="text/javascript"></script>
+
+
+<script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/scrollit.js"></script>
+<script src="https://d9snzuuztz987.cloudfront.net/flow/2.0.0.1/javascripts/3rd_party/hammer.js"></script>
+
+<script type="text/javascript">
+
+    var modal = new TrainingModal();
+    var curveSettings = new CurveSettings(15504862);
+    var deleteTraining = new DeleteTraining(15504862);
+    var benefitFeedback = new BenefitFeedback('TEMPO_TRAINING');
+
+    // info for social js and sport_zones js
+    var trainingSessionId = 15504862;
+    var userId = undefined;
+    var trainingUserId = undefined;
+    var publicExercise = false;
+
+    userId = 5638871;
+
+
+    trainingUserId = 5638871;
+
+
+
+
+    var exercise = {};
+
+    // SCALA
+
+
+    exercise[15428920] = {'resultZones': [{ 'index':'1','inzone':'9000','upper':'115','lower':'96' },{ 'index':'2','inzone':'15000','upper':'134','lower':'115' },{ 'index':'3','inzone':'37000','upper':'154','lower':'134' },{ 'index':'4','inzone':'801000','upper':'173','lower':'154' },{ 'index':'5','inzone':'0','upper':'192','lower':'173' }]};
+
+
+
+    exercise[0] = {'resultZones': [{ 'index':'1','inzone':'9000','upper':'115','lower':'96' },{ 'index':'2','inzone':'15000','upper':'134','lower':'115' },{ 'index':'3','inzone':'37000','upper':'154','lower':'134' },{ 'index':'4','inzone':'801000','upper':'173','lower':'154' },{ 'index':'5','inzone':'0','upper':'192','lower':'173' }]};
+
+
+    var selection = new Selection();
+    var sportList = new SportList();
+	// Data removed for testing.
+    var curve = new Curve({});
+    var curveTooltip = new CurveTooltip();
+    var rangeSelector = new RangeSelector();
+    var rangeStatistics = new RangeStatistics(15504862);
+    var rangeSelectorTooltip = new RangeSelectorTooltip();
+    var sportZones = new SportZones(15504862, exercise);
+    var mapSection = new MapSection({"ExerciseKeys":{"ID":0,"INDEX":1,"IS_FIRST":2,"IS_LAST":3,"HAS_SAMPLES":4,"SAMPLES_START_INDEX":5,"SAMPLES_STOP_INDEX":6,"MAX_SPEED":7,"USER_MAX_HR":8,"HR_ZONES":9,"SPORT_ICON_URL":10},"SampleKeys":{"LATLON":0,"TIME":1,"DIST":2,"HEART_RATE":3,"SPEED":4},"exercises":{"15428920":[15428920,0,true,true,true,0,870,13.89599895477295,-1,[{"lower":96,"upper":115},{"lower":115,"upper":134},{"lower":134,"upper":154},{"lower":154,"upper":173},{"lower":173,"upper":192}],"https://d9snzuuztz987.cloudfront.net/ecosystem/sport/icon/f539d3e293e2ebc692314e6c01160f5b-2014-04-29_03_40_03"]},"samples":[[{"lat":53.551075,"lon":9.993672},1401477178500,0.0,78,0.2879999876022339],[{"lat":53.550085,"lon":9.992682},1401477179000,0.0,88,0.2879999876022339]]}, publicExercise);
+    var laps = new Laps();
+    var basicDataSection = new BasicDataSection();
+    var curveFullscreen = new CurveFullscreen();
+    var curveResetZoom = new CurveResetZoom();
+    var activateSingleSport = null;
+
+    var spinOpts = {
+        length: 7, // The length of each line
+        width: 2, // The line thickness
+        radius: 13, // The radius of the inner circle
+        rotate: 0, // The rotation offset
+        color: '#d72648', // #rgb or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner-container', // The CSS class to assign to the spinner
+        zIndex: 100, // The z-index (defaults to 2000000000)
+        top: '', // Top position relative to parent in px
+        left: '' // Left position relative to parent in px
+    };
+    var spinTarget = document.getElementById("analysisview-spinner");
+    spinner = new Spinner(spinOpts).spin(spinTarget);
+    $(spinTarget).data('analysisview-spinner', spinner);
+
+    // Scala. If single exercise, select the only exercise straight away.
+
+    activateSingleSport = function(){
+        selection.SelectSingleSport($(".multisport-sportdetails__single.hidden").data("id"));
+    };
+    //this.selection.SelectSingleSport($(".multisport-sportdetails__single.hidden").data("id"));
+    this.curve.selectedExercise = this.curve.trainingSession.exercises[0];
+
+    // used to check that all the js scripts are initialized. Each of them calls this functions and the counter is increased on every run
+    // when all (=15) files are ready, single sport is activated, but only if is single sport mode is required.
+    // otherwise typeof is variable and nothing happens.
+    var counter = 0;
+    var initCounter = function() {
+        if(counter == 15) {
+            if (typeof activateSingleSport == "function") activateSingleSport();
+            $('#analysisview-spinner').data('analysisview-spinner').stop();
+            $(".analysisview-spinner-bg").hide();
+            //$("#lapTabsHeader").find("li a:visible:first-child").trigger("click");
+        }
+        counter++;
+    };
+
+    ParameterManager.set("routeUrls",{
+        add: '/favorites/trainingTargets/addExerciseRoute'
+    });
+
+    $(document).ready(function() {
+
+        // Poor man's dependency injection:
+        basicDataSection.init(basicDataSection, initCounter);
+        mapSection.init(initCounter, selection);
+        selection.init(curveTooltip, curve, curveResetZoom, rangeSelectorTooltip, rangeSelector, rangeStatistics, laps, mapSection, sportZones, initCounter);
+        sportList.init(selection, initCounter);
+        curveSettings.init(modal, selection, curve, initCounter);
+        deleteTraining.init(modal, initCounter);
+        benefitFeedback.init(modal, initCounter);
+        curve.init(selection, initCounter);
+        curveTooltip.init(initCounter);
+        curveResetZoom.init(selection, initCounter);
+
+        rangeSelectorTooltip.init(initCounter);
+        rangeSelector.init(selection, initCounter);
+        sportZones.init(selection, curve, initCounter);
+        $('#rangeSelector').attr('aria-disabled','true');
+        rangeStatistics.init(selection, initCounter);
+        rangeSelector.SetPosition(curve.Dimensions());
+        laps.init(selection, [ {
+            "exerciseId" : 15428920,
+            "isTypeSpeed" : false,
+            "exerciseStartTime" : 1401477178000,
+            "hasManualLaps" : false,
+            "hasGeneratedLaps" : true,
+            "hasAutoLaps" : true
+        } ], initCounter);
+        curveFullscreen.init(curve, selection, curveTooltip, initCounter);
+
+
+        // Scala if end
+    });
+</script>
+
+</body>
+</html>
