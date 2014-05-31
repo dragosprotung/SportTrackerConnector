@@ -4,11 +4,11 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a58fffe7b2b92de17803a830dfda7c2",
+    "hash": "c3e937c8c2725101c2bd4a153e7293cb",
     "packages": [
         {
             "name": "fabpot/goutte",
-            "version": "v2.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Goutte.git",
@@ -59,16 +59,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "4.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "85a0ba7de064493c928a8bcdc5eef01e0bde9953"
+                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/85a0ba7de064493c928a8bcdc5eef01e0bde9953",
-                "reference": "85a0ba7de064493c928a8bcdc5eef01e0bde9953",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c346caa339eeed124f7135d8dda9deffa80fc93f",
+                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "4.1.x-dev"
                 }
             },
             "autoload": {
@@ -120,7 +120,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-28 05:13:19"
+            "time": "2014-05-30 17:33:57"
         },
         {
             "name": "guzzlehttp/streams",
@@ -177,17 +177,17 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v2.4.5",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/BrowserKit",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/BrowserKit.git",
-                "reference": "5c80003d5772de6120b5429f4b2f6e22957d4a07"
+                "reference": "a0bff3f9c4e389641beb8ce0e82524ac9d5e8158"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/5c80003d5772de6120b5429f4b2f6e22957d4a07",
-                "reference": "5c80003d5772de6120b5429f4b2f6e22957d4a07",
+                "url": "https://api.github.com/repos/symfony/BrowserKit/zipball/a0bff3f9c4e389641beb8ce0e82524ac9d5e8158",
+                "reference": "a0bff3f9c4e389641beb8ce0e82524ac9d5e8158",
                 "shasum": ""
             },
             "require": {
@@ -204,7 +204,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -230,7 +230,7 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-12 09:27:48"
+            "time": "2014-05-23 14:36:49"
         },
         {
             "name": "symfony/console",
@@ -291,17 +291,17 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.4.5",
+            "version": "dev-master",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "268d0a51166edaf84dfcf043c57f273685cb7c93"
+                "reference": "49bc712d4c59878aae9aa1b3a471fa48f31a1ed2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/268d0a51166edaf84dfcf043c57f273685cb7c93",
-                "reference": "268d0a51166edaf84dfcf043c57f273685cb7c93",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/49bc712d4c59878aae9aa1b3a471fa48f31a1ed2",
+                "reference": "49bc712d4c59878aae9aa1b3a471fa48f31a1ed2",
                 "shasum": ""
             },
             "require": {
@@ -310,7 +310,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -340,7 +340,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-12 09:27:48"
+            "time": "2014-05-23 14:36:49"
         },
         {
             "name": "symfony/dom-crawler",
@@ -349,12 +349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DomCrawler.git",
-                "reference": "2c2cda98977149bbefd7ac3d616d28c0baafc212"
+                "reference": "6cda499120860286fe3d3d2fd631dacb7ae17f92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/2c2cda98977149bbefd7ac3d616d28c0baafc212",
-                "reference": "2c2cda98977149bbefd7ac3d616d28c0baafc212",
+                "url": "https://api.github.com/repos/symfony/DomCrawler/zipball/6cda499120860286fe3d3d2fd631dacb7ae17f92",
+                "reference": "6cda499120860286fe3d3d2fd631dacb7ae17f92",
                 "shasum": ""
             },
             "require": {
@@ -395,7 +395,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-26 15:36:38"
+            "time": "2014-05-31 02:02:56"
         },
         {
             "name": "symfony/yaml",
@@ -453,15 +453,15 @@
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "symfony/dom-crawler": 20,
         "symfony/console": 20,
         "symfony/yaml": 20
     },
-    "platform": [
-
-    ],
+    "platform": {
+        "php": ">=5.4"
+    },
     "platform-dev": [
 
     ]
