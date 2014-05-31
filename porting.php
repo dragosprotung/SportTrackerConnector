@@ -1,7 +1,6 @@
 <?php
 
 use Symfony\Component\Console\Application;
-use FitnessTrackingPorting\Command\PolarConverter;
 use FitnessTrackingPorting\Command\Sync;
 use FitnessTrackingPorting\Command\Upload;
 use FitnessTrackingPorting\Command\Dump;
