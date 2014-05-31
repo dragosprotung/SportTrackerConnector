@@ -13,4 +13,11 @@ interface ExtensionInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Get the value for the extension.
+     *
+     * @return mixed
+     */
+    public function getValue();
 }

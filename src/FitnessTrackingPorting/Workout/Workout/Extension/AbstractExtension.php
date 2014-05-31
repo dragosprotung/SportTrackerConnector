@@ -32,6 +32,11 @@ class AbstractExtension implements ExtensionInterface
         $this->setValue($value);
     }
 
+    /**
+     * Set the value for the extension.
+     *
+     * @param mixed $value The value to set.
+     */
     public function setValue($value)
     {
         $this->value = $value;

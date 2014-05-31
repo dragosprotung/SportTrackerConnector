@@ -7,7 +7,6 @@ use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
-use DateTimeZone;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use RuntimeException;

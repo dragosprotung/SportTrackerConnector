@@ -5,6 +5,7 @@ namespace FitnessTrackingPorting\Workout\Loader;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Author;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
+use FitnessTrackingPorting\Workout\Workout\SportGuesser;
 use FitnessTrackingPorting\Workout\Workout\Extension\ExtensionInterface;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use SimpleXMLElement;
@@ -29,6 +30,11 @@ class GPX extends AbstractLoader
 
         if (isset($simpleXML->metadata->author->name)) {
             $workout->setAuthor(new Author($simpleXML->metadata->author->name));
+        }
+
+        // Sport.
+        if (isset($simpleXML->trk->type)) {
+            $workout->setSport(SportGuesser::getSportFromCode($simpleXML->trk->type));
         }
 
         // Track points.

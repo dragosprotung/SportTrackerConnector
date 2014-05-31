@@ -3,8 +3,14 @@
      xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd"
      xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
      xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <metadata>
+        <author>
+            <name>John Doe</name>
+        </author>
+        <time>2014-05-31T12:17:40Z</time>
+    </metadata>
     <trk>
-        <type>running</type>
+        <type>RUNNING</type>
         <trkseg>
             <trkpt lat="53.551075" lon="9.993672">
                 <ele>11</ele>
