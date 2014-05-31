@@ -5,6 +5,7 @@ namespace FitnessTrackingPorting\Tests\Workout\Dumper\GPX;
 use FitnessTrackingPorting\Workout\Dumper\GPX;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Sport;
+use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Author;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
@@ -16,14 +17,16 @@ class GPXTest extends \PHPUnit_Framework_TestCase
     /**
      * Test dumping a workout to a GPX string.
      */
-    public function testDumpToString()
+    public function testDumpToStringSingleTrack()
     {
         $workout = new Workout();
-        $workout->setSport(Sport::RUNNING);
-        $workout->setTrackPoints(
-            array(
-                $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78),
-                $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10, 88)
+        $workout->addTrack(
+            new Track(
+                array(
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10, 88)
+                ),
+                Sport::RUNNING
             )
         );
         $workout->setAuthor(
@@ -33,7 +36,42 @@ class GPXTest extends \PHPUnit_Framework_TestCase
         $gpx = new GPX();
         $actual = $gpx->dumpToString($workout);
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpToString.gpx', $actual);
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpToStringSingleTrack.gpx', $actual);
+    }
+
+    /**
+     * Test dumping a workout to a GPX string.
+     */
+    public function testDumpToStringMultiTrack()
+    {
+        $workout = new Workout();
+        $workout->addTrack(
+            new Track(
+                array(
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10, 88)
+                ),
+                Sport::RUNNING
+            )
+        );
+        $workout->addTrack(
+            new Track(
+                array(
+                    $this->getTrackPoint('53.549075', '9.991672', '2014-05-30T17:13:00+00:00', 9, 98),
+                    $this->getTrackPoint('53.548085', '9.990682', '2014-05-30T17:13:01+00:00', 8, 108)
+                ),
+                Sport::SWIMMING
+            )
+        );
+        $workout->setAuthor(
+            new Author('John Doe')
+        );
+
+        $gpx = new GPX();
+        $actual = $gpx->dumpToString($workout);
+        file_put_contents('test.gpx', $actual);
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpToStringMultiTrack.gpx', $actual);
     }
 
     /**

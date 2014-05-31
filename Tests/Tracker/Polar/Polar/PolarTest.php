@@ -5,6 +5,7 @@ namespace FitnessTrackingPorting\Tests\Tracker\Polar\Polar;
 use DateTimeZone;
 use DateTime;
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Sport;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
@@ -15,21 +16,23 @@ class PolarTest extends \PHPUnit_Framework_TestCase
     /**
      * Test fetching a workout from an HTML page.
      */
-    public function testFetchWorkoutFromHTML()
+    public function testFetchWorkoutFromHTMLWithSingleSport()
     {
         $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array(null, null));
         $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
 
         $expected = new Workout();
-        $expected->setSport(Sport::RUNNING);
-        $expected->setTrackPoints(
-            array(
-                $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
-                $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
+        $expected->addTrack(
+            new Track(
+                array(
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
+                ),
+                Sport::RUNNING
             )
         );
 
-        $html = file_get_contents(__DIR__ . '/Fixtures/workout.html');
+        $html = file_get_contents(__DIR__ . '/Fixtures/workout-single.html');
 
         $actual = $polarMock->fetchWorkoutFromHTML($html);
 

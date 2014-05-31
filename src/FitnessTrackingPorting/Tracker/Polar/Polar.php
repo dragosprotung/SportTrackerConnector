@@ -4,6 +4,7 @@ namespace FitnessTrackingPorting\Tracker\Polar;
 
 use FitnessTrackingPorting\Tracker\AbstractTracker;
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
@@ -86,9 +87,10 @@ class Polar extends AbstractTracker
         $workout = new Workout();
 
         $sport = $this->parseWorkoutSportFromHTML($html);
-        $workout->setSport($sport);
 
         $trackPoints = $this->parseTrackPointsFromHTMLToJSON($html);
+        $track = new Track();
+        $track->setSport($sport);
         foreach ($trackPoints as $point) {
             $time = new DateTime('@' . substr($point[1], 0, -3));
             // Time is a UNIX timestamp so we have to set the timezone after we create the DateTime.
@@ -98,8 +100,9 @@ class Polar extends AbstractTracker
 
             $trackPoint = new TrackPoint($point[0]->lat, $point[0]->lon, $time);
             $trackPoint->addExtension(new HR($point[3]));
-            $workout->addTrackPoint($trackPoint);
+            $track->addTrackPoint($trackPoint);
         }
+        $workout->addTrack($track);
 
         return $workout;
     }

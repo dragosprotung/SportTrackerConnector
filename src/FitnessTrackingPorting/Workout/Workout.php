@@ -3,8 +3,7 @@
 namespace FitnessTrackingPorting\Workout;
 
 use FitnessTrackingPorting\Workout\Workout\Author;
-use FitnessTrackingPorting\Workout\Workout\Sport;
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
+use FitnessTrackingPorting\Workout\Workout\Track;
 
 /**
  * A workout.
@@ -20,38 +19,11 @@ class Workout
     protected $author;
 
     /**
-     * The track points of the workout.
+     * The tracks of the workout.
      *
-     * @var TrackPoint[]
+     * @var Track[]
      */
-    protected $trackPoints = array();
-
-    /**
-     * The sport for the workout.
-     *
-     * @var string
-     */
-    protected $sport = Sport::OTHER;
-
-    /**
-     * Set the sport for this workout.
-     *
-     * @param string $sport The sport.
-     */
-    public function setSport($sport)
-    {
-        $this->sport = $sport;
-    }
-
-    /**
-     * Get the sport of the workout.
-     *
-     * @return string
-     */
-    public function getSport()
-    {
-        return $this->sport;
-    }
+    protected $tracks = array();
 
     /**
      * Set the author of a workout.
@@ -74,32 +46,32 @@ class Workout
     }
 
     /**
-     * Add a track point.
+     * Add a track.
      *
-     * @param TrackPoint $trackPoint The track point to add.
+     * @param Track $track The track to add.
      */
-    public function addTrackPoint(TrackPoint $trackPoint)
+    public function addTrack(Track $track)
     {
-        $this->trackPoints[] = $trackPoint;
+        $this->tracks[] = $track;
     }
 
     /**
-     * Set the track points.
+     * Set the tracks.
      *
-     * @param TrackPoint[] $trackPoints The track points to set.
+     * @param Track[] $tracks The tracks to set.
      */
-    public function setTrackPoints(array $trackPoints)
+    public function setTracks(array $tracks)
     {
-        $this->trackPoints = $trackPoints;
+        $this->tracks = $tracks;
     }
 
     /**
-     * Get the track points.
+     * Get the tracks.
      *
-     * @return TrackPoint[]
+     * @return Track[]
      */
-    public function getTrackPoints()
+    public function getTracks()
     {
-        return $this->trackPoints;
+        return $this->tracks;
     }
 } 

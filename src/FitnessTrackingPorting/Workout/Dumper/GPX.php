@@ -26,6 +26,7 @@ class GPX extends AbstractDumper
         $XMLWriter->setIndent(true);
         $XMLWriter->startDocument('1.0', 'UTF-8');
         $XMLWriter->startElement('gpx');
+
         $XMLWriter->writeAttribute('version', '1.1');
         $XMLWriter->writeAttribute('creator', 'FitnessTrackingPorting');
         $XMLWriter->writeAttributeNs(
@@ -40,47 +41,49 @@ class GPX extends AbstractDumper
         $XMLWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
 
         $this->writeMetaData($XMLWriter, $workout);
-        $this->writeTrack($XMLWriter, $workout);
+        $this->writeTracks($XMLWriter, $workout);
 
+        $XMLWriter->endElement();
         $XMLWriter->endDocument();
 
         return $XMLWriter->outputMemory(true);
     }
 
     /**
-     * Write a track to the GPX.
+     * Write the tracks to the GPX.
      *
      * @param XMLWriter $XMLWriter The XML writer.
      * @param Workout $workout The workout.
      */
-    protected function writeTrack(XMLWriter $XMLWriter, Workout $workout)
+    protected function writeTracks(XMLWriter $XMLWriter, Workout $workout)
     {
-        $XMLWriter->startElement('trk');
-        $XMLWriter->writeElement('type', $workout->getSport());
-        $XMLWriter->startElement('trkseg');
-        foreach ($workout->getTrackpoints() as $trackPoint) {
-            $XMLWriter->startElement('trkpt');
+        foreach ($workout->getTracks() as $track) {
+            $XMLWriter->startElement('trk');
+            $XMLWriter->writeElement('type', $track->getSport());
+            $XMLWriter->startElement('trkseg');
+            foreach ($track->getTrackpoints() as $trackPoint) {
+                $XMLWriter->startElement('trkpt');
 
-            // Location.
-            $XMLWriter->writeAttribute('lat', $trackPoint->getLatitude());
-            $XMLWriter->writeAttribute('lon', $trackPoint->getLongitude());
+                // Location.
+                $XMLWriter->writeAttribute('lat', $trackPoint->getLatitude());
+                $XMLWriter->writeAttribute('lon', $trackPoint->getLongitude());
 
-            // Elevation.
-            $XMLWriter->writeElement('ele', $trackPoint->getElevation());
+                // Elevation.
+                $XMLWriter->writeElement('ele', $trackPoint->getElevation());
 
-            // Time of position
-            $dateTime = clone $trackPoint->getTime();
-            $dateTime->setTimezone(new DateTimeZone('UTC'));
-            $XMLWriter->writeElement('time', $dateTime->format(DateTime::W3C));
+                // Time of position
+                $dateTime = clone $trackPoint->getTime();
+                $dateTime->setTimezone(new DateTimeZone('UTC'));
+                $XMLWriter->writeElement('time', $dateTime->format(DateTime::W3C));
 
-            // Extensions.
-            $this->writeExtensions($XMLWriter, $trackPoint->getExtensions());
+                // Extensions.
+                $this->writeExtensions($XMLWriter, $trackPoint->getExtensions());
 
+                $XMLWriter->endElement();
+            }
+            $XMLWriter->endElement();
             $XMLWriter->endElement();
         }
-        $XMLWriter->endElement();
-        $XMLWriter->endElement();
-        $XMLWriter->endElement();
     }
 
     /**
