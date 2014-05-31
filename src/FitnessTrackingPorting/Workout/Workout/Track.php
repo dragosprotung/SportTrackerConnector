@@ -7,7 +7,7 @@ use FitnessTrackingPorting\Workout\Workout\Sport;
 /**
  * A track of a workout.
  */
-class Track extends \ArrayObject
+class Track
 {
 
     /**
@@ -18,14 +18,21 @@ class Track extends \ArrayObject
     protected $sport = Sport::OTHER;
 
     /**
+     * The track points of this track.
+     *
+     * @var TrackPoint[]
+     */
+    protected $trackPoints = array();
+
+    /**
      * Constructor.
      *
      * @param array $trackPoints The track points.
-     * @param string $sport The sport of this track.
+     * @param mixed $sport The sport for this track.
      */
     public function __construct(array $trackPoints = array(), $sport = Sport::OTHER)
     {
-        parent::__construct($trackPoints);
+        $this->setTrackPoints($trackPoints);
         $this->setSport($sport);
     }
 
@@ -56,7 +63,7 @@ class Track extends \ArrayObject
      */
     public function addTrackPoint(TrackPoint $trackPoint)
     {
-        $this[] = $trackPoint;
+        $this->trackPoints[] = $trackPoint;
     }
 
     /**
@@ -66,7 +73,7 @@ class Track extends \ArrayObject
      */
     public function setTrackPoints(array $trackPoints)
     {
-        $this->exchangeArray($trackPoints);
+        $this->trackPoints = $trackPoints;
     }
 
     /**
@@ -76,6 +83,6 @@ class Track extends \ArrayObject
      */
     public function getTrackPoints()
     {
-        return $this->getArrayCopy();
+        return $this->trackPoints;
     }
 } 

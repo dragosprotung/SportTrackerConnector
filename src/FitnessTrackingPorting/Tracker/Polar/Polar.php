@@ -86,15 +86,15 @@ class Polar extends AbstractTracker
     {
         $workout = new Workout();
 
-        $sport = $this->parseWorkoutSportFromHTML($html);
-
         $polarExercise = $this->parseExerciseFromHTMLToJSON($html);
-        foreach ($polarExercise->exercises as $exercise) {
+        foreach ($polarExercise->exercises as $idExercise => $exercise) {
             $exercise = array_combine(array_keys((array)$polarExercise->ExerciseKeys), $exercise);
             if ($exercise['HAS_SAMPLES'] === true) {
                 $track = new Track();
+
+                $sport = $this->parseWorkoutSportFromHTML($html, $idExercise);
                 $track->setSport($sport);
-                for ($i = $exercise['SAMPLES_START_INDEX']; $i < $exercise['SAMPLES_STOP_INDEX']; $i++) {
+                for ($i = $exercise['SAMPLES_START_INDEX']; $i <= $exercise['SAMPLES_STOP_INDEX']; $i++) {
                     $point = $polarExercise->samples[$i];
                     $time = new DateTime('@' . substr($point[1], 0, -3));
                     // Time is a UNIX timestamp so we have to set the timezone after we create the DateTime.
@@ -152,17 +152,32 @@ class Polar extends AbstractTracker
      * Extract the workout sport.
      *
      * @param string $html The HTML to parse.
+     * @param integer $idExercise The ID of the exercise.
      * @return string
+     * @throws RuntimeException If the JSON can not be parsed.
      */
-    protected function parseWorkoutSportFromHTML($html)
+    protected function parseWorkoutSportFromHTML($html, $idExercise)
     {
         $crawler = new Crawler();
         $crawler->addContent($html);
+        $json = $crawler->filterXPath('//script')->last()->text();
 
-        $pageForm = iterator_to_array($crawler->filter('form'))[0];
-        $form = new Form($pageForm, self::POLAR_FLOW_URL_ROOT);
-        $values = $form->getValues();
-        return Sport::getSportFromCode($values['sport']);
+        $pattern = '/var curve = new Curve\((.*)\);/';
+        preg_match($pattern, $json, $matches);
+
+        $json = json_decode($matches[1]);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new RuntimeException('Could not parse the JSON from the HTML to extract workout sport. ' . static::getJSONLastErrorMessage());
+        }
+
+        $code = null;
+        foreach ($json->exercises as $exercise) {
+            if ($exercise->id == $idExercise) {
+                return Sport::getSportFromCode($exercise->sport->name);
+            }
+        }
+
+        return Sport::OTHER;
     }
 
     /**
@@ -178,7 +193,7 @@ class Polar extends AbstractTracker
         $crawler->addContent($html);
         $json = $crawler->filterXPath('//script')->last()->text();
 
-        $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/';
+        $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
         preg_match($pattern, $json, $matches);
 
         $json = json_decode($matches[1]);

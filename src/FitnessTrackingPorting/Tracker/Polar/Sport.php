@@ -14,12 +14,12 @@ class Sport implements \FitnessTrackingPorting\Workout\Workout\Sport
      */
     public static function getSportFromCode($code)
     {
-        switch ($code) {
-            case 1:
+        switch (strtolower($code)) {
+            case 'running':
                 return self::RUNNING;
-            case 2:
+            case 'cycling':
                 return self::CYCLING_SPORT;
-            case 23:
+            case 'swimming':
                 return self::SWIMMING;
             default:
                 return self::OTHER;
