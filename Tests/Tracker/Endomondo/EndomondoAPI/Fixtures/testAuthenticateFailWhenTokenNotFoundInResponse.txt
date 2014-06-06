@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: text/plain;charset=UTF-8
+Date: Wed, 04 Jun 2014 21:53:50 GMT
+P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+Server: Apache-Coyote/1.1
+X-UA-Compatible: IE=9
+Content-Length: 164
+Connection: keep-alive
+
+OK
+action=PAIRED
+authToken=
+measure=METRIC
+displayName=Dragos Protung
+userId=123456
+facebookConnected=true
+secureToken=sec-token

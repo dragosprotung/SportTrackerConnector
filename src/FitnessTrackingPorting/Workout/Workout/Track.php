@@ -40,6 +40,13 @@ class Track
     protected $endDateTime;
 
     /**
+     * Get the length of the track in meters.
+     *
+     * @var integer
+     */
+    protected $length = 0;
+
+    /**
      * Constructor.
      *
      * @param array $trackPoints The track points.
@@ -196,5 +203,60 @@ class Track
         $dateDifference = $start->diff($end);
 
         return $dateDifference;
+    }
+
+    /**
+     * Set the length of the track.
+     *
+     * @param integer $length The length of the track.
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+    }
+
+    /**
+     * Get the length of the track.
+     *
+     * @return integer
+     */
+    public function getLength()
+    {
+        if ($this->length === 0) {
+            $this->length = $this->recomputeLength();
+        }
+
+        return $this->length;
+
+    }
+
+    /**
+     * Recompute the length of the track.
+     */
+    public function recomputeLength()
+    {
+        $this->length = 0;
+
+        $trackPoints = $this->getTrackPoints();
+        $trackPointsCount = count($trackPoints);
+        if ($trackPointsCount < 2) {
+            return 0;
+        }
+
+        for ($i = 1; $i < $trackPointsCount; $i++) {
+            $previousTrack = $trackPoints[$i - 1];
+            $currentTrack = $trackPoints[$i];
+
+            $this->length += sqrt(
+                pow(($previousTrack->getLongitude() - $currentTrack->getLongitude()), 2) + pow(
+                    ($previousTrack->getLatitude() - $currentTrack->getLatitude()),
+                    2
+                )
+            );
+        }
+
+        $this->length = round($this->length, 6);
+        
+        return $this->length;
     }
 } 

@@ -21,7 +21,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that calling the recomputeEndDateTime() will trigger the recomputing if is not yet set.
+     * Test that calling the getEndDateTime() will trigger the recomputing if is not yet set.
      */
     public function testGetEndDateTimeCallsRecomputeIfDateTimeNotSet()
     {
@@ -32,16 +32,27 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test that calling the getLength() will trigger the recomputing if is not yet set.
+     */
+    public function testGetLengthCallsRecomputeIfLengthIsNotSet()
+    {
+        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('recomputeLength'));
+        $track->expects($this->once())->method('recomputeLength');
+
+        $track->getLength();
+    }
+
+    /**
      * Test recompute start date time.
      */
     public function testRecomputeStartDateTime()
     {
         $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
         $trackPoints = array(
-            $this->getTrackPointMock('now'),
-            $this->getTrackPointMock('-1 hour'),
-            $this->getTrackPointMock('2014-01-01 00:00:00'),
-            $this->getTrackPointMock('+1 hour')
+            $this->getTrackPointMock(null, null, 'now'),
+            $this->getTrackPointMock(null, null, '-1 hour'),
+            $this->getTrackPointMock(null, null, '2014-01-01 00:00:00'),
+            $this->getTrackPointMock(null, null, '+1 hour')
         );
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
 
@@ -58,10 +69,10 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     {
         $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
         $trackPoints = array(
-            $this->getTrackPointMock('now'),
-            $this->getTrackPointMock('-1 hour'),
-            $this->getTrackPointMock('2014-01-01 00:00:00'),
-            $this->getTrackPointMock('2034-01-01 00:00:00')
+            $this->getTrackPointMock(null, null, 'now'),
+            $this->getTrackPointMock(null, null, '-1 hour'),
+            $this->getTrackPointMock(null, null, '2014-01-01 00:00:00'),
+            $this->getTrackPointMock(null, null, '2034-01-01 00:00:00')
         );
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
 
@@ -90,13 +101,35 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test recompute the length.
+     */
+    public function testRecomputeLength()
+    {
+        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $trackPoints = array(
+            $this->getTrackPointMock('-38.691450', '176.079795'),
+            $this->getTrackPointMock('-38.719038', '176.081491'),
+            $this->getTrackPointMock('-38.810918', '176.087366'),
+            $this->getTrackPointMock('-38.997640', '176.082147')
+        );
+        $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
+
+        $expected = 0.306503;
+        $actual = $track->recomputeLength();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * Get a track point mock.
      *
      * @param string $dateTime The date and time of the point.
+     * @param string $lat The latitude.
+     * @param string $lon The longitude.
      * @return TrackPoint
      */
-    private function getTrackPointMock($dateTime)
+    private function getTrackPointMock($lat = null, $lon = null, $dateTime = null)
     {
-        return new TrackPoint(null, null, new DateTime($dateTime));
+        return new TrackPoint($lat, $lon, new DateTime($dateTime));
     }
 } 

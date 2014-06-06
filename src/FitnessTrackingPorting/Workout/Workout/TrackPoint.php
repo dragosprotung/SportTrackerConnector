@@ -195,4 +195,54 @@ class TrackPoint
     {
         return $this->dateTime;
     }
+
+    /**
+     * Get the distance between this point and another point in meters.
+     *
+     * @param TrackPoint $trackPoint The other point.
+     * @return float The distance in meters.
+     */
+    public function distance(TrackPoint $trackPoint)
+    {
+        $earthRadius = 6371000;
+
+        $latFrom = deg2rad($this->getLatitude());
+        $lonFrom = deg2rad($this->getLongitude());
+        $latTo = deg2rad($trackPoint->getLatitude());
+        $lonTo = deg2rad($trackPoint->getLongitude());
+
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * asin(
+                sqrt(
+                    pow(sin($latDelta / 2), 2) +
+                    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
+                )
+            );
+        return $angle * $earthRadius;
+    }
+
+    /**
+     * Get the speed between this point and another point in km/h.
+     *
+     * @param TrackPoint $trackPoint The other point.
+     * @return float
+     */
+    public function speed(TrackPoint $trackPoint)
+    {
+
+        $start = $this->getDateTime();
+        $end = $trackPoint->getDateTime();
+        $dateDifference = $start->diff($end);
+        $secondsDifference = $dateDifference->days * 86400 + $dateDifference->h * 3600 + $dateDifference->i * 60 + $dateDifference->s;
+
+        if ($secondsDifference === 0) {
+            return 0;
+        }
+
+        $distance = $this->distance($trackPoint);
+
+        return ($distance / $secondsDifference) * 3.6;
+    }
 } 

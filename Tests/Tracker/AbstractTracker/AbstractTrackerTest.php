@@ -12,7 +12,7 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function testGetTimeZoneOffsetProvider()
+    public function dataProviderTestGetTimeZoneOffset()
     {
         return array(
             array(new DateTimeZone('UTC'), 0),
@@ -28,7 +28,7 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
      *
      * @param DateTimeZone $originTimeZone The origin timezone.
      * @param integer $expected The number of seconds expected to be the time zone difference.
-     * @dataProvider testGetTimeZoneOffsetProvider
+     * @dataProvider dataProviderTestGetTimeZoneOffset
      */
     public function testGetTimeZoneOffset($originTimeZone, $expected)
     {
