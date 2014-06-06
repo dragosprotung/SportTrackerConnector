@@ -2,7 +2,6 @@
 
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
-
 class Sport implements \FitnessTrackingPorting\Workout\Workout\Sport
 {
 

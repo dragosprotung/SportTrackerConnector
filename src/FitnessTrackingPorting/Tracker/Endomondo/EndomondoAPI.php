@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use DateInterval;
 use RuntimeException;
+use InvalidArgumentException;
 
 /**
  * Class for working with Endomondo API.
@@ -167,11 +168,17 @@ class EndomondoAPI
         }
     }
 
+    /**
+     * @param Workout $workout
+     * @return null
+     * @throws RuntimeException If the uploading stops at one point.
+     * @throws InvalidArgumentException If the workout has more than one track.
+     */
     public function postWorkout(Workout $workout)
     {
         $tracks = $workout->getTracks();
         if (count($tracks) !== 1) {
-            throw new \InvalidArgumentException('You can only upload one track per workout.');
+            throw new InvalidArgumentException('You can only upload one track per workout.');
         }
 
         $track = $tracks[0];
@@ -184,6 +191,7 @@ class EndomondoAPI
         $previousPoint = null;
         $distance = 0;
         $speed = 0;
+        // Split in chunks of 100 points like the mobile app.
         foreach (array_chunk($track->getTrackPoints(), 100) as $trackPoints) {
             $data = array();
             foreach ($trackPoints as $trackPoint) {
@@ -270,6 +278,12 @@ class EndomondoAPI
         return $baseUrl . '?' . (string)$query;
     }
 
+    /**
+     * Generate a big number of specified length.
+     *
+     * @param integer $randNumberLength The length of the number.
+     * @return string
+     */
     private function bigRandomNumber($randNumberLength)
     {
         $randNumber = null;
