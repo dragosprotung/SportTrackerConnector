@@ -2,7 +2,8 @@
 
 namespace FitnessTrackingPorting\Workout\Workout;
 
-use FitnessTrackingPorting\Workout\Workout\Sport;
+use DateTime;
+use DateInterval;
 
 /**
  * A track of a workout.
@@ -23,6 +24,20 @@ class Track
      * @var TrackPoint[]
      */
     protected $trackPoints = array();
+
+    /**
+     * The start date and time of the track.
+     *
+     * @var DateTime
+     */
+    protected $startDateTime;
+
+    /**
+     * The end date and time of the track.
+     *
+     * @var DateTime
+     */
+    protected $endDateTime;
 
     /**
      * Constructor.
@@ -84,5 +99,102 @@ class Track
     public function getTrackPoints()
     {
         return $this->trackPoints;
+    }
+
+    /**
+     * Set the start date and time of the track.
+     *
+     * @param DateTime $startDateTime The start date and time.
+     */
+    public function setStartDateTime(DateTime $startDateTime)
+    {
+        $this->startDateTime = $startDateTime;
+    }
+
+    /**
+     * Get the start date and time of the track.
+     *
+     * @return DateTime
+     */
+    public function getStartDateTime()
+    {
+        if ($this->startDateTime === null) {
+            $this->recomputeStartDateTime();
+        }
+
+        return $this->startDateTime;
+    }
+
+    /**
+     * Recompute the start date and time of the track.
+     *
+     * @return DateTime
+     */
+    public function recomputeStartDateTime()
+    {
+        $this->startDateTime = null;
+        foreach ($this->getTrackPoints() as $trackPoint) {
+            if ($this->startDateTime > $trackPoint->getDateTime() || $this->startDateTime === null) {
+                $this->startDateTime = clone $trackPoint->getDateTime();
+            }
+        }
+
+        return $this->startDateTime;
+    }
+
+    /**
+     * Set the end date and time of the track.
+     *
+     * @param DateTime $endDateTime The end date and time.
+     */
+    public function setEndDateTime(DateTime $endDateTime)
+    {
+        $this->endDateTime = $endDateTime;
+    }
+
+    /**
+     * Get the start date and time of the track.
+     *
+     * @return DateTime
+     */
+    public function getEndDateTime()
+    {
+        if ($this->endDateTime === null) {
+            $this->recomputeEndDateTime();
+        }
+
+        return $this->endDateTime;
+    }
+
+    /**
+     * Recompute the start date and time of the track.
+     *
+     * @return DateTime
+     */
+    public function recomputeEndDateTime()
+    {
+        $this->endDateTime = null;
+        foreach ($this->getTrackPoints() as $trackPoint) {
+            if ($this->endDateTime < $trackPoint->getDateTime() || $this->startDateTime === null) {
+                $this->endDateTime = clone $trackPoint->getDateTime();
+            }
+        }
+
+        return $this->endDateTime;
+    }
+
+    /**
+     * Get the duration of the track.
+     *
+     * @return DateInterval
+     */
+    public function getDuration()
+    {
+        $start = $this->getStartDateTime();
+        $end = $this->getEndDateTime();
+
+        $dateDifference = $start->diff($end);
+
+        return $dateDifference;
     }
 } 

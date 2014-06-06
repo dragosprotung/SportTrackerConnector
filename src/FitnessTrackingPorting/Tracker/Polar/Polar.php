@@ -10,7 +10,6 @@ use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\DomCrawler\Form;
 use RuntimeException;
 use BadMethodCallException;
 
@@ -162,7 +161,7 @@ class Polar extends AbstractTracker
         $crawler->addContent($html);
         $json = $crawler->filterXPath('//script')->last()->text();
 
-        $pattern = '/var curve = new Curve\((.*)\);/';
+        $pattern = '/var curve = new Curve\(([^\)]+)\);/s';
         preg_match($pattern, $json, $matches);
 
         $json = json_decode($matches[1]);

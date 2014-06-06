@@ -8,6 +8,13 @@ namespace FitnessTrackingPorting\Workout\Workout\Extension;
 interface ExtensionInterface
 {
     /**
+     * Get the ID of the extension.
+     *
+     * @return string
+     */
+    public static function getID();
+
+    /**
      * Get the name of the extension.
      *
      * @return string

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c3e937c8c2725101c2bd4a153e7293cb",
+    "hash": "43bb614aba029252ceae93e4c3ca5dc0",
     "packages": [
         {
             "name": "fabpot/goutte",
@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f"
+                "reference": "d79c9820cf8f8e4adff35f4f6719503e04674ba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c346caa339eeed124f7135d8dda9deffa80fc93f",
-                "reference": "c346caa339eeed124f7135d8dda9deffa80fc93f",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d79c9820cf8f8e4adff35f4f6719503e04674ba4",
+                "reference": "d79c9820cf8f8e4adff35f4f6719503e04674ba4",
                 "shasum": ""
             },
             "require": {
@@ -120,7 +120,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2014-05-30 17:33:57"
+            "time": "2014-06-04 21:57:31"
         },
         {
             "name": "guzzlehttp/streams",
@@ -239,12 +239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c"
+                "reference": "5e8b3e4e17102eeb807ccd65750302a5402863cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c",
-                "reference": "ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/5e8b3e4e17102eeb807ccd65750302a5402863cb",
+                "reference": "5e8b3e4e17102eeb807ccd65750302a5402863cb",
                 "shasum": ""
             },
             "require": {
@@ -287,7 +287,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-22 08:54:24"
+            "time": "2014-06-03 20:33:46"
         },
         {
             "name": "symfony/css-selector",

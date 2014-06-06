@@ -34,7 +34,7 @@ class TrackPoint
      *
      * @var DateTime
      */
-    protected $time;
+    protected $dateTime;
 
     /**
      * Array of extensions.
@@ -48,13 +48,13 @@ class TrackPoint
      *
      * @param float $latitude The latitude.
      * @param float $longitude The longitude.
-     * @param DateTime $time The time.
+     * @param DateTime $dateTime The date and time of the point.
      */
-    public function __construct($latitude, $longitude, DateTime $time)
+    public function __construct($latitude, $longitude, DateTime $dateTime)
     {
         $this->setLatitude($latitude);
         $this->setLongitude($longitude);
-        $this->setTime($time);
+        $this->setDateTime($dateTime);
     }
 
     /**
@@ -84,7 +84,10 @@ class TrackPoint
      */
     public function setExtensions(array $extensions)
     {
-        $this->extensions = $extensions;
+        $this->extensions = array();
+        foreach ($extensions as $extension) {
+            $this->addExtension($extension);
+        }
     }
 
     /**
@@ -104,7 +107,34 @@ class TrackPoint
      */
     public function addExtension(ExtensionInterface $extension)
     {
-        $this->extensions[] = $extension;
+        $this->extensions[$extension::getID()] = $extension;
+    }
+
+    /**
+     * Check if an extension is present.
+     *
+     * @param string $name The name of the extension.
+     * @return boolean
+     */
+    public function hasExtension($name)
+    {
+        return isset($this->extensions[$name]);
+    }
+
+    /**
+     * Get an extension by name.
+     *
+     * @param string $name The name of the extension.
+     * @return ExtensionInterface
+     * @throws \OutOfBoundsException If the extension is not found
+     */
+    public function getExtension($name)
+    {
+        if ($this->hasExtension($name) !== true) {
+            throw new \OutOfBoundsException('Extension "' . $name . '" not found.');
+        }
+
+        return $this->extensions[$name];
     }
 
     /**
@@ -149,11 +179,11 @@ class TrackPoint
     /**
      * Set the date time of the point.
      *
-     * @param DateTime $time The date time of the point.
+     * @param DateTime $dateTime The date time of the point.
      */
-    public function setTime(DateTime $time)
+    public function setDateTime(DateTime $dateTime)
     {
-        $this->time = $time;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -161,8 +191,8 @@ class TrackPoint
      *
      * @return DateTime
      */
-    public function getTime()
+    public function getDateTime()
     {
-        return $this->time;
+        return $this->dateTime;
     }
 } 

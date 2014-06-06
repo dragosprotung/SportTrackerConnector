@@ -72,7 +72,7 @@ class GPX extends AbstractDumper
                 $XMLWriter->writeElement('ele', $trackPoint->getElevation());
 
                 // Time of position
-                $dateTime = clone $trackPoint->getTime();
+                $dateTime = clone $trackPoint->getDateTime();
                 $dateTime->setTimezone(new DateTimeZone('UTC'));
                 $XMLWriter->writeElement('time', $dateTime->format(DateTime::W3C));
 

@@ -8,6 +8,8 @@ namespace FitnessTrackingPorting\Workout\Workout\Extension;
 class AbstractExtension implements ExtensionInterface
 {
 
+    const ID = 'GenericExtension';
+
     /**
      * Name fot the extension.
      *
@@ -40,6 +42,16 @@ class AbstractExtension implements ExtensionInterface
     public function setValue($value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * Get the ID of the extension.
+     *
+     * @return string
+     */
+    public static function getID()
+    {
+        return static::ID;
     }
 
     /**

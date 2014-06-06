@@ -7,4 +7,5 @@ endomondo:
   auth:
     username: your@email.com
     password: your-password
+    token: XXXXXXXXXXXXXXXXX # If you have a token set it here to skip the token fetching.
   timezone: "Europe/Berlin"

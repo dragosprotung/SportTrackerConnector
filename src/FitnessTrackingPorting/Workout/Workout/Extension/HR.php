@@ -8,6 +8,8 @@ namespace FitnessTrackingPorting\Workout\Workout\Extension;
 class HR extends AbstractExtension
 {
 
+    const ID = 'HR';
+
     /**
      * Name fot the extension.
      *

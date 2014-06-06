@@ -4,7 +4,6 @@ namespace FitnessTrackingPorting\Tests\Tracker\Polar\Polar;
 
 use DateTimeZone;
 use DateTime;
-use FitnessTrackingPorting\Tracker\Polar\Polar;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
@@ -42,7 +41,6 @@ class PolarTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test fetching a workout with multiple sports from an HTML page.
-     * @group ttt
      */
     public function testFetchWorkoutFromHTMLWithMultiSport()
     {

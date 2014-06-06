@@ -87,10 +87,7 @@ class GPXTest extends \PHPUnit_Framework_TestCase
     {
         $trackPoint = new TrackPoint($lat, $lon, new DateTime($time));
         $trackPoint->setElevation($ele);
-        $extensions = array(
-            new HR($hr)
-        );
-        $trackPoint->setExtensions($extensions);
+        $trackPoint->addExtension(new HR($hr));
         return $trackPoint;
     }
 } 

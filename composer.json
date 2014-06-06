@@ -15,6 +15,7 @@
         "symfony/dom-crawler": "2.5.*@dev",
         "symfony/console": "2.5.*@dev",
         "symfony/yaml": "2.5.*@dev",
+        "guzzlehttp/guzzle": "4.*",
         "fabpot/goutte": "~2.0"
     },
     "autoload": {
