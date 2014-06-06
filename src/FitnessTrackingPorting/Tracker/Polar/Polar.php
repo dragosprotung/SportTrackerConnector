@@ -8,8 +8,7 @@ use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
-use Goutte\Client;
-use Symfony\Component\DomCrawler\Crawler;
+use GuzzleHttp\Client;
 use RuntimeException;
 use BadMethodCallException;
 
@@ -135,16 +134,18 @@ class Polar extends AbstractTracker
     protected function fetchWorkoutHTML($idWorkout)
     {
         $client = new Client();
-
-        $client->request('POST', self::POLAR_FLOW_URL_LOGIN, array('email' => $this->username, 'password' => $this->password));
-        if ($client->getResponse()->getStatus() != 200) {
-            throw new RuntimeException('Could not login to Polar Flow. ' . $client->getResponse()->getContent());
-        }
+        $client->post(
+            self::POLAR_FLOW_URL_LOGIN,
+            array(
+                'body' => array('email' => $this->username, 'password' => $this->password),
+                'cookies' => true
+            )
+        );
 
         $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
-        $crawler = $client->request('GET', $workoutURL);
+        $response = $client->get($workoutURL, ['cookies' => true]);
 
-        return $crawler->html();
+        return (string)$response->getBody();
     }
 
     /**
@@ -157,12 +158,8 @@ class Polar extends AbstractTracker
      */
     protected function parseWorkoutSportFromHTML($html, $idExercise)
     {
-        $crawler = new Crawler();
-        $crawler->addContent($html);
-        $json = $crawler->filterXPath('//script')->last()->text();
-
         $pattern = '/var curve = new Curve\(([^\)]+)\);/s';
-        preg_match($pattern, $json, $matches);
+        preg_match($pattern, $html, $matches);
 
         $json = json_decode($matches[1]);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -188,12 +185,8 @@ class Polar extends AbstractTracker
      */
     protected function parseExerciseFromHTMLToJSON($html)
     {
-        $crawler = new Crawler();
-        $crawler->addContent($html);
-        $json = $crawler->filterXPath('//script')->last()->text();
-
         $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
-        preg_match($pattern, $json, $matches);
+        preg_match($pattern, $html, $matches);
 
         $json = json_decode($matches[1]);
         if (json_last_error() !== JSON_ERROR_NONE) {
