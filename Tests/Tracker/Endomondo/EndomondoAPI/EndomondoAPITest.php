@@ -76,7 +76,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
 
         $post = $endomondo->postWorkout($workout);
-        $this->assertEquals('123456789', $post);
+        $this->assertSame(array('123456789'), $post);
     }
 
     /**
