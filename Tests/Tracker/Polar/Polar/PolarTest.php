@@ -7,7 +7,7 @@ use DateTime;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Sport;
+use FitnessTrackingPorting\Workout\Workout\SportInterface;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 
 class PolarTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
                     $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
                     $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
                 ),
-                Sport::RUNNING
+                SportInterface::RUNNING
             )
         );
 
@@ -54,7 +54,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
                     $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
                     $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
                 ),
-                Sport::CYCLING_SPORT
+                SportInterface::CYCLING_SPORT
             )
         );
         $expected->addTrack(
@@ -63,7 +63,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
                     $this->getTrackPoint('53.551074', '9.993671', '2014-05-30T17:12:58+00:00', null, 78),
                     $this->getTrackPoint('53.550084', '9.992681', '2014-05-30T17:12:59+00:00', null, 88)
                 ),
-                Sport::RUNNING
+                SportInterface::RUNNING
             )
         );
 

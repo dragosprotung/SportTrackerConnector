@@ -5,7 +5,7 @@ namespace FitnessTrackingPorting\Workout\Workout;
 /**
  * Workout sport types.
  */
-interface Sport
+interface SportInterface
 {
 
     const RUNNING = 'running';
@@ -19,10 +19,18 @@ interface Sport
     CONST OTHER = 'other';
 
     /**
-     * Get the sport code from the tracker sport code.
+     * Get the sport code (one of the SportInterface constants) from the tracker sport code.
      *
      * @param mixed $code The code from the tracker.
      * @return string
      */
     public static function getSportFromCode($code);
+
+    /**
+     * Get the tracker code for a sport from a SportInterface code.
+     *
+     * @param string $sport The sport (one of the SportInterface constants)
+     * @return mixed
+     */
+    public static function getCodeFromSport($sport);
 }

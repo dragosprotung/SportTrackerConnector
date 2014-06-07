@@ -5,7 +5,7 @@ namespace FitnessTrackingPorting\Workout\Workout;
 /**
  * Class that tries to guess the sport from text representation.
  */
-class SportGuesser implements Sport
+class SportGuesser
 {
 
     /**
@@ -17,18 +17,18 @@ class SportGuesser implements Sport
     public static function getSportFromCode($code)
     {
         switch (strtolower(trim($code))) {
-            case self::RUNNING:
+            case SportInterface::RUNNING:
             case 'run':
-                return self::RUNNING;
-            case self::CYCLING_SPORT:
+                return SportInterface::RUNNING;
+            case SportInterface::CYCLING_SPORT:
             case 'cycling':
-                return self::CYCLING_SPORT;
-            case self::CYCLING_TRANSPORT:
-                return self::CYCLING_TRANSPORT;
-            case self::SWIMMING:
-                return self::SWIMMING;
+                return SportInterface::CYCLING_SPORT;
+            case SportInterface::CYCLING_TRANSPORT:
+                return SportInterface::CYCLING_TRANSPORT;
+            case SportInterface::SWIMMING:
+                return SportInterface::SWIMMING;
             default:
-                return self::OTHER;
+                return SportInterface::OTHER;
         }
     }
 }

@@ -184,7 +184,7 @@ class EndomondoAPI
         $track = $tracks[0];
 
         $deviceWorkoutId = '-' . $this->bigRandomNumber(19);
-        $sport = Sport::getSportFromCode($track->getSport());
+        $sport = Sport::getCodeFromSport($track->getSport());
         $duration = $this->convertDateIntervalInSeconds($track->getDuration());
 
         $workoutId = null;
