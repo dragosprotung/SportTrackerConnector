@@ -143,9 +143,10 @@ class EndomondoAPI
     /**
      * Get the details of a workout.
      *
+     * Possible fields when getting the workout: device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures.
      *
      * @param integer $idWorkout The ID of the workout.
-     * @return string
+     * @return array
      * @throws \RuntimeException If the workout can not be fetched.
      */
     public function getWorkout($idWorkout)
@@ -154,7 +155,7 @@ class EndomondoAPI
             self::URL_WORKOUT_GET,
             array(
                 'authToken' => $this->getAuthToken(),
-                'fields' => 'device,simple,basic,motivation,interval,points,lcp_count,tagged_users,pictures',
+                'fields' => 'device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures',
                 'workoutId' => $idWorkout
             )
         );
@@ -162,7 +163,8 @@ class EndomondoAPI
         $response = $this->httpClient->get($url);
 
         if ($response->getStatusCode() == 200) {
-            return (string)$response->getBody();
+            // TODO find a new way of fetching the workout as this does not return all points.
+            return $response->json();
         } else {
             throw new RuntimeException('Could not get workout "' . $idWorkout . '".');
         }

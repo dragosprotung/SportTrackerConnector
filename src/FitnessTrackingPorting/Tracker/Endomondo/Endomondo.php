@@ -5,6 +5,11 @@ namespace FitnessTrackingPorting\Tracker\Endomondo;
 use FitnessTrackingPorting\Tracker\AbstractTracker;
 use FitnessTrackingPorting\Workout\Dumper\GPX;
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Track;
+use FitnessTrackingPorting\Workout\Workout\TrackPoint;
+use FitnessTrackingPorting\Workout\Workout\Extension\HR;
+use DateTime;
+use GuzzleHttp\Client;
 use BadMethodCallException;
 
 /**
@@ -26,6 +31,13 @@ class Endomondo extends AbstractTracker
      * @var string
      */
     protected $password;
+
+    /**
+     * The Endomondo API.
+     *
+     * @var EndomondoAPI
+     */
+    protected $endomondoAPI;
 
     /**
      * The GPX dumper.
@@ -64,11 +76,29 @@ class Endomondo extends AbstractTracker
      *
      * @param integer $idWorkout The ID of the workout to download.
      * @return Workout
-     * @throws BadMethodCallException Not yet implemented.
      */
     public function downloadWorkout($idWorkout)
     {
-        throw new BadMethodCallException('Downloading a workout from endomondo is not yet implemented.');
+        $json = $this->getEndomondoAPI()->getWorkout($idWorkout);
+
+        $workout = new Workout();
+        $track = new Track();
+
+        foreach ($json['points'] as $point) {
+            $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time']));
+            if (isset($point['alt'])) {
+                $trackPoint->setElevation($point['alt']);
+            }
+            if (isset($point['hr'])) {
+                $trackPoint->addExtension(new HR($point['hr']));
+            }
+
+            $track->addTrackPoint($trackPoint);
+        }
+
+        $workout->addTrack($track);
+
+        return $workout;
     }
 
     /**
@@ -79,10 +109,22 @@ class Endomondo extends AbstractTracker
      */
     public function uploadWorkout(Workout $workout)
     {
-        $client = new \GuzzleHttp\Client();
-        $endomondoAPI = new EndomondoAPI($client, $this->username, $this->password);
-        $workoutId = $endomondoAPI->postWorkout($workout);
-
+        $workoutId = $this->getEndomondoAPI()->postWorkout($workout);
         return $workoutId !== null;
+    }
+
+    /**
+     * Get the Endomondo API.
+     *
+     * @return EndomondoAPI
+     */
+    public function getEndomondoAPI()
+    {
+        if ($this->endomondoAPI === null) {
+            $client = new Client();
+            $this->endomondoAPI = new EndomondoAPI($client, $this->username, $this->password);
+        }
+
+        return $this->endomondoAPI;
     }
 }

@@ -51,7 +51,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testGetWorkoutSuccess.txt'));
         $workout = $endomondo->getWorkout(1);
 
-        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Expected/testGetWorkoutSuccess.json', $workout);
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Expected/testGetWorkoutSuccess.json', json_encode($workout));
     }
 
     /**
