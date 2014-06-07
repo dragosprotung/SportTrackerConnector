@@ -13,10 +13,6 @@ use BadMethodCallException;
 class Endomondo extends AbstractTracker
 {
 
-    const ENDOMONDO_URL_ROOT = 'http://www.endomondo.com/';
-
-    const ENDOMONDO_URL_LOGIN = 'https://www.endomondo.com/login';
-
     /**
      * Username for polar.
      *

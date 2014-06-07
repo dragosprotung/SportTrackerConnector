@@ -3,13 +3,13 @@
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use DateInterval;
 use RuntimeException;
-use InvalidArgumentException;
 
 /**
  * Class for working with Endomondo API.
@@ -169,20 +169,32 @@ class EndomondoAPI
     }
 
     /**
+     * Post a workout to endomondo.
+     *
+     * Each track of a workout is uploaded individually.
+     *
      * @param Workout $workout
-     * @return null
-     * @throws RuntimeException If the uploading stops at one point.
-     * @throws InvalidArgumentException If the workout has more than one track.
+     * @return array IDs of the workouts posted on endomondo.
      */
     public function postWorkout(Workout $workout)
     {
-        $tracks = $workout->getTracks();
-        if (count($tracks) !== 1) {
-            throw new InvalidArgumentException('You can only upload one track per workout.');
+        $workoutIds = array();
+        foreach ($workout->getTracks() as $track) {
+            $workoutIds[] = $this->postTrack($track);
         }
 
-        $track = $tracks[0];
+        return $workoutIds;
+    }
 
+    /**
+     * Post one workout track to endomondo.
+     *
+     * @param Track $track
+     * @return integer
+     * @throws \RuntimeException If the uploading stops at one point.
+     */
+    private function postTrack(Track $track)
+    {
         $deviceWorkoutId = '-' . $this->bigRandomNumber(19);
         $sport = Sport::getCodeFromSport($track->getSport());
         $duration = $this->convertDateIntervalInSeconds($track->getDuration());
@@ -213,8 +225,7 @@ class EndomondoAPI
                     'gzip' => 'true',
                     'audioMessage' => 'true',
                     'goalType' => 'BASIC',
-                    'extendedResponse' => 'true',
-                    'hydration' => '0'
+                    'extendedResponse' => 'true'
                 )
             );
 
@@ -289,8 +300,7 @@ class EndomondoAPI
         $randNumber = null;
 
         for ($i = 0; $i < $randNumberLength; $i++) {
-            $randNumber .= rand(0, 9); // add random number to growing giant random number
-
+            $randNumber .= rand(0, 9);
         }
 
         return $randNumber;
