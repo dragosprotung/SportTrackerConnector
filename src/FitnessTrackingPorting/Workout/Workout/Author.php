@@ -2,6 +2,8 @@
 
 namespace FitnessTrackingPorting\Workout\Workout;
 
+use InvalidArgumentException;
+
 /**
  * Author of a workout.
  */
@@ -29,9 +31,16 @@ class Author
      * Set the name of the author.
      *
      * @param string $name The name.
+     * @throws InvalidArgumentException If the value is not a string or an object implementing the __toString() method.
      */
     public function setName($name)
     {
+        if ($name !== null && (is_string($name)) || (is_object($name) && method_exists($name, '__toString'))) {
+            $name = (string)$name;
+        } elseif ($name !== null) {
+            throw new InvalidArgumentException('The name of the author must be a string.');
+        }
+
         $this->name = $name;
     }
 

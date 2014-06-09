@@ -10,7 +10,6 @@ use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use DateTime;
 use GuzzleHttp\Client;
-use BadMethodCallException;
 
 /**
  * Endomondo tracker.

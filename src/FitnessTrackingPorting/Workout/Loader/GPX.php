@@ -72,7 +72,7 @@ class GPX extends AbstractLoader
         $extensions = $extensions->asXML();
         $return = array();
         if (preg_match('/<gpxtpx:hr>(.*)<\/gpxtpx:hr>/', $extensions, $matches)) {
-            $return[] = new HR($matches[1]);
+            $return[] = new HR((int)$matches[1]);
         }
 
         return $return;

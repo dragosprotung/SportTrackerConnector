@@ -121,6 +121,24 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test recompute length returns zero if leess than two points.
+     */
+    public function testRecomputeLengthReturnsZeroIfLessThankTwoPoints()
+    {
+        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $track->setLength(100);
+        $trackPoints = array(
+            $this->getTrackPointMock(null, null, 'now')
+        );
+        $track->expects($this->exactly(2))->method('getTrackPoints')->will($this->returnValue($trackPoints));
+
+        $actual = $track->recomputeLength();
+
+        $this->assertEquals(0, $actual);
+        $this->assertEquals(0, $track->getLength());
+    }
+
+    /**
      * Get a track point mock.
      *
      * @param string $dateTime The date and time of the point.
