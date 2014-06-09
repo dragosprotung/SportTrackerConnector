@@ -3,7 +3,6 @@
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
 use FitnessTrackingPorting\Tracker\AbstractTracker;
-use FitnessTrackingPorting\Workout\Dumper\GPX;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
@@ -18,47 +17,11 @@ class Endomondo extends AbstractTracker
 {
 
     /**
-     * Username for polar.
-     *
-     * @var string
-     */
-    protected $username;
-
-    /**
-     * Password for polar.
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
      * The Endomondo API.
      *
      * @var EndomondoAPI
      */
     protected $endomondoAPI;
-
-    /**
-     * The GPX dumper.
-     *
-     * @var GPX
-     */
-    protected $dumper;
-
-    /**
-     * Constructor.
-     *
-     * @param string $username Username for polar.
-     * @param string $password Password for polar.
-     */
-    public function __construct($username, $password)
-    {
-        parent::__construct();
-
-        $this->username = $username;
-        $this->password = $password;
-        $this->dumper = new GPX();
-    }
 
     /**
      * Get the ID of the tracker.
@@ -84,7 +47,7 @@ class Endomondo extends AbstractTracker
         $track = new Track();
 
         foreach ($json['points'] as $point) {
-            $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time']));
+            $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time'], $this->getTimeZone()));
             if (isset($point['alt'])) {
                 $trackPoint->setElevation($point['alt']);
             }

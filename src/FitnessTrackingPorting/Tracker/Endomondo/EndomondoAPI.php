@@ -262,15 +262,17 @@ class EndomondoAPI
      */
     private function flattenTrackPoint(TrackPoint $trackPoint, $distance, $speed)
     {
+        $dateTime = clone $trackPoint->getDateTime();
+        $dateTime->setTimezone(new \DateTimeZone('UTC'));
         return sprintf(
             '%s;2;%s;%s;%s;%s;%s;%s;',
-            $trackPoint->getDateTime()->format('Y-m-d H:i:s \U\T\C'), // TODO output in UTC.
+            $dateTime->format('Y-m-d H:i:s \U\T\C'),
             $trackPoint->getLatitude(),
             $trackPoint->getLongitude(),
             $distance / 1000,
             $speed,
             $trackPoint->getElevation(),
-            $trackPoint->hasExtension(HR::getID()) ? $trackPoint->getExtension(HR::getID())->getValue() : ''
+            $trackPoint->hasExtension(HR::ID) ? $trackPoint->getExtension(HR::ID)->getValue() : ''
         );
     }
 

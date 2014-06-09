@@ -15,7 +15,8 @@ class HRTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetID()
     {
-        $this->assertSame(HR::ID, HR::getID());
+        $hr = new HR();
+        $this->assertSame(HR::ID, $hr->getID());
     }
 
     /**

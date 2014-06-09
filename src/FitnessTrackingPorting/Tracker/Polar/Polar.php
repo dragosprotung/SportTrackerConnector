@@ -25,34 +25,6 @@ class Polar extends AbstractTracker
     const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s';
 
     /**
-     * Username for polar.
-     *
-     * @var string
-     */
-    protected $username;
-
-    /**
-     * Password for polar.
-     *
-     * @var string
-     */
-    protected $password;
-
-    /**
-     * Constructor.
-     *
-     * @param string $username Username for polar.
-     * @param string $password Password for polar.
-     */
-    public function __construct($username, $password)
-    {
-        parent::__construct();
-
-        $this->username = $username;
-        $this->password = $password;
-    }
-
-    /**
      * Get the ID of the tracker.
      *
      * @return string
@@ -161,10 +133,7 @@ class Polar extends AbstractTracker
         $pattern = '/var curve = new Curve\(([^\)]+)\);/s';
         preg_match($pattern, $html, $matches);
 
-        $json = json_decode($matches[1]);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new RuntimeException('Could not parse the JSON from the HTML to extract workout sport. ' . static::getJSONLastErrorMessage());
-        }
+        $json = \GuzzleHttp\json_decode($matches[1]);
 
         $code = null;
         foreach ($json->exercises as $exercise) {
@@ -188,39 +157,6 @@ class Polar extends AbstractTracker
         $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
         preg_match($pattern, $html, $matches);
 
-        $json = json_decode($matches[1]);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new RuntimeException('Could not parse the JSON from the HTML. ' . static::getJSONLastErrorMessage());
-        }
-
-        return $json;
-    }
-
-    /**
-     * Get the last error message after decoding JSON.
-     *
-     * @return string
-     */
-    protected static function getJSONLastErrorMessage()
-    {
-        if (!function_exists('json_last_error_msg')) {
-            function json_last_error_msg()
-            {
-                static $errors = array(
-                    JSON_ERROR_NONE => null,
-                    JSON_ERROR_DEPTH => 'Maximum stack depth exceeded.',
-                    JSON_ERROR_STATE_MISMATCH => 'Underflow or the modes mismatch.',
-                    JSON_ERROR_CTRL_CHAR => 'Unexpected control character found.',
-                    JSON_ERROR_SYNTAX => 'Syntax error, malformed JSON.',
-                    JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded.'
-                );
-
-                $error = json_last_error();
-
-                return array_key_exists($error, $errors) ? $errors[$error] : "Unknown error ({$error}).";
-            }
-        }
-
-        return json_last_error_msg();
+        return \GuzzleHttp\json_decode($matches[1]);
     }
 }

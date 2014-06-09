@@ -72,4 +72,130 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
         $actual = $starPoint->speed($destinationTrackPoint);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * Test get extension throws exception if extension not found.
+     */
+    public function testGetExtensionThrowsExceptionIfExtensionNotFound()
+    {
+        $trackPoint = new TrackPoint(null, null, new DateTime());
+
+        $name = 'non-existing-extension';
+        $this->setExpectedException('OutOfBoundsException', 'Extension "' . $name . '" not found.');
+        $trackPoint->getExtension($name);
+    }
+
+    /**
+     * Test get extension success.
+     */
+    public function testGetExtensionSuccess()
+    {
+        $trackPoint = new TrackPoint(null, null, new DateTime());
+
+        $id = 'existing-extension';
+        $extensionMock = $this->getExtensionMock($id);
+        $trackPoint->addExtension($extensionMock);
+
+        $this->assertSame($extensionMock, $trackPoint->getExtension($id));
+    }
+
+    /**
+     * Test setting extensions.
+     */
+    public function testSetExtensions()
+    {
+        $trackPoint = new TrackPoint(null, null, new DateTime());
+
+        $em1 = $this->getExtensionMock('e1');
+        $em2 = $this->getExtensionMock('e2');
+        $em3 = $this->getExtensionMock('e3');
+        $extensions = array($em1, $em2, $em3);
+
+        $trackPoint->setExtensions($extensions);
+
+        $this->assertEquals($extensions, array_values($trackPoint->getExtensions()));
+        $this->assertCount(3, $trackPoint->getExtensions());
+        $this->assertSame($em1, $trackPoint->getExtension('e1'));
+        $this->assertSame($em2, $trackPoint->getExtension('e2'));
+        $this->assertSame($em3, $trackPoint->getExtension('e3'));
+    }
+
+    /**
+     * Data provider for testSetGetElevationSuccess().
+     *
+     * @return array
+     */
+    public function dataProviderTestSetGetElevationSuccess()
+    {
+        return array(
+            array(null),
+            array(-12),
+            array(-12.5),
+            array(0),
+            array(10),
+            array(10.258),
+            array(99999),
+            array('-45'),
+            array('45.58'),
+        );
+    }
+
+    /**
+     * Test setting the elevation with valid values.
+     *
+     * @dataProvider dataProviderTestSetGetElevationSuccess
+     * @param number $elevation The elevation to set.
+     */
+    public function testSetGetElevationSuccess($elevation)
+    {
+        $trackPoint = new TrackPoint(null, null, new DateTime());
+
+        $trackPoint->setElevation($elevation);
+        $this->assertSame($elevation, $trackPoint->getElevation());
+    }
+
+    /**
+     * Data provider for testSetGetElevationError().
+     *
+     * @return array
+     */
+    public function dataProviderTestSetGetElevationError()
+    {
+        return array(
+            array(array()),
+            array('ele'),
+            array(new \stdClass())
+        );
+    }
+
+    /**
+     * Test setting the elevation with invalid values.
+     *
+     * @dataProvider dataProviderTestSetGetElevationError
+     * @param number $elevation The elevation to set.
+     */
+    public function testSetGetElevationError($elevation)
+    {
+        $trackPoint = new TrackPoint(null, null, new DateTime());
+
+        $this->setExpectedException('InvalidArgumentException', 'Elevation for a tracking point must be a number.');
+        $trackPoint->setElevation($elevation);
+    }
+
+    /**
+     * Get a mock of an extension.
+     *
+     * @param string $id The ID of the extension.
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getExtensionMock($id)
+    {
+        $extensionMock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\Extension\ExtensionInterface')
+            ->setMethods(array('getID'))
+            ->getMockForAbstractClass();
+
+        $extensionMock->expects($this->any())->method('getID')->willReturn($id);
+
+        return $extensionMock;
+    }
 } 

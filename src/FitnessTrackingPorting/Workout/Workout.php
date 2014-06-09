@@ -14,21 +14,21 @@ class Workout
     /**
      * The author of a workout.
      *
-     * @var Author
+     * @var \FitnessTrackingPorting\Workout\Workout\Author
      */
     protected $author;
 
     /**
      * The tracks of the workout.
      *
-     * @var Track[]
+     * @var \FitnessTrackingPorting\Workout\Workout\Track[]
      */
     protected $tracks = array();
 
     /**
      * Set the author of a workout.
      *
-     * @param Author $author The author.
+     * @param \FitnessTrackingPorting\Workout\Workout\Author $author The author.
      */
     public function setAuthor(Author $author)
     {
@@ -38,7 +38,7 @@ class Workout
     /**
      * Get the author of the workout.
      *
-     * @return Author
+     * @return \FitnessTrackingPorting\Workout\Workout\Author
      */
     public function getAuthor()
     {
@@ -48,7 +48,7 @@ class Workout
     /**
      * Add a track.
      *
-     * @param Track $track The track to add.
+     * @param \FitnessTrackingPorting\Workout\Workout\Track $track The track to add.
      */
     public function addTrack(Track $track)
     {
@@ -58,17 +58,21 @@ class Workout
     /**
      * Set the tracks.
      *
-     * @param Track[] $tracks The tracks to set.
+     * @param \FitnessTrackingPorting\Workout\Workout\Track[] $tracks The tracks to set.
      */
     public function setTracks(array $tracks)
     {
-        $this->tracks = $tracks;
+        $this->tracks = array();
+
+        foreach ($tracks as $track) {
+            $this->addTrack($track);
+        }
     }
 
     /**
      * Get the tracks.
      *
-     * @return Track[]
+     * @return \FitnessTrackingPorting\Workout\Workout\Track[]
      */
     public function getTracks()
     {

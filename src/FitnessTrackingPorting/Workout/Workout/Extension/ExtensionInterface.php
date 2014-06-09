@@ -12,7 +12,7 @@ interface ExtensionInterface
      *
      * @return string
      */
-    public static function getID();
+    public function getID();
 
     /**
      * Get the name of the extension.

@@ -12,6 +12,20 @@ abstract class AbstractTracker implements TrackerInterface
 {
 
     /**
+     * Username for polar.
+     *
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * Password for polar.
+     *
+     * @var string
+     */
+    protected $password;
+
+    /**
      * The tracker timezone.
      *
      * @var DateTimeZone
@@ -20,9 +34,14 @@ abstract class AbstractTracker implements TrackerInterface
 
     /**
      * Constructor.
+     *
+     * @param string $username Username for the tracker.
+     * @param string $password Password for the tracker.
      */
-    public function __construct()
+    public function __construct($username = null, $password = null)
     {
+        $this->username = $username;
+        $this->password = $password;
         $this->timeZone = new DateTimeZone('UTC');
     }
 

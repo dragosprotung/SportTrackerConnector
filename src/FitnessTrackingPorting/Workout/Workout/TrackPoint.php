@@ -4,7 +4,11 @@ namespace FitnessTrackingPorting\Workout\Workout;
 
 use FitnessTrackingPorting\Workout\Workout\Extension\ExtensionInterface;
 use DateTime;
+use InvalidArgumentException;
 
+/**
+ * A point in a track.
+ */
 class TrackPoint
 {
 
@@ -61,9 +65,14 @@ class TrackPoint
      * Set the elevation.
      *
      * @param float $elevation The elevation.
+     * @throws InvalidArgumentException If the elevation is not a number.
      */
     public function setElevation($elevation)
     {
+        if ($elevation !== null && !is_numeric($elevation)) {
+            throw new InvalidArgumentException('Elevation for a tracking point must be a number.');
+        }
+
         $this->elevation = $elevation;
     }
 
@@ -107,34 +116,34 @@ class TrackPoint
      */
     public function addExtension(ExtensionInterface $extension)
     {
-        $this->extensions[$extension::getID()] = $extension;
+        $this->extensions[$extension->getID()] = $extension;
     }
 
     /**
      * Check if an extension is present.
      *
-     * @param string $name The name of the extension.
+     * @param string $id The ID of the extension.
      * @return boolean
      */
-    public function hasExtension($name)
+    public function hasExtension($id)
     {
-        return isset($this->extensions[$name]);
+        return isset($this->extensions[$id]);
     }
 
     /**
-     * Get an extension by name.
+     * Get an extension by ID.
      *
-     * @param string $name The name of the extension.
+     * @param string $id The ID of the extension.
      * @return ExtensionInterface
-     * @throws \OutOfBoundsException If the extension is not found
+     * @throws \OutOfBoundsException If the extension is not found.
      */
-    public function getExtension($name)
+    public function getExtension($id)
     {
-        if ($this->hasExtension($name) !== true) {
-            throw new \OutOfBoundsException('Extension "' . $name . '" not found.');
+        if ($this->hasExtension($id) !== true) {
+            throw new \OutOfBoundsException('Extension "' . $id . '" not found.');
         }
 
-        return $this->extensions[$name];
+        return $this->extensions[$id];
     }
 
     /**

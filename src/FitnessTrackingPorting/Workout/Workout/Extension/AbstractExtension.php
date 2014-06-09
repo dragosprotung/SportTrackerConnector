@@ -49,7 +49,7 @@ class AbstractExtension implements ExtensionInterface
      *
      * @return string
      */
-    public static function getID()
+    public function getID()
     {
         return static::ID;
     }
