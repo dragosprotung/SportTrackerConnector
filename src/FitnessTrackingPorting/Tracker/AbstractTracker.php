@@ -33,6 +33,13 @@ abstract class AbstractTracker implements TrackerInterface
     protected $timeZone;
 
     /**
+     * The sport mapper.
+     *
+     * @var \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    protected $sportMapper;
+
+    /**
      * Constructor.
      *
      * @param string $username Username for the tracker.
@@ -95,4 +102,25 @@ abstract class AbstractTracker implements TrackerInterface
 
         return $UTCTimeZone->getOffset($UTCDateTime) - $this->getTimeZone()->getOffset($originDateTime);
     }
+
+    /**
+     * Get the sport mapper.
+     *
+     * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    public function getSportMapper()
+    {
+        if ($this->sportMapper === null) {
+            $this->sportMapper = $this->constructSportMapper();
+        }
+
+        return $this->sportMapper;
+    }
+
+    /**
+     * Construct the sport mapper.
+     *
+     * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    abstract protected function constructSportMapper();
 }

@@ -84,9 +84,19 @@ class Endomondo extends AbstractTracker
     {
         if ($this->endomondoAPI === null) {
             $client = new Client();
-            $this->endomondoAPI = new EndomondoAPI($client, $this->username, $this->password);
+            $this->endomondoAPI = new EndomondoAPI($client, $this->username, $this->password, $this->getSportMapper());
         }
 
         return $this->endomondoAPI;
+    }
+
+    /**
+     * Construct the sport mapper.
+     *
+     * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    protected function constructSportMapper()
+    {
+        return new Sport();
     }
 }

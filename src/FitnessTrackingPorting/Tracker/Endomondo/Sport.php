@@ -2,48 +2,40 @@
 
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
-use FitnessTrackingPorting\Workout\Workout\SportInterface;
+use FitnessTrackingPorting\Workout\Workout\AbstractSportMapper;
 
-class Sport implements SportInterface
+/**
+ * Sport mapper for Endomondo tracker.
+ */
+class Sport extends AbstractSportMapper
 {
 
     /**
-     * Get the tracker code for a sport from a SportInterface code.
+     * Get the map between the tracker's sport codes and internal sport codes.
      *
-     * @param string $sport The sport (one of the SportInterface constants)
-     * @return mixed
-     */
-    public static function getCodeFromSport($sport)
-    {
-        switch (strtolower($sport)) {
-            case self::RUNNING:
-                return 0;
-            case self::CYCLING_SPORT:
-                return 2;
-            case self::SWIMMING:
-                return 20;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * Get the sport code (one of the SportInterface constants) from the tracker sport code.
+     * The key should be the internal sport code.
      *
-     * @param mixed $code The code from the tracker.
-     * @return string
+     * @return array
      */
-    public static function getSportFromCode($code)
+    public function getMap()
     {
-        switch (strtolower($code)) {
-            case 0:
-                return self::RUNNING;
-            case 2:
-                return self::CYCLING_SPORT;
-            case 20:
-                return self::SWIMMING;
-            default:
-                return self::OTHER;
-        }
+        return array(
+            self::RUNNING => 0,
+            self::RUNNING_TREADMILL => 88,
+            self::WALKING => 18,
+            self::WALKING_FITNESS => 14,
+            self::CYCLING_SPORT => 2,
+            self::CYCLING_TRANSPORT => 1,
+            self::CYCLING_INDOOR => 21,
+            self::CYCLING_MOUNTAIN => 3,
+            self::SWIMMING => 20,
+            self::GOLF => 15,
+            self::KAYAKING => 9,
+            self::KITE_SURFING => 10,
+            self::HIKING => 16,
+            self::SKATING => 4,
+            self::WEIGHT_TRAINING => 46,
+            self::OTHER => 20,
+        );
     }
 } 

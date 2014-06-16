@@ -17,18 +17,18 @@ class SportGuesser
     public static function getSportFromCode($code)
     {
         switch (strtolower(trim($code))) {
-            case SportInterface::RUNNING:
+            case SportMapperInterface::RUNNING:
             case 'run':
-                return SportInterface::RUNNING;
-            case SportInterface::CYCLING_SPORT:
+                return SportMapperInterface::RUNNING;
+            case SportMapperInterface::CYCLING_SPORT:
             case 'cycling':
-                return SportInterface::CYCLING_SPORT;
-            case SportInterface::CYCLING_TRANSPORT:
-                return SportInterface::CYCLING_TRANSPORT;
-            case SportInterface::SWIMMING:
-                return SportInterface::SWIMMING;
+                return SportMapperInterface::CYCLING_SPORT;
+            case SportMapperInterface::CYCLING_TRANSPORT:
+                return SportMapperInterface::CYCLING_TRANSPORT;
+            case SportMapperInterface::SWIMMING:
+                return SportMapperInterface::SWIMMING;
             default:
-                return SportInterface::OTHER;
+                return SportMapperInterface::OTHER;
         }
     }
 }

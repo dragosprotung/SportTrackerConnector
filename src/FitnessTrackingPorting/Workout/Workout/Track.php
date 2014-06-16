@@ -16,7 +16,7 @@ class Track
      *
      * @var string
      */
-    protected $sport = SportInterface::OTHER;
+    protected $sport = SportMapperInterface::OTHER;
 
     /**
      * The track points of this track.
@@ -52,7 +52,7 @@ class Track
      * @param array $trackPoints The track points.
      * @param mixed $sport The sport for this track.
      */
-    public function __construct(array $trackPoints = array(), $sport = SportInterface::OTHER)
+    public function __construct(array $trackPoints = array(), $sport = SportMapperInterface::OTHER)
     {
         $this->setTrackPoints($trackPoints);
         $this->setSport($sport);

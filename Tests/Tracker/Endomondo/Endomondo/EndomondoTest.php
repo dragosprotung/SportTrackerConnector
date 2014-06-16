@@ -37,7 +37,8 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     private function getEndomondoAPIMock($mockMethods = array())
     {
         $client = new Client();
-        $endomondoAPI = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\EndomondoAPI', $mockMethods, array($client, null, null));
+        $sportMapper = $this->getMock('FitnessTrackingPorting\Workout\Workout\SportMapperInterface');
+        $endomondoAPI = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\EndomondoAPI', $mockMethods, array($client, null, null, $sportMapper));
 
         return $endomondoAPI;
     }

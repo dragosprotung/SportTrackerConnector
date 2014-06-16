@@ -55,4 +55,11 @@ interface TrackerInterface
      * @return Workout
      */
     public function downloadWorkout($idWorkout);
+
+    /**
+     * Get the sport mapper.
+     *
+     * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    public function getSportMapper();
 }

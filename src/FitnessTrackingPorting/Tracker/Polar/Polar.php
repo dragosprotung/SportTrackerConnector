@@ -138,7 +138,7 @@ class Polar extends AbstractTracker
         $code = null;
         foreach ($json->exercises as $exercise) {
             if ($exercise->id == $idExercise) {
-                return Sport::getSportFromCode($exercise->sport->name);
+                return $this->getSportMapper()->getSportFromCode($exercise->sport->name);
             }
         }
 
@@ -158,5 +158,15 @@ class Polar extends AbstractTracker
         preg_match($pattern, $html, $matches);
 
         return \GuzzleHttp\json_decode($matches[1]);
+    }
+
+    /**
+     * Construct the sport mapper.
+     *
+     * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    protected function constructSportMapper()
+    {
+        return new Sport();
     }
 }

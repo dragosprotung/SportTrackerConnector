@@ -123,7 +123,9 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     private function getEndomondoMock(array $responses, $token = '123456')
     {
         $client = $this->getClientMock($responses);
-        $endomondo = new EndomondoAPI($client, 'email', 'test');
+        $sportMapper = $this->getMock('FitnessTrackingPorting\Workout\Workout\SportMapperInterface');
+
+        $endomondo = new EndomondoAPI($client, 'email', 'test', $sportMapper);
         $endomondo->setAuthToken($token);
 
         return $endomondo;

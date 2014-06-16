@@ -3,6 +3,7 @@
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
@@ -63,17 +64,26 @@ class EndomondoAPI
     protected $password;
 
     /**
+     * The sport mapper.
+     *
+     * @var \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
+     */
+    protected $sportMapper;
+
+    /**
      * Constructor.
      *
      * @param Client $client The HTTP client.
      * @param string $username Username for polar.
      * @param string $password Password for polar.
+     * @param SportMapperInterface $sportMapper The sport mapper.
      */
-    public function __construct(Client $client, $username, $password)
+    public function __construct(Client $client, $username, $password, SportMapperInterface $sportMapper)
     {
         $this->httpClient = $client;
         $this->username = $username;
         $this->password = $password;
+        $this->sportMapper = $sportMapper;
     }
 
     /**
@@ -198,7 +208,7 @@ class EndomondoAPI
     private function postTrack(Track $track)
     {
         $deviceWorkoutId = '-' . $this->bigRandomNumber(19);
-        $sport = Sport::getCodeFromSport($track->getSport());
+        $sport = $this->sportMapper->getCodeFromSport($track->getSport());
         $duration = $this->convertDateIntervalInSeconds($track->getDuration());
 
         $workoutId = null;
