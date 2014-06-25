@@ -8,6 +8,9 @@ use FitnessTrackingPorting\Workout\Loader\LoaderInterface;
 use FitnessTrackingPorting\Workout\Dumper\DumperInterface;
 use InvalidArgumentException;
 
+/**
+ * Abstract class for commands.
+ */
 abstract class AbstractCommand extends Command
 {
 

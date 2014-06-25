@@ -173,7 +173,6 @@ class EndomondoAPI
         $response = $this->httpClient->get($url);
 
         if ($response->getStatusCode() == 200) {
-            // TODO find a new way of fetching the workout as this does not return all points.
             return $response->json();
         } else {
             throw new RuntimeException('Could not get workout "' . $idWorkout . '".');
@@ -219,6 +218,7 @@ class EndomondoAPI
         foreach (array_chunk($track->getTrackPoints(), 100) as $trackPoints) {
             $data = array();
             foreach ($trackPoints as $trackPoint) {
+                /** @var \FitnessTrackingPorting\Workout\Workout\TrackPoint $trackPoint */
                 if ($previousPoint !== null) {
                     $distance += $trackPoint->distance($previousPoint);
                     $speed = $trackPoint->speed($previousPoint);

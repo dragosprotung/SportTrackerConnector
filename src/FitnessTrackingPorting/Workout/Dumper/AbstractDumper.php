@@ -5,6 +5,9 @@ namespace FitnessTrackingPorting\Workout\Dumper;
 use FitnessTrackingPorting\Workout\Workout;
 use InvalidArgumentException;
 
+/**
+ * Abstract class for dumpers.
+ */
 abstract class AbstractDumper implements DumperInterface
 {
     /**
