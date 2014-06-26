@@ -2,8 +2,9 @@
 
 namespace FitnessTrackingPorting\Tracker;
 
-use FitnessTrackingPorting\Workout\Workout;
 use DateTimeZone;
+use FitnessTrackingPorting\Workout\Workout;
+use Psr\Log\LoggerInterface;
 
 /**
  * Interface for trackers.
@@ -14,10 +15,11 @@ interface TrackerInterface
     /**
      * Get a new instance using a config array.
      *
+     * @param LoggerInterface $logger The logger.
      * @param array $config The config for the new instance.
      * @return TrackerInterface
      */
-    public static function fromConfig(array $config);
+    public static function fromConfig(LoggerInterface $logger, array $config);
 
     /**
      * Get the ID of the tracker.
@@ -62,4 +64,11 @@ interface TrackerInterface
      * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
      */
     public function getSportMapper();
+
+    /**
+     * The a logger.
+     *
+     * @param LoggerInterface $logger The logger to set.
+     */
+    public function setLogger(LoggerInterface $logger);
 }

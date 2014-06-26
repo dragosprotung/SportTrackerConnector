@@ -4,6 +4,7 @@ namespace FitnessTrackingPorting\Tracker;
 
 use DateTime;
 use DateTimeZone;
+use Psr\Log\LoggerInterface;
 
 /**
  * Abstract tracker.
@@ -40,13 +41,22 @@ abstract class AbstractTracker implements TrackerInterface
     protected $sportMapper;
 
     /**
+     * Logger.
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * Constructor.
      *
+     * @param LoggerInterface $logger The logger.
      * @param string $username Username for the tracker.
      * @param string $password Password for the tracker.
      */
-    public function __construct($username = null, $password = null)
+    public function __construct(LoggerInterface $logger, $username = null, $password = null)
     {
+        $this->logger = $logger;
         $this->username = $username;
         $this->password = $password;
         $this->timeZone = new DateTimeZone('UTC');
@@ -55,37 +65,18 @@ abstract class AbstractTracker implements TrackerInterface
     /**
      * Get a new instance using a config array.
      *
+     * @param LoggerInterface $logger The logger.
      * @param array $config The config for the new instance.
      * @return TrackerInterface
      */
-    public static function fromConfig(array $config)
+    public static function fromConfig(LoggerInterface $logger, array $config)
     {
-        $tracker = new static($config['auth']['username'], $config['auth']['password']);
+        $tracker = new static($logger, $config['auth']['username'], $config['auth']['password'], $logger);
 
         $timeZone = new DateTimeZone($config['timezone']);
         $tracker->setTimeZone($timeZone);
 
         return $tracker;
-    }
-
-    /**
-     * Set the timezone of the tracker.
-     *
-     * @param DateTimeZone $timeZone The timezone.
-     */
-    public function setTimeZone(DateTimeZone $timeZone)
-    {
-        $this->timeZone = $timeZone;
-    }
-
-    /**
-     * Get the timezone of the tracker.
-     *
-     * @return DateTimeZone
-     */
-    public function getTimeZone()
-    {
-        return $this->timeZone;
     }
 
     /**
@@ -101,6 +92,26 @@ abstract class AbstractTracker implements TrackerInterface
         $UTCDateTime = new DateTime('now', $UTCTimeZone);
 
         return $UTCTimeZone->getOffset($UTCDateTime) - $this->getTimeZone()->getOffset($originDateTime);
+    }
+
+    /**
+     * Get the timezone of the tracker.
+     *
+     * @return DateTimeZone
+     */
+    public function getTimeZone()
+    {
+        return $this->timeZone;
+    }
+
+    /**
+     * Set the timezone of the tracker.
+     *
+     * @param DateTimeZone $timeZone The timezone.
+     */
+    public function setTimeZone(DateTimeZone $timeZone)
+    {
+        $this->timeZone = $timeZone;
     }
 
     /**
@@ -123,4 +134,14 @@ abstract class AbstractTracker implements TrackerInterface
      * @return \FitnessTrackingPorting\Workout\Workout\SportMapperInterface
      */
     abstract protected function constructSportMapper();
+
+    /**
+     * The a logger.
+     *
+     * @param LoggerInterface $logger The logger to set.
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 }

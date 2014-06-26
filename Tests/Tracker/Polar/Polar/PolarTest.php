@@ -21,7 +21,9 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetchWorkoutFromHTMLWithSingleSport()
     {
-        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array(null, null));
+        $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
+
+        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
         $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
 
         $expected = new Workout();
@@ -47,7 +49,9 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetchWorkoutFromHTMLWithMultiSport()
     {
-        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array(null, null));
+        $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
+
+        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
         $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
 
         $expected = new Workout();

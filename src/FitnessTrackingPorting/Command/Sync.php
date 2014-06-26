@@ -3,9 +3,7 @@
 namespace FitnessTrackingPorting\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -27,27 +25,25 @@ class Sync extends AbstractCommand
     }
 
     /**
-     * Execute the command.
+     * Run the command.
      *
-     * @param InputInterface $input The input.
-     * @param OutputInterface $output The output.
      * @return integer
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function runCommand()
     {
-        $workoutIds = $input->getArgument('workout-id');
-        $configFile = $input->getOption('config-file');
+        $workoutIds = $this->input->getArgument('workout-id');
+        $configFile = $this->input->getOption('config-file');
 
         $config = Yaml::parse(file_get_contents($configFile), true);
 
-        $sourceTracker = $this->getTrackerFromCode($input->getArgument('source-tracker'), $config);
-        $destinationTracker = $this->getTrackerFromCode($input->getArgument('destination-tracker'), $config);
+        $sourceTracker = $this->getTrackerFromCode($this->input->getArgument('source-tracker'), $config);
+        $destinationTracker = $this->getTrackerFromCode($this->input->getArgument('destination-tracker'), $config);
 
         foreach ($workoutIds as $workoutId) {
-            $output->write('Syncing workout ' . $workoutId . ' ... ');
+            $this->output->writeln('Syncing workout ' . $workoutId . '. ');
             $workout = $sourceTracker->downloadWorkout($workoutId);
             $destinationTracker->uploadWorkout($workout);
-            $output->writeln('done.');
+            $this->output->writeln('Sync completed.');
         }
 
         return 0;

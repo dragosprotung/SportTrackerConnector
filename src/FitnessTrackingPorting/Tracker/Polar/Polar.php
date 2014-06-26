@@ -42,6 +42,8 @@ class Polar extends AbstractTracker
      */
     public function downloadWorkout($idWorkout)
     {
+        $this->logger->debug('Downloading JSON for workout "' . $idWorkout . '"');
+
         $html = $this->fetchWorkoutHTML($idWorkout);
         return $this->fetchWorkoutFromHTML($html);
     }
@@ -56,7 +58,11 @@ class Polar extends AbstractTracker
     {
         $workout = new Workout();
 
+        $this->logger->debug('Parsing the HTML and extracting the data in JSON format.');
         $polarExercise = $this->parseExerciseFromHTMLToJSON($html);
+
+        $this->logger->debug('Building the workout from JSON data.');
+
         foreach ($polarExercise->exercises as $idExercise => $exercise) {
             $exercise = array_combine(array_keys((array)$polarExercise->ExerciseKeys), $exercise);
             if ($exercise['HAS_SAMPLES'] === true) {
@@ -105,6 +111,8 @@ class Polar extends AbstractTracker
      */
     protected function fetchWorkoutHTML($idWorkout)
     {
+        $this->logger->debug('Logging into polar.');
+
         $client = new Client();
         $client->post(
             self::POLAR_FLOW_URL_LOGIN,
@@ -113,6 +121,8 @@ class Polar extends AbstractTracker
                 'cookies' => true
             )
         );
+
+        $this->logger->debug('Fetching the workout HTML page.');
 
         $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
         $response = $client->get($workoutURL, ['cookies' => true]);
@@ -152,7 +162,7 @@ class Polar extends AbstractTracker
      * @return array
      * @throws RuntimeException If the JSON can not be parsed.
      */
-    protected function parseExerciseFromHTMLToJSON($html)
+    private function parseExerciseFromHTMLToJSON($html)
     {
         $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
         preg_match($pattern, $html, $matches);

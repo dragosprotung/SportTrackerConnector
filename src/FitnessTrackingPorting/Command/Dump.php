@@ -2,14 +2,12 @@
 
 namespace FitnessTrackingPorting\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Yaml\Yaml;
 use FitnessTrackingPorting\Workout\Workout;
 use InvalidArgumentException;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Fetch a workout from a tracker and dump it to a file.
@@ -33,27 +31,25 @@ class Dump extends AbstractCommand
     }
 
     /**
-     * Execute the command.
+     * Run the command.
      *
-     * @param InputInterface $input The input.
-     * @param OutputInterface $output The output.
      * @return integer
      * @throws InvalidArgumentException If the input file is not readable or the output file is not writable.
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function runCommand()
     {
-        $outputFile = $input->getOption('output-file');
-        $configFile = $input->getOption('config-file');
-        $idWorkout = $input->getArgument('id-workout');
+        $outputFile = $this->input->getOption('output-file');
+        $configFile = $this->input->getOption('config-file');
+        $idWorkout = $this->input->getArgument('id-workout');
 
         $config = Yaml::parse(file_get_contents($configFile), true);
 
-        $tracker = $this->getTrackerFromCode($input->getArgument('tracker'), $config);
+        $tracker = $this->getTrackerFromCode($this->input->getArgument('tracker'), $config);
 
         $workout = $tracker->downloadWorkout($idWorkout);
 
-        $this->dumpToFile($input, $output, $workout);
-        $output->writeln('<info>Dump successfully finished. Output file: ' . $outputFile . '</info>');
+        $this->dumpToFile($workout);
+        $this->output->writeln('<info>Dump successfully finished. Output file: ' . $outputFile . '</info>');
 
         return 0;
     }
@@ -61,16 +57,14 @@ class Dump extends AbstractCommand
     /**
      * Dump a workout to a file.
      *
-     * @param InputInterface $input The input.
-     * @param OutputInterface $output The output.
      * @param Workout $workout The workout to dump.
      * @return boolean
      * @throws InvalidArgumentException If the input file is not readable or the output file is not writable.
      */
-    private function dumpToFile(InputInterface $input, OutputInterface $output, Workout $workout)
+    private function dumpToFile(Workout $workout)
     {
-        $outputFile = $input->getOption('output-file');
-        $overwriteOutput = $input->getOption('output-overwrite');
+        $outputFile = $this->input->getOption('output-file');
+        $overwriteOutput = $this->input->getOption('output-overwrite');
 
         if (file_exists($outputFile) !== true && is_writable(dirname($outputFile)) !== true) {
             throw new InvalidArgumentException('Directory for output file "' . $outputFile . '" is not writable.');
@@ -78,15 +72,15 @@ class Dump extends AbstractCommand
             /* @var $questionHelper \Symfony\Component\Console\Helper\QuestionHelper */
             $questionHelper = $this->getHelperSet()->get('question');
             $question = new ConfirmationQuestion('The file "<info>' . $outputFile . '</info>" exists. Do you want to overwrite it ? <info>[Y]</info>: ', true);
-            if (!$questionHelper->ask($input, $output, $question)) {
-                $output->writeln('Abort.');
+            if (!$questionHelper->ask($this->input, $this->output, $question)) {
+                $this->output->writeln('Abort.');
                 return 0;
             }
         } elseif ($overwriteOutput === true && file_exists($outputFile) && is_writable($outputFile) !== true) {
             throw new InvalidArgumentException('The output file "' . $outputFile . '" is not writable.');
         }
 
-        $dumper = $this->getDumperFromCode($input->getArgument('output-format'));
+        $dumper = $this->getDumperFromCode($this->input->getArgument('output-format'));
         return $dumper->dumpToFile($workout, $outputFile, $overwriteOutput);
     }
 } 

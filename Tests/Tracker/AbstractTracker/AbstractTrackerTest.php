@@ -4,6 +4,9 @@ namespace FitnessTrackingPorting\Tests\Tracker\AbstractTracker;
 
 use DateTimeZone;
 
+/**
+ * Test for AbstractTracker.
+ */
 class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -34,6 +37,7 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMockBuilder('FitnessTrackingPorting\Tracker\AbstractTracker')
             ->setMethods(array('getTimeZone'))
+            ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $mock->expects($this->any())
             ->method('getTimeZone')

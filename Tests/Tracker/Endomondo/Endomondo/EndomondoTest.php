@@ -21,7 +21,8 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $endomondoAPI = $this->getEndomondoAPIMock(array('postWorkout'));
         $endomondoAPI->expects($this->once())->method('postWorkout')->with($workoutMock)->willReturn($workoutID);
 
-        $endomondo = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'));
+        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $endomondo = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->uploadWorkout($workoutMock);

@@ -2,17 +2,65 @@
 
 namespace FitnessTrackingPorting\Command;
 
-use Symfony\Component\Console\Command\Command;
 use FitnessTrackingPorting\Tracker\TrackerInterface;
-use FitnessTrackingPorting\Workout\Loader\LoaderInterface;
 use FitnessTrackingPorting\Workout\Dumper\DumperInterface;
+use FitnessTrackingPorting\Workout\Loader\LoaderInterface;
 use InvalidArgumentException;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Abstract class for commands.
  */
 abstract class AbstractCommand extends Command
 {
+
+    /**
+     * The console input.
+     *
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
+    protected $input;
+
+    /**
+     * The console output.
+     *
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
+
+    /**
+     * The logger.
+     *
+     * @var \Symfony\Component\Console\Logger\ConsoleLogger
+     */
+    protected $logger;
+
+    /**
+     * Execute the command.
+     *
+     * @param InputInterface $input The input.
+     * @param OutputInterface $output The output.
+     * @return integer
+     * @throws InvalidArgumentException If the input file is not readable or the output file is not writable.
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+        $this->output = $output;
+        $this->logger = new ConsoleLogger($this->output);
+
+        return $this->runCommand();
+    }
+
+    /**
+     * Run the command.
+     *
+     * @return integer
+     */
+    abstract protected function runCommand();
 
     /**
      * Get the tracker from the code.
@@ -41,7 +89,8 @@ abstract class AbstractCommand extends Command
                 throw new InvalidArgumentException('Unknown tracker "' . $code . '".');
         }
 
-        return $class::fromConfig($config[$code]);
+        $tracker = $class::fromConfig($this->logger, $config[$code]);
+        return $tracker;
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
+use DateTime;
 use FitnessTrackingPorting\Tracker\AbstractTracker;
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
-use DateTime;
 use GuzzleHttp\Client;
 
 /**
@@ -41,10 +41,14 @@ class Endomondo extends AbstractTracker
      */
     public function downloadWorkout($idWorkout)
     {
+        $this->logger->debug('Downloading JSON for workout "' . $idWorkout . '"');
+
         $json = $this->getEndomondoAPI()->getWorkout($idWorkout);
 
         $workout = new Workout();
         $track = new Track();
+
+        $this->logger->debug('Writing track points.');
 
         foreach ($json['points'] as $point) {
             $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time'], $this->getTimeZone()));
@@ -64,18 +68,6 @@ class Endomondo extends AbstractTracker
     }
 
     /**
-     * Fetch the HTML page of a workout.
-     *
-     * @param Workout $workout The workout to upload.
-     * @return boolean
-     */
-    public function uploadWorkout(Workout $workout)
-    {
-        $workoutId = $this->getEndomondoAPI()->postWorkout($workout);
-        return $workoutId !== null;
-    }
-
-    /**
      * Get the Endomondo API.
      *
      * @return EndomondoAPI
@@ -88,6 +80,20 @@ class Endomondo extends AbstractTracker
         }
 
         return $this->endomondoAPI;
+    }
+
+    /**
+     * Fetch the HTML page of a workout.
+     *
+     * @param Workout $workout The workout to upload.
+     * @return boolean
+     */
+    public function uploadWorkout(Workout $workout)
+    {
+        $this->logger->debug('Uploading workout.');
+
+        $workoutId = $this->getEndomondoAPI()->postWorkout($workout);
+        return $workoutId !== null;
     }
 
     /**
