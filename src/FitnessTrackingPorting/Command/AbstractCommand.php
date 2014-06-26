@@ -58,6 +58,9 @@ abstract class AbstractCommand extends Command
             case 'gpx':
                 $class = 'FitnessTrackingPorting\Workout\Dumper\GPX';
                 break;
+            case 'json':
+                $class = 'FitnessTrackingPorting\Workout\Dumper\JSON';
+                break;
             default:
                 throw new InvalidArgumentException('Unknown dumper "' . $code . '".');
         }
