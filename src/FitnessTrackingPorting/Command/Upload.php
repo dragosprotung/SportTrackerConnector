@@ -4,7 +4,6 @@ namespace FitnessTrackingPorting\Command;
 
 use FitnessTrackingPorting\Workout\Workout;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Upload a workout file to a tracker.
@@ -32,15 +31,11 @@ class Upload extends AbstractCommand
     protected function runCommand()
     {
         $workoutFile = $this->input->getArgument('workout-file');
-        $configFile = $this->input->getOption('config-file');
-
-        $config = Yaml::parse(file_get_contents($configFile), true);
-
-        $tracker = $this->getTrackerFromCode($this->input->getArgument('tracker'), $config);
 
         $loader = $this->getLoaderFromCode(pathinfo($workoutFile, PATHINFO_EXTENSION));
         $workout = $loader->fromFile($workoutFile);
 
+        $tracker = $this->getTrackerFromCode($this->input->getArgument('tracker'));
         $tracker->uploadWorkout($workout);
 
         $this->output->writeln('<info>Upload successfully done. Workout file: ' . $workoutFile . '</info>');

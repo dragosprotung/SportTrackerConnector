@@ -27,6 +27,6 @@ abstract class AbstractDumper implements DumperInterface
             throw new InvalidArgumentException('The output file "' . $outputFile . '" is not writable.');
         }
 
-        return file_put_contents($outputFile, $this->dumpToString($workout));
+        return file_put_contents($outputFile, $this->dumpToString($workout)) !== false;
     }
 }

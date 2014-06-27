@@ -3,7 +3,6 @@
 namespace FitnessTrackingPorting\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Sync a workout from one tracker to another.
@@ -30,14 +29,10 @@ class UploadSync extends AbstractCommand
      */
     protected function runCommand()
     {
+        $sourceTracker = $this->getTrackerFromCode($this->input->getArgument('source-tracker'));
+        $destinationTracker = $this->getTrackerFromCode($this->input->getArgument('destination-tracker'));
+
         $workoutIds = $this->input->getArgument('workout-id');
-        $configFile = $this->input->getOption('config-file');
-
-        $config = Yaml::parse(file_get_contents($configFile), true);
-
-        $sourceTracker = $this->getTrackerFromCode($this->input->getArgument('source-tracker'), $config);
-        $destinationTracker = $this->getTrackerFromCode($this->input->getArgument('destination-tracker'), $config);
-
         foreach ($workoutIds as $workoutId) {
             $this->output->writeln('Syncing workout ' . $workoutId . '. ');
             $workout = $sourceTracker->downloadWorkout($workoutId);

@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Abstract class for commands.
@@ -75,13 +77,15 @@ abstract class AbstractCommand extends Command
      * Get the tracker from the code.
      *
      * @param string $code The code of the tracker.
-     * @param array $config The full configuration for all trackers.
      * @return TrackerInterface
      * @throws InvalidArgumentException If the configuration is missing for the trackers.
      * @throws InvalidArgumentException If the tracker is unknown.
      */
-    protected function getTrackerFromCode($code, array $config)
+    protected function getTrackerFromCode($code)
     {
+        $configFile = $this->input->getOption('config-file');
+        $config = Yaml::parse(file_get_contents($configFile), true);
+
         if (!isset($config[$code])) {
             throw new InvalidArgumentException('There is no configuration specified for tracker "' . $code . '"');
         }
@@ -98,8 +102,7 @@ abstract class AbstractCommand extends Command
                 throw new InvalidArgumentException('Unknown tracker "' . $code . '".');
         }
 
-        $tracker = $class::fromConfig($this->logger, $config[$code]);
-        return $tracker;
+        return $class::fromConfig($this->logger, $config[$code]);
     }
 
     /**
@@ -145,5 +148,32 @@ abstract class AbstractCommand extends Command
         }
 
         return new $class();
+    }
+
+    /**
+     * Check if a file is writable. If not ask the user if he want to overwrite.
+     *
+     * @param string $file The file to check.
+     * @param boolean $overwriteOutput Flag if the file can be overwritten.
+     * @return string The output file.
+     * @throws \InvalidArgumentException If the file is not writable.
+     */
+    protected function checkWritableFile($file, $overwriteOutput = false)
+    {
+        if (file_exists($file) !== true && is_writable(dirname($file)) !== true) {
+            throw new InvalidArgumentException('Directory for output file "' . $file . '" is not writable.');
+        } elseif (file_exists($file) && $overwriteOutput === false) {
+            /* @var $questionHelper \Symfony\Component\Console\Helper\QuestionHelper */
+            $questionHelper = $this->getHelperSet()->get('question');
+            $question = new ConfirmationQuestion('The file "<info>' . $file . '</info>" exists. Do you want to overwrite it ? <info>[Y]</info>: ', true);
+            if (!$questionHelper->ask($this->input, $this->output, $question)) {
+                $this->output->writeln('Abort.');
+                return null;
+            }
+        } elseif ($overwriteOutput === true && file_exists($file) && is_writable($file) !== true) {
+            throw new InvalidArgumentException('The output file "' . $file . '" is not writable.');
+        }
+
+        return $file;
     }
 } 
