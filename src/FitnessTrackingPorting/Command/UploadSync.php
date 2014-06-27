@@ -3,25 +3,24 @@
 namespace FitnessTrackingPorting\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Sync a workout from one tracker to another.
  */
-class Sync extends AbstractCommand
+class UploadSync extends AbstractCommand
 {
     /**
      * Configures the current command.
      */
     protected function configure()
     {
-        $cwd = getcwd() . DIRECTORY_SEPARATOR;
-        $this->setName('sync')->setDescription('Sync a workout from one tracker to another.')
+        parent::configure();
+        $this->setName('upload:sync')
+            ->setDescription('Upload a workout from one tracker to another.')
             ->addArgument('source-tracker', InputArgument::REQUIRED, 'The tracker where to fetch the workout( ex: polar, endomondo).')
             ->addArgument('destination-tracker', InputArgument::REQUIRED, 'The tracker where to upload the workout (ex: polar, endomondo).')
-            ->addArgument('workout-id', InputArgument::IS_ARRAY, 'An array of workout IDs from PolarFlow to sync.')
-            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', $cwd . 'config.yaml');
+            ->addArgument('workout-id', InputArgument::IS_ARRAY, 'An array of workout IDs from the source tracker to upload to destination tracker.');
     }
 
     /**

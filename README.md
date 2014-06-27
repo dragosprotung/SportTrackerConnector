@@ -30,6 +30,6 @@ You can rename and modify config.example.yaml
 
 Available commands:
 
-* dump     Fetch a workout from a tracker and save it to a file.
-* sync     Sync a workout from one tracker to another.
-* upload   Upload a workout file to a tracker.
+* dump:workout     Fetch a workout from a tracker and save it to a file.
+* upload:sync     Sync a workout from one tracker to another.
+* upload:workout   Upload a workout file to a tracker.

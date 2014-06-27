@@ -4,7 +4,6 @@ namespace FitnessTrackingPorting\Command;
 
 use FitnessTrackingPorting\Workout\Workout;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -19,11 +18,10 @@ class Upload extends AbstractCommand
     protected function configure()
     {
         parent::configure();
-        $cwd = getcwd() . DIRECTORY_SEPARATOR;
-        $this->setName('upload')->setDescription('Upload a workout file to a tracker.')
+        $this->setName('upload:workout')
+            ->setDescription('Upload a workout file to a tracker.')
             ->addArgument('tracker', InputArgument::REQUIRED, 'The tracker to upload (ex: polar, endomondo).')
-            ->addArgument('workout-file', InputArgument::REQUIRED, 'The path to the workout file to upload.')
-            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', $cwd . 'config.yaml');
+            ->addArgument('workout-file', InputArgument::REQUIRED, 'The path to the workout file to upload.');
     }
 
     /**

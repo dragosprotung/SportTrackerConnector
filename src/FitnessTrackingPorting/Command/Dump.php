@@ -21,13 +21,13 @@ class Dump extends AbstractCommand
     {
         parent::configure();
         $cwd = getcwd() . DIRECTORY_SEPARATOR;
-        $this->setName('dump')->setDescription('Fetch a workout from a tracker and save it to a file.')
+        $this->setName('dump:workout')
+            ->setDescription('Fetch a workout from a tracker and save it to a file.')
             ->addArgument('tracker', InputArgument::REQUIRED, 'The tracker to dump from (ex: polar, endomondo).')
             ->addArgument('id-workout', InputArgument::REQUIRED, 'The ID of the workout to dump.')
             ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'gpx')
-            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', $cwd . 'config.yaml')
-            ->addOption('output-file', 'o', InputOption::VALUE_REQUIRED, 'The path to the output GPX file.', $cwd . 'workout.gpx')
-            ->addOption('output-overwrite', 'w', InputOption::VALUE_NONE, 'Flag if the output file should be overwritten if it exists.');
+            ->addOption('output-file', 'f', InputOption::VALUE_REQUIRED, 'The path to the output file.', $cwd . 'workout.gpx')
+            ->addOption('output-overwrite', 'o', InputOption::VALUE_NONE, 'Flag to auto overwrite the file if it already exists.');
     }
 
     /**

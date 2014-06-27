@@ -8,6 +8,7 @@ use FitnessTrackingPorting\Workout\Loader\LoaderInterface;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -37,6 +38,14 @@ abstract class AbstractCommand extends Command
      * @var \Symfony\Component\Console\Logger\ConsoleLogger
      */
     protected $logger;
+
+    /**
+     * Configures the current command.
+     */
+    protected function configure()
+    {
+        $this->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', getcwd() . DIRECTORY_SEPARATOR . 'config.yaml');
+    }
 
     /**
      * Execute the command.
