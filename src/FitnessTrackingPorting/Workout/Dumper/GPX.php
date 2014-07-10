@@ -109,13 +109,13 @@ class GPX extends AbstractDumper
     {
         $XMLWriter->startElement('extensions');
         foreach ($extensions as $extension) {
-            $XMLWriter->startElementNs('gpxtpx', 'TrackPointExtension', null);
-            switch ($extension::ID) {
+            switch ($extension->getID()) {
                 case HR::ID:
+                    $XMLWriter->startElementNs('gpxtpx', 'TrackPointExtension', null);
                     $XMLWriter->writeElementNs('gpxtpx', 'hr', null, $extension->getValue());
+                    $XMLWriter->endElement();
                     break;
             }
-            $XMLWriter->endElement();
         }
         $XMLWriter->endElement();
     }

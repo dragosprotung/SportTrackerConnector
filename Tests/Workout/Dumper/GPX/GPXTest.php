@@ -2,15 +2,18 @@
 
 namespace FitnessTrackingPorting\Tests\Workout\Dumper\GPX;
 
+use DateTime;
 use FitnessTrackingPorting\Workout\Dumper\GPX;
-use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Author;
+use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Author;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
-use DateTime;
+use FitnessTrackingPorting\Workout\Workout;
 
+/**
+ * Test the GPX dumper.
+ */
 class GPXTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -71,6 +74,30 @@ class GPXTest extends \PHPUnit_Framework_TestCase
         $actual = $gpx->dumpToString($workout);
 
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpToStringMultiTrack.gpx', $actual);
+    }
+
+    /**
+     * Test dump unknown extensions throws no error.
+     */
+    public function testDumpUnknownExtensionsThrowsNoError()
+    {
+        $workout = new Workout();
+        $trackPoint = $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78);
+        $genericExtensions = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Workout\Extension\AbstractExtension');
+        $trackPoint->addExtension($genericExtensions);
+        $workout->addTrack(
+            new Track(
+                array(
+                    $trackPoint
+                ),
+                SportMapperInterface::RUNNING
+            )
+        );
+
+        $gpx = new GPX();
+        $actual = $gpx->dumpToString($workout);
+
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Expected/testDumpUnknownExtensionsThrowsNoError.gpx', $actual);
     }
 
     /**

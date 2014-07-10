@@ -5,7 +5,7 @@ namespace FitnessTrackingPorting\Workout\Workout\Extension;
 /**
  * Abstract extension.
  */
-class AbstractExtension implements ExtensionInterface
+abstract class AbstractExtension implements ExtensionInterface
 {
 
     const ID = 'GenericExtension';
