@@ -1,6 +1,6 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Tracker\Endomondo\Endomondo;
+namespace SportTrackerConnector\Tests\Tracker\Endomondo\Endomondo;
 
 use GuzzleHttp\Client;
 
@@ -15,14 +15,14 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadWorkout()
     {
-        $workoutMock = $this->getMock('FitnessTrackingPorting\Workout\Workout');
+        $workoutMock = $this->getMock('SportTrackerConnector\Workout\Workout');
         $workoutID = 123;
 
         $endomondoAPI = $this->getEndomondoAPIMock(array('postWorkout'));
         $endomondoAPI->expects($this->once())->method('postWorkout')->with($workoutMock)->willReturn($workoutID);
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->uploadWorkout($workoutMock);
@@ -38,8 +38,8 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     private function getEndomondoAPIMock($mockMethods = array())
     {
         $client = new Client();
-        $sportMapper = $this->getMock('FitnessTrackingPorting\Workout\Workout\SportMapperInterface');
-        $endomondoAPI = $this->getMock('FitnessTrackingPorting\Tracker\Endomondo\EndomondoAPI', $mockMethods, array($client, null, null, $sportMapper));
+        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $endomondoAPI = $this->getMock('SportTrackerConnector\Tracker\Endomondo\EndomondoAPI', $mockMethods, array($client, null, null, $sportMapper));
 
         return $endomondoAPI;
     }

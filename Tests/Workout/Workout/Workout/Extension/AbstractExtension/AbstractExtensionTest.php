@@ -1,9 +1,9 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Extension\AbstractExtension;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Extension\AbstractExtension;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Workout\Extension\AbstractExtension.
+ * Test for \SportTrackerConnector\Workout\Workout\Extension\AbstractExtension.
  */
 class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGetValue($value)
     {
-        $mock = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Workout\Extension\AbstractExtension');
+        $mock = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Workout\Extension\AbstractExtension');
         $mock->setValue($value);
 
         $this->assertSame($value, $mock->getValue());

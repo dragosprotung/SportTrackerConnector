@@ -1,6 +1,6 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Tracker\AbstractTracker;
+namespace SportTrackerConnector\Tests\Tracker\AbstractTracker;
 
 use DateTimeZone;
 
@@ -35,7 +35,7 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTimeZoneOffset($originTimeZone, $expected)
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Tracker\AbstractTracker')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Tracker\AbstractTracker')
             ->setMethods(array('getTimeZone'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();

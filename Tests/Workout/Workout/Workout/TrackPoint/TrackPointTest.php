@@ -1,10 +1,13 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Workout;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
 
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
 use DateTime;
 
+/**
+ * Test for a workout track point.
+ */
 class TrackPointTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -190,7 +193,7 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
      */
     private function getExtensionMock($id)
     {
-        $extensionMock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\Extension\ExtensionInterface')
+        $extensionMock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface')
             ->setMethods(array('getID'))
             ->getMockForAbstractClass();
 

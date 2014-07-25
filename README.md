@@ -1,25 +1,25 @@
-# Fitness Tracking Porting
+# Sport Tracker Connector
 
 ## Overview
 
-A set of tools to dump / upload / port workouts from / to online fitness trackers (ex: endomondo.com, flow.polar.com).
+A set of tools to dump / upload / port workouts from / to online sport trackers (ex: endomondo.com, flow.polar.com).
 
 I create it as i wanted to import all my workouts from flow.polar.com to endomondo.com.
-It is extensible enough to support other online fitness trackers, but for the moment only polar & endomondo are supported.
+It is extensible enough to support other online sport trackers, but for the moment only polar & endomondo are supported.
 
 
-[![Build Status](https://travis-ci.org/dragosprotung/FitnessTrackingPorting.svg?branch=master)](https://travis-ci.org/dragosprotung/FitnessTrackingPorting)
-[![Latest Stable Version](https://poser.pugx.org/dragosprotung/fitness-tracker-porting/v/stable.svg)](https://packagist.org/packages/dragosprotung/fitness-tracker-porting)
+[![Build Status](https://travis-ci.org/dragosprotung/SportTrackerConnector.svg?branch=master)](https://travis-ci.org/dragosprotung/SportTrackerConnector)
+[![Latest Stable Version](https://poser.pugx.org/dragosprotung/sport-tracker-connector/v/stable.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
 [![Dependency Status](https://www.versioneye.com/user/projects/53ab5b00d043f9c171000074/badge.svg?style=flat)](https://www.versioneye.com/user/projects/53ab5b00d043f9c171000074)
-[![License](https://poser.pugx.org/dragosprotung/fitness-tracker-porting/license.svg)](https://packagist.org/packages/dragosprotung/fitness-tracker-porting)
-[![Total Downloads](https://poser.pugx.org/dragosprotung/fitness-tracker-porting/downloads.svg)](https://packagist.org/packages/dragosprotung/fitness-tracker-porting)
+[![License](https://poser.pugx.org/dragosprotung/sport-tracker-connector/license.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
+[![Total Downloads](https://poser.pugx.org/dragosprotung/sport-tracker-connector/downloads.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
 
 ## Installing
 
 Install PHP 5.4 or newer and composer.
 
 ```bash
-git clone https://github.com/dragosprotung/FitnessTrackingPorting.git
+git clone https://github.com/dragosprotung/SportTrackerConnector.git
 composer.phar install
 ```
 

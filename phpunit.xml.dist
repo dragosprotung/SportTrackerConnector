@@ -7,7 +7,7 @@
          bootstrap="vendor/autoload.php"
         >
     <testsuites>
-        <testsuite name="Fitness Tracking Porting Test Suite">
+        <testsuite name="Sport Tracker Connector Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>

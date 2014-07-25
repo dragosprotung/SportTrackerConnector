@@ -1,14 +1,14 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Loader\GPX;
+namespace SportTrackerConnector\Tests\Workout\Loader\GPX;
 
-use FitnessTrackingPorting\Workout\Loader\GPX;
-use FitnessTrackingPorting\Workout\Workout;
-use FitnessTrackingPorting\Workout\Workout\Track;
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
-use FitnessTrackingPorting\Workout\Workout\Author;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Loader\GPX;
+use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Workout\Workout\Track;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Workout\Workout\Author;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
 use DateTime;
 
 class GPXTest extends \PHPUnit_Framework_TestCase

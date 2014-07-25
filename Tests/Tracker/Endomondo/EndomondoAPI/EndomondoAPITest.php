@@ -1,9 +1,9 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Tracker\Endomondo\EndomondoAPI;
+namespace SportTrackerConnector\Tests\Tracker\Endomondo\EndomondoAPI;
 
-use FitnessTrackingPorting\Tracker\Endomondo\EndomondoAPI;
-use FitnessTrackingPorting\Tracker\Endomondo\Sport;
+use SportTrackerConnector\Tracker\Endomondo\EndomondoAPI;
+use SportTrackerConnector\Tracker\Endomondo\Sport;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
 
@@ -67,12 +67,12 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track');
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
         $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
         $track->expects($this->once())->method('getDuration')->will($this->returnValue(new \DateInterval('PT1H5M20S')));
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(150)));
 
-        $workout = $this->getMock('FitnessTrackingPorting\Workout\Workout');
+        $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
 
         $post = $endomondo->postWorkout($workout);
@@ -83,7 +83,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
      * Get a number of track point mocks.
      *
      * @param integer $number Number of mocks to get.
-     * @return \FitnessTrackingPorting\Workout\Workout\TrackPoint[]
+     * @return \SportTrackerConnector\Workout\Workout\TrackPoint[]
      */
     private function getTrackPointMocks($number)
     {
@@ -98,11 +98,11 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     /**
      * Get a track point mock.
      *
-     * @return \FitnessTrackingPorting\Workout\Workout\TrackPoint
+     * @return \SportTrackerConnector\Workout\Workout\TrackPoint
      */
     private function getTrackPointMock()
     {
-        $trackPointMock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\TrackPoint')
+        $trackPointMock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\TrackPoint')
             ->disableOriginalConstructor()
             ->getMock();
         $trackPointMock->expects($this->once())->method('getDateTime')->will($this->returnValue(new \DateTime()));
@@ -123,7 +123,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     private function getEndomondoMock(array $responses, $token = '123456')
     {
         $client = $this->getClientMock($responses);
-        $sportMapper = $this->getMock('FitnessTrackingPorting\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
 
         $endomondo = new EndomondoAPI($client, 'email', 'test', $sportMapper);
         $endomondo->setAuthToken($token);

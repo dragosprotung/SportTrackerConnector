@@ -1,11 +1,11 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Dumper\AbstractDumper;
+namespace SportTrackerConnector\Tests\Workout\Dumper\AbstractDumper;
 
 use org\bovigo\vfs\vfsStream;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Dumper\AbstractDumper.
+ * Test for \SportTrackerConnector\Workout\Dumper\AbstractDumper.
  */
 class AbstractDumperTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,12 +30,12 @@ class AbstractDumperTest extends \PHPUnit_Framework_TestCase
      */
     public function testDumpToFileThrowsExceptionIfFileDoesNotExistAndTheDirectoryIsNotWritable()
     {
-        $mock = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Dumper\AbstractDumper');
+        $mock = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Dumper\AbstractDumper');
 
         $this->root->chmod(000);
         $file = vfsStream::url('root/workout.tst');
 
-        $workoutMock = $this->getMock('FitnessTrackingPorting\Workout\Workout');
+        $workoutMock = $this->getMock('SportTrackerConnector\Workout\Workout');
 
         $this->setExpectedException('InvalidArgumentException', 'Directory for output file "vfs://root/workout.tst" is not writable.');
 
@@ -47,13 +47,13 @@ class AbstractDumperTest extends \PHPUnit_Framework_TestCase
      */
     public function testDumpToFileThrowsExceptionIfFileIsNotWritable()
     {
-        $mock = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Dumper\AbstractDumper');
+        $mock = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Dumper\AbstractDumper');
 
         $file = vfsStream::url('root/workout.tst');
         touch($file);
         chmod($file, 000);
 
-        $workoutMock = $this->getMock('FitnessTrackingPorting\Workout\Workout');
+        $workoutMock = $this->getMock('SportTrackerConnector\Workout\Workout');
 
         $this->setExpectedException('InvalidArgumentException', 'The output file "vfs://root/workout.tst" is not writable.');
 
@@ -65,11 +65,11 @@ class AbstractDumperTest extends \PHPUnit_Framework_TestCase
      */
     public function testDumpToFileCallsDumpToString()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Dumper\AbstractDumper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Dumper\AbstractDumper')
             ->setMethods(array('dumpToString'))
             ->getMockForAbstractClass();
 
-        $workoutMock = $this->getMock('FitnessTrackingPorting\Workout\Workout');
+        $workoutMock = $this->getMock('SportTrackerConnector\Workout\Workout');
         $fileMock = vfsStream::url('root/workout.tst');
 
         $mock->expects($this->once())->method('dumpToString')->with($workoutMock)->will($this->returnValue('dumped content'));

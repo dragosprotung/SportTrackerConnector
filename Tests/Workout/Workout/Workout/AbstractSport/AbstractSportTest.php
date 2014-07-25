@@ -1,11 +1,11 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\AbstractSport;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\AbstractSport;
 
-use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Workout\AbstractSport.
+ * Test for \SportTrackerConnector\Workout\Workout\AbstractSport.
  */
 class AbstractSportTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSportFromCodeReturnsCorrectSport()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\AbstractSportMapper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\AbstractSportMapper')
             ->setMethods(array('getMap'))
             ->getMockForAbstractClass();
         $mock->expects($this->once())->method('getMap')->willReturn(
@@ -30,7 +30,7 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSportFromCodeReturnsOtherSportIfCodeNotDefined()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\AbstractSportMapper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\AbstractSportMapper')
             ->setMethods(array('getMap'))
             ->getMockForAbstractClass();
         $mock->expects($this->once())->method('getMap')->willReturn(array());
@@ -43,7 +43,7 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCodeFromSportReturnsNULLIfSportIsNotAssociated()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\AbstractSportMapper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\AbstractSportMapper')
             ->setMethods(array('getMap'))
             ->getMockForAbstractClass();
         $mock->expects($this->once())->method('getMap')->willReturn(array());
@@ -56,7 +56,7 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCodeFromSportReturnsOtherSportIfOriginalSportNotDefinedButOtherIsDefined()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\AbstractSportMapper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\AbstractSportMapper')
             ->setMethods(array('getMap'))
             ->getMockForAbstractClass();
         $mock->expects($this->once())->method('getMap')->willReturn(
@@ -71,7 +71,7 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCodeFromSportReturnsCorrectSport()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Workout\AbstractSportMapper')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\AbstractSportMapper')
             ->setMethods(array('getMap'))
             ->getMockForAbstractClass();
         $mock->expects($this->once())->method('getMap')->willReturn(

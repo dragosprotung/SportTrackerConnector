@@ -1,15 +1,15 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Dumper\GPX;
+namespace SportTrackerConnector\Tests\Workout\Dumper\GPX;
 
 use DateTime;
-use FitnessTrackingPorting\Workout\Dumper\GPX;
-use FitnessTrackingPorting\Workout\Workout\Author;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
-use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
-use FitnessTrackingPorting\Workout\Workout\Track;
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout;
+use SportTrackerConnector\Workout\Dumper\GPX;
+use SportTrackerConnector\Workout\Workout\Author;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Workout\Workout\Track;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Test the GPX dumper.
@@ -83,7 +83,7 @@ class GPXTest extends \PHPUnit_Framework_TestCase
     {
         $workout = new Workout();
         $trackPoint = $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78);
-        $genericExtensions = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Workout\Extension\AbstractExtension');
+        $genericExtensions = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Workout\Extension\AbstractExtension');
         $trackPoint->addExtension($genericExtensions);
         $workout->addTrack(
             new Track(

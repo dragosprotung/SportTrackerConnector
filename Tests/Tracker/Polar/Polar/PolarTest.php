@@ -1,14 +1,14 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Tracker\Polar\Polar;
+namespace SportTrackerConnector\Tests\Tracker\Polar\Polar;
 
 use DateTimeZone;
 use DateTime;
-use FitnessTrackingPorting\Workout\Workout;
-use FitnessTrackingPorting\Workout\Workout\Track;
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Workout\Workout\Track;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
 
 /**
  * Test the Polar tracker.
@@ -23,7 +23,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
     {
         $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
 
-        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
         $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
 
         $expected = new Workout();
@@ -51,7 +51,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
     {
         $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
 
-        $polarMock = $this->getMock('FitnessTrackingPorting\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
         $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
 
         $expected = new Workout();

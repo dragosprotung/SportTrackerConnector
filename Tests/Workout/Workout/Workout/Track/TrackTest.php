@@ -1,8 +1,8 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Workout;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
 
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
 use DateTime;
 use DateInterval;
 
@@ -14,7 +14,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStartDateTimeCallsRecomputeIfDateTimeNotSet()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('recomputeStartDateTime'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('recomputeStartDateTime'));
         $track->expects($this->once())->method('recomputeStartDateTime');
 
         $track->getStartDateTime();
@@ -25,7 +25,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEndDateTimeCallsRecomputeIfDateTimeNotSet()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('recomputeEndDateTime'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('recomputeEndDateTime'));
         $track->expects($this->once())->method('recomputeEndDateTime');
 
         $track->getEndDateTime();
@@ -36,7 +36,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLengthCallsRecomputeIfLengthIsNotSet()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('recomputeLength'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('recomputeLength'));
         $track->expects($this->once())->method('recomputeLength');
 
         $track->getLength();
@@ -47,7 +47,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecomputeStartDateTime()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('getTrackPoints'));
         $trackPoints = array(
             $this->getTrackPointMock(null, null, 'now'),
             $this->getTrackPointMock(null, null, '-1 hour'),
@@ -67,7 +67,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecomputeEndDateTime()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('getTrackPoints'));
         $trackPoints = array(
             $this->getTrackPointMock(null, null, 'now'),
             $this->getTrackPointMock(null, null, '-1 hour'),
@@ -87,7 +87,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDuration()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getStartDateTime', 'getEndDateTime'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('getStartDateTime', 'getEndDateTime'));
         $startDateTime = new DateTime('now');
         $endDateTime = new DateTime('+1 hour +5 minutes +20 seconds');
         $track->expects($this->once())->method('getStartDateTime')->will($this->returnValue($startDateTime));
@@ -105,7 +105,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecomputeLength()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('getTrackPoints'));
         $trackPoints = array(
             $this->getTrackPointMock('-38.691450', '176.079795'),
             $this->getTrackPointMock('-38.719038', '176.081491'),
@@ -125,7 +125,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecomputeLengthReturnsZeroIfLessThankTwoPoints()
     {
-        $track = $this->getMock('FitnessTrackingPorting\Workout\Workout\Track', array('getTrackPoints'));
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track', array('getTrackPoints'));
         $track->setLength(100);
         $trackPoints = array(
             $this->getTrackPointMock(null, null, 'now')

@@ -1,11 +1,11 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Extension\HR;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Extension\HR;
 
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Workout\Extension\HR.
+ * Test for \SportTrackerConnector\Workout\Workout\Extension\HR.
  */
 class HRTest extends \PHPUnit_Framework_TestCase
 {

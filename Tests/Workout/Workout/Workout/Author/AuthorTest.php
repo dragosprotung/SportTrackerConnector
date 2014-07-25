@@ -1,11 +1,11 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Author;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Author;
 
-use FitnessTrackingPorting\Workout\Workout\Author;
+use SportTrackerConnector\Workout\Workout\Author;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Workout\Author.
+ * Test for \SportTrackerConnector\Workout\Workout\Author.
  */
 class AuthorTest extends \PHPUnit_Framework_TestCase
 {

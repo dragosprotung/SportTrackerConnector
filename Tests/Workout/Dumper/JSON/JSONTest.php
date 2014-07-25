@@ -1,14 +1,14 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Dumper\JSON;
+namespace SportTrackerConnector\Tests\Workout\Dumper\JSON;
 
-use FitnessTrackingPorting\Workout\Dumper\JSON;
-use FitnessTrackingPorting\Workout\Workout;
-use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
-use FitnessTrackingPorting\Workout\Workout\Track;
-use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Author;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Dumper\JSON;
+use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Workout\Workout\Track;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout\Author;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
 use DateTime;
 
 /**

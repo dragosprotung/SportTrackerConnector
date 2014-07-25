@@ -1,11 +1,11 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Loader\AbstractLoader;
+namespace SportTrackerConnector\Tests\Workout\Loader\AbstractLoader;
 
 use org\bovigo\vfs\vfsStream;
 
 /**
- * Test for \FitnessTrackingPorting\Workout\Loader\AbstractLoader
+ * Test for \SportTrackerConnector\Workout\Loader\AbstractLoader
  */
 class AbstractLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class AbstractLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadFromFileThrowsExceptionIfFileDoesNotExists()
     {
-        $mock = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Loader\AbstractLoader');
+        $mock = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Loader\AbstractLoader');
 
         $file = vfsStream::url('root/workout.tst');
 
@@ -44,7 +44,7 @@ class AbstractLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadFromFileThrowsExceptionIfFileDoesExistsButIsNotReadable()
     {
-        $mock = $this->getMockForAbstractClass('FitnessTrackingPorting\Workout\Loader\AbstractLoader');
+        $mock = $this->getMockForAbstractClass('SportTrackerConnector\Workout\Loader\AbstractLoader');
 
         $file = vfsStream::url('root/workout.tst');
         touch($file);
@@ -60,7 +60,7 @@ class AbstractLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testDumpToFileCallsDumpToString()
     {
-        $mock = $this->getMockBuilder('FitnessTrackingPorting\Workout\Loader\AbstractLoader')
+        $mock = $this->getMockBuilder('SportTrackerConnector\Workout\Loader\AbstractLoader')
             ->setMethods(array('fromString'))
             ->getMockForAbstractClass();
 

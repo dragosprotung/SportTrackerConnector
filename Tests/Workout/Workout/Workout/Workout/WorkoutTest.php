@@ -1,9 +1,9 @@
 <?php
 
-namespace FitnessTrackingPorting\Tests\Workout\Workout\Workout\Workout;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
 
-use FitnessTrackingPorting\Workout\Workout;
-use FitnessTrackingPorting\Workout\Workout\Author;
+use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Workout\Workout\Author;
 
 class WorkoutTest extends \PHPUnit_Framework_TestCase
 {
