@@ -2,6 +2,7 @@
 
 namespace FitnessTrackingPorting\Tracker;
 
+use DateTime;
 use DateTimeZone;
 use FitnessTrackingPorting\Workout\Workout;
 use Psr\Log\LoggerInterface;
@@ -41,6 +42,15 @@ interface TrackerInterface
      * @return DateTimeZone
      */
     public function getTimeZone();
+
+    /**
+     * Get a list of workouts.
+     *
+     * @param DateTime $startDate The start date for the workouts.
+     * @param DateTime $endDate The end date for the workouts.
+     * @return \FitnessTrackingPorting\Tracker\TrackerListWorkoutsResult[]
+     */
+    public function listWorkouts(DateTime $startDate, DateTime $endDate);
 
     /**
      * Upload a workout.

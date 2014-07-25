@@ -3,6 +3,7 @@
 namespace FitnessTrackingPorting;
 
 use FitnessTrackingPorting\Command\Dump;
+use FitnessTrackingPorting\Command\DumpMulti;
 use FitnessTrackingPorting\Command\Upload;
 use FitnessTrackingPorting\Command\UploadSync;
 use Symfony\Component\Console\Application;
@@ -23,5 +24,6 @@ class ConsoleApplication extends Application
         $this->add(new Upload());
         $this->add(new UploadSync());
         $this->add(new Dump());
+        $this->add(new DumpMulti());
     }
 } 

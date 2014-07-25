@@ -2,15 +2,15 @@
 
 namespace FitnessTrackingPorting\Tracker\Polar;
 
+use BadMethodCallException;
+use DateTime;
 use FitnessTrackingPorting\Tracker\AbstractTracker;
+use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
-use DateTime;
 use GuzzleHttp\Client;
 use RuntimeException;
-use BadMethodCallException;
 
 /**
  * Polar Flow tracker.
@@ -35,6 +35,19 @@ class Polar extends AbstractTracker
     }
 
     /**
+     * Get a list of workouts.
+     *
+     * @param DateTime $startDate The start date for the workouts.
+     * @param DateTime $endDate The end date for the workouts.
+     * @return \FitnessTrackingPorting\Tracker\TrackerListWorkoutsResult[]
+     * @throws BadMethodCallException Functionality yet not supported.
+     */
+    public function listWorkouts(DateTime $startDate, DateTime $endDate)
+    {
+        throw new BadMethodCallException('Polar Flow does not support workout listing.');
+    }
+
+    /**
      * Download a workout.
      *
      * @param integer $idWorkout The ID of the workout to download.
@@ -46,6 +59,34 @@ class Polar extends AbstractTracker
 
         $html = $this->fetchWorkoutHTML($idWorkout);
         return $this->fetchWorkoutFromHTML($html);
+    }
+
+    /**
+     * Fetch the HTML page of a workout.
+     *
+     * @param integer $idWorkout The ID of the workout.
+     * @return string
+     * @throws RuntimeException If the login fails.
+     */
+    protected function fetchWorkoutHTML($idWorkout)
+    {
+        $this->logger->debug('Logging into polar.');
+
+        $client = new Client();
+        $client->post(
+            self::POLAR_FLOW_URL_LOGIN,
+            array(
+                'body' => array('email' => $this->username, 'password' => $this->password),
+                'cookies' => true
+            )
+        );
+
+        $this->logger->debug('Fetching the workout HTML page.');
+
+        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
+        $response = $client->get($workoutURL, ['cookies' => true]);
+
+        return (string)$response->getBody();
     }
 
     /**
@@ -91,43 +132,18 @@ class Polar extends AbstractTracker
     }
 
     /**
-     * Upload a workout.
+     * Extract the track data from HTML.
      *
-     * @param Workout $workout The workout to upload.
-     * @return boolean
-     * @throws BadMethodCallException Functionality not supported.
+     * @param string $html The HTML to parse.
+     * @return array
+     * @throws RuntimeException If the JSON can not be parsed.
      */
-    public function uploadWorkout(Workout $workout)
+    private function parseExerciseFromHTMLToJSON($html)
     {
-        throw new BadMethodCallException('Polar Flow does not support workout upload.');
-    }
+        $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
+        preg_match($pattern, $html, $matches);
 
-    /**
-     * Fetch the HTML page of a workout.
-     *
-     * @param integer $idWorkout The ID of the workout.
-     * @return string
-     * @throws RuntimeException If the login fails.
-     */
-    protected function fetchWorkoutHTML($idWorkout)
-    {
-        $this->logger->debug('Logging into polar.');
-
-        $client = new Client();
-        $client->post(
-            self::POLAR_FLOW_URL_LOGIN,
-            array(
-                'body' => array('email' => $this->username, 'password' => $this->password),
-                'cookies' => true
-            )
-        );
-
-        $this->logger->debug('Fetching the workout HTML page.');
-
-        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
-        $response = $client->get($workoutURL, ['cookies' => true]);
-
-        return (string)$response->getBody();
+        return \GuzzleHttp\json_decode($matches[1]);
     }
 
     /**
@@ -156,18 +172,15 @@ class Polar extends AbstractTracker
     }
 
     /**
-     * Extract the track data from HTML.
+     * Upload a workout.
      *
-     * @param string $html The HTML to parse.
-     * @return array
-     * @throws RuntimeException If the JSON can not be parsed.
+     * @param Workout $workout The workout to upload.
+     * @return boolean
+     * @throws BadMethodCallException Functionality not supported.
      */
-    private function parseExerciseFromHTMLToJSON($html)
+    public function uploadWorkout(Workout $workout)
     {
-        $pattern = '/var mapSection = new MapSection\((.*)\,(.*)publicExercise\);/s';
-        preg_match($pattern, $html, $matches);
-
-        return \GuzzleHttp\json_decode($matches[1]);
+        throw new BadMethodCallException('Polar Flow does not support workout upload.');
     }
 
     /**

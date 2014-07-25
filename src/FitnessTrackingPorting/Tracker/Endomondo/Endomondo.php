@@ -4,6 +4,7 @@ namespace FitnessTrackingPorting\Tracker\Endomondo;
 
 use DateTime;
 use FitnessTrackingPorting\Tracker\AbstractTracker;
+use FitnessTrackingPorting\Tracker\TrackerListWorkoutsResult;
 use FitnessTrackingPorting\Workout\Workout;
 use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use FitnessTrackingPorting\Workout\Workout\Track;
@@ -34,37 +35,27 @@ class Endomondo extends AbstractTracker
     }
 
     /**
-     * Download a workout.
+     * Get a list of workouts.
      *
-     * @param integer $idWorkout The ID of the workout to download.
-     * @return Workout
+     * @param DateTime $startDate The start date for the workouts.
+     * @param DateTime $endDate The end date for the workouts.
+     * @return \FitnessTrackingPorting\Tracker\TrackerListWorkoutsResult[]
      */
-    public function downloadWorkout($idWorkout)
+    public function listWorkouts(DateTime $startDate, DateTime $endDate)
     {
-        $this->logger->debug('Downloading JSON for workout "' . $idWorkout . '"');
-
-        $json = $this->getEndomondoAPI()->getWorkout($idWorkout);
-
-        $workout = new Workout();
-        $track = new Track();
-
-        $this->logger->debug('Writing track points.');
-
-        foreach ($json['points'] as $point) {
-            $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time'], $this->getTimeZone()));
-            if (isset($point['alt'])) {
-                $trackPoint->setElevation($point['alt']);
-            }
-            if (isset($point['hr'])) {
-                $trackPoint->addExtension(new HR($point['hr']));
-            }
-
-            $track->addTrackPoint($trackPoint);
+        $list = array();
+        $this->logger->debug('Downloading JSON of workouts.');
+        $data = $this->getEndomondoAPI()->listWorkouts($startDate, $endDate);
+        $this->logger->debug('Parsing data.');
+        foreach ($data['data'] as $workout) {
+            $list[] = new TrackerListWorkoutsResult(
+                $workout['id'],
+                $this->getSportMapper()->getSportFromCode($workout['sport']),
+                DateTime::createFromFormat('Y-m-d H:i:s \U\T\C', $workout['start_time'])
+            );
         }
 
-        $workout->addTrack($track);
-
-        return $workout;
+        return $list;
     }
 
     /**
@@ -80,6 +71,44 @@ class Endomondo extends AbstractTracker
         }
 
         return $this->endomondoAPI;
+    }
+
+    /**
+     * Download a workout.
+     *
+     * @param integer $idWorkout The ID of the workout to download.
+     * @return Workout
+     */
+    public function downloadWorkout($idWorkout)
+    {
+        $this->logger->debug('Downloading JSON for workout "' . $idWorkout . '"');
+
+        $json = $this->getEndomondoAPI()->getWorkout($idWorkout);
+
+        $workout = new Workout();
+        $track = new Track();
+
+        if (isset($json['points'])) {
+            $this->logger->debug('Writing track points.');
+
+            foreach ($json['points'] as $point) {
+                $trackPoint = new TrackPoint($point['lat'], $point['lng'], new DateTime($point['time'], $this->getTimeZone()));
+                if (isset($point['alt'])) {
+                    $trackPoint->setElevation($point['alt']);
+                }
+                if (isset($point['hr'])) {
+                    $trackPoint->addExtension(new HR($point['hr']));
+                }
+
+                $track->addTrackPoint($trackPoint);
+            }
+        } else {
+            $this->logger->warning('No track points found for workout "' . $idWorkout . '".');
+        }
+
+        $workout->addTrack($track);
+
+        return $workout;
     }
 
     /**

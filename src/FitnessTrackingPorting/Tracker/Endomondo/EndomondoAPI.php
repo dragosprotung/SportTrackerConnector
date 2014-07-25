@@ -2,14 +2,15 @@
 
 namespace FitnessTrackingPorting\Tracker\Endomondo;
 
+use DateInterval;
+use DateTime;
 use FitnessTrackingPorting\Workout\Workout;
+use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use FitnessTrackingPorting\Workout\Workout\SportMapperInterface;
 use FitnessTrackingPorting\Workout\Workout\Track;
 use FitnessTrackingPorting\Workout\Workout\TrackPoint;
-use FitnessTrackingPorting\Workout\Workout\Extension\HR;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
-use DateInterval;
 use RuntimeException;
 
 /**
@@ -27,14 +28,6 @@ class EndomondoAPI
     const URL_FRIENDS = 'https://api.mobile.endomondo.com/mobile/friends';
 
     const UUID = '27132407-5b55-5863-b150-7925b8d092a2';
-
-    /**
-     * The HTTP client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $httpClient;
-
     /**
      * Endomondo auth token.
      *
@@ -71,6 +64,20 @@ class EndomondoAPI
     protected $sportMapper;
 
     /**
+     * The request user  agent to use.
+     *
+     * @var string
+     */
+    private $requestUserAgent = 'com.endomondo.android.pro/10.2.7 (Linux; U; Android 4.4.4; en-us; Nexus 4 Build/KTU84P; google) 768X1184 LGE Nexus 4';
+
+    /**
+     * The HTTP client.
+     *
+     * @var \GuzzleHttp\Client
+     */
+    private $httpClient;
+
+    /**
      * Constructor.
      *
      * @param Client $client The HTTP client.
@@ -84,6 +91,76 @@ class EndomondoAPI
         $this->username = $username;
         $this->password = $password;
         $this->sportMapper = $sportMapper;
+    }
+
+    /**
+     * Get the details of a workout.
+     *
+     * Possible fields when getting the workout: device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures.
+     *
+     * @param integer $idWorkout The ID of the workout.
+     * @return array
+     * @throws \RuntimeException If the workout can not be fetched.
+     */
+    public function getWorkout($idWorkout)
+    {
+        $url = $this->buildGETUrl(
+            self::URL_WORKOUT_GET,
+            array(
+                'authToken' => $this->getAuthToken(),
+                'fields' => 'device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures',
+                'workoutId' => $idWorkout
+            )
+        );
+
+        $response = $this->httpClient->get($url);
+
+        if ($response->getStatusCode() == 200) {
+            return $response->json();
+        } else {
+            throw new RuntimeException('Could not get workout "' . $idWorkout . '".');
+        }
+    }
+
+    /**
+     * Build an URL.
+     *
+     * @param string $baseUrl The base URL.
+     * @param array $parameters Parameters for the URL.
+     * @return string
+     */
+    private function buildGETUrl($baseUrl, array $parameters)
+    {
+        $query = new Query();
+        foreach ($parameters as $key => $value) {
+            $query->add($key, $value);
+        }
+
+        return $baseUrl . '?' . (string)$query;
+    }
+
+    /**
+     * Get the auth token.
+     *
+     * @return string
+     */
+    public function getAuthToken()
+    {
+        if ($this->authToken == null) {
+            $this->fetchAuthenticationToken();
+        }
+
+        return $this->authToken;
+    }
+
+    /**
+     * If you already have a token set it here to skip over the authentication.
+     *
+     * @param string $token The token.
+     */
+    public function setAuthToken($token)
+    {
+        $this->authToken = $token;
     }
 
     /**
@@ -127,46 +204,23 @@ class EndomondoAPI
     }
 
     /**
-     * If you already have a token set it here to skip over the authentication.
+     * Get a list of workouts in a date interval.
      *
-     * @param string $token The token.
-     */
-    public function setAuthToken($token)
-    {
-        $this->authToken = $token;
-    }
-
-    /**
-     * Get the auth token.
-     *
-     * @return string
-     */
-    public function getAuthToken()
-    {
-        if ($this->authToken == null) {
-            $this->fetchAuthenticationToken();
-        }
-
-        return $this->authToken;
-    }
-
-    /**
-     * Get the details of a workout.
-     *
-     * Possible fields when getting the workout: device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures.
-     *
-     * @param integer $idWorkout The ID of the workout.
+     * @param DateTime $startDate The start date for the workouts.
+     * @param DateTime $endDate The end date for the workouts.
      * @return array
-     * @throws \RuntimeException If the workout can not be fetched.
+     * @throws \RuntimeException If the request does not return the expected data.
      */
-    public function getWorkout($idWorkout)
+    public function listWorkouts(DateTime $startDate, DateTime $endDate)
     {
         $url = $this->buildGETUrl(
-            self::URL_WORKOUT_GET,
+            self::URL_WORKOUTS,
             array(
                 'authToken' => $this->getAuthToken(),
-                'fields' => 'device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures',
-                'workoutId' => $idWorkout
+                'fields' => 'simple',
+                'maxResults' => 100000, // Be lazy and fetch everything in one request.
+                'after' => $startDate->format('Y-m-d H:i:s \U\T\C'),
+                'before' => $endDate->format('Y-m-d H:i:s \U\T\C')
             )
         );
 
@@ -175,7 +229,7 @@ class EndomondoAPI
         if ($response->getStatusCode() == 200) {
             return $response->json();
         } else {
-            throw new RuntimeException('Could not get workout "' . $idWorkout . '".');
+            throw new RuntimeException('Could not list workouts.');
         }
     }
 
@@ -263,47 +317,6 @@ class EndomondoAPI
     }
 
     /**
-     * Flatten a track point to be posted on endomondo.
-     *
-     * @param TrackPoint $trackPoint The track point to flatten.
-     * @param float $distance The total distance the point in meters.
-     * @param float $speed The speed the point in km/h from the previous point.
-     * @return string
-     */
-    private function flattenTrackPoint(TrackPoint $trackPoint, $distance, $speed)
-    {
-        $dateTime = clone $trackPoint->getDateTime();
-        $dateTime->setTimezone(new \DateTimeZone('UTC'));
-        return sprintf(
-            '%s;2;%s;%s;%s;%s;%s;%s;',
-            $dateTime->format('Y-m-d H:i:s \U\T\C'),
-            $trackPoint->getLatitude(),
-            $trackPoint->getLongitude(),
-            $distance / 1000,
-            $speed,
-            $trackPoint->getElevation(),
-            $trackPoint->hasExtension(HR::ID) ? $trackPoint->getExtension(HR::ID)->getValue() : ''
-        );
-    }
-
-    /**
-     * Build an URL.
-     *
-     * @param string $baseUrl The base URL.
-     * @param array $parameters Parameters for the URL.
-     * @return string
-     */
-    private function buildGETUrl($baseUrl, array $parameters)
-    {
-        $query = new Query();
-        foreach ($parameters as $key => $value) {
-            $query->add($key, $value);
-        }
-
-        return $baseUrl . '?' . (string)$query;
-    }
-
-    /**
      * Generate a big number of specified length.
      *
      * @param integer $randNumberLength The length of the number.
@@ -329,5 +342,29 @@ class EndomondoAPI
     private function convertDateIntervalInSeconds(DateInterval $dateInterval)
     {
         return $dateInterval->days * 86400 + $dateInterval->h * 3600 + $dateInterval->i * 60 + $dateInterval->s;
+    }
+
+    /**
+     * Flatten a track point to be posted on endomondo.
+     *
+     * @param TrackPoint $trackPoint The track point to flatten.
+     * @param float $distance The total distance the point in meters.
+     * @param float $speed The speed the point in km/h from the previous point.
+     * @return string
+     */
+    private function flattenTrackPoint(TrackPoint $trackPoint, $distance, $speed)
+    {
+        $dateTime = clone $trackPoint->getDateTime();
+        $dateTime->setTimezone(new \DateTimeZone('UTC'));
+        return sprintf(
+            '%s;2;%s;%s;%s;%s;%s;%s;',
+            $dateTime->format('Y-m-d H:i:s \U\T\C'),
+            $trackPoint->getLatitude(),
+            $trackPoint->getLongitude(),
+            $distance / 1000,
+            $speed,
+            $trackPoint->getElevation(),
+            $trackPoint->hasExtension(HR::ID) ? $trackPoint->getExtension(HR::ID)->getValue() : ''
+        );
     }
 } 

@@ -6,6 +6,7 @@ use FitnessTrackingPorting\Tracker\TrackerInterface;
 use FitnessTrackingPorting\Workout\Dumper\DumperInterface;
 use FitnessTrackingPorting\Workout\Loader\LoaderInterface;
 use InvalidArgumentException;
+use Psr\Log\LogLevel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -61,7 +62,7 @@ abstract class AbstractCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        $this->logger = new ConsoleLogger($this->output);
+        $this->logger = new ConsoleLogger($this->output, array(), array(LogLevel::WARNING => ConsoleLogger::ERROR));
 
         return $this->runCommand();
     }
