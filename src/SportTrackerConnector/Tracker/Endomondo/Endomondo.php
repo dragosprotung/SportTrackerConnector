@@ -3,13 +3,13 @@
 namespace SportTrackerConnector\Tracker\Endomondo;
 
 use DateTime;
+use GuzzleHttp\Client;
 use SportTrackerConnector\Tracker\AbstractTracker;
 use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
-use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use GuzzleHttp\Client;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Endomondo tracker.

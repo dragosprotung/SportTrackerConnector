@@ -7,11 +7,11 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use RuntimeException;
-use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Class for working with Endomondo API.
@@ -27,7 +27,16 @@ class EndomondoAPI
     const URL_TRACK = 'https://api.mobile.endomondo.com/mobile/track';
     const URL_FRIENDS = 'https://api.mobile.endomondo.com/mobile/friends';
 
+    const INSTRUCTION_PAUSE = 0;
+    const INSTRUCTION_RESUME = 1;
+    const INSTRUCTION_START = 2;
+    const INSTRUCTION_STOP = 3;
+    const INSTRUCTION_NONE = 4;
+    const INSTRUCTION_GPS_OFF = 5;
+    const INSTRUCTION_LAP = 6;
+
     const UUID = '27132407-5b55-5863-b150-7925b8d092a2';
+
     /**
      * Endomondo auth token.
      *
@@ -96,7 +105,7 @@ class EndomondoAPI
     /**
      * Get the details of a workout.
      *
-     * Possible fields when getting the workout: device,simple,basic,motivation,interval,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures.
+     * Possible fields when getting the workout: device,simple,basic,motivation,interval,hr_zones,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures,feed.
      *
      * @param integer $idWorkout The ID of the workout.
      * @return array
@@ -289,39 +298,54 @@ class EndomondoAPI
                 $previousPoint = $trackPoint;
             }
 
-            $url = $this->buildGETUrl(
-                self::URL_TRACK,
-                array(
-                    'authToken' => $this->getAuthToken(),
-                    'workoutId' => $deviceWorkoutId,
-                    'sport' => $sport,
-                    'duration' => $duration,
-                    'gzip' => 'true',
-                    'audioMessage' => 'true',
-                    'goalType' => 'BASIC',
-                    'extendedResponse' => 'true'
-                )
-            );
-
-            $response = $this->httpClient->post(
-                $url,
-                array(
-                    'headers' => array(
-                        'Content-Type' => 'application/octet-stream'
-                    ),
-                    'body' => gzencode(implode("\n", $data))
-                )
-            );
-
-            $responseLines = explode("\n", $response->getBody());
-            if ($responseLines[0] !== 'OK') {
-                throw new RuntimeException('Unexpected response from Endomondo. Data may be partially uploaded. Response was: ' . $response->getBody());
-            }
-
-            $workoutId = explode('=', $responseLines[1])[1];
+            $workoutId = $this->postWorkoutData($deviceWorkoutId, $sport, $duration, $data);
         }
 
         return $workoutId;
+    }
+
+    /**
+     * Post workout data chunk.
+     *
+     * @param string $deviceWorkoutId The workout ID in progress of the device.
+     * @param string $sport The sport.
+     * @param integer $duration The duration in seconds.
+     * @param array $data The data points to post.
+     * @return string The workout ID.
+     * @throws \RuntimeException
+     */
+    private function postWorkoutData($deviceWorkoutId, $sport, $duration, array $data)
+    {
+        $url = $this->buildGETUrl(
+            self::URL_TRACK,
+            array(
+                'authToken' => $this->getAuthToken(),
+                'workoutId' => $deviceWorkoutId,
+                'sport' => $sport,
+                'duration' => $duration,
+                'gzip' => 'true',
+                'audioMessage' => 'true',
+                'goalType' => 'BASIC',
+                'extendedResponse' => 'true'
+            )
+        );
+
+        $response = $this->httpClient->post(
+            $url,
+            array(
+                'headers' => array(
+                    'Content-Type' => 'application/octet-stream'
+                ),
+                'body' => gzencode(implode("\n", $data))
+            )
+        );
+
+        $responseLines = explode("\n", $response->getBody());
+        if ($responseLines[0] !== 'OK') {
+            throw new RuntimeException('Unexpected response from Endomondo. Data may be partially uploaded. Response was: ' . $response->getBody());
+        }
+
+        return explode('=', $responseLines[1])[1];
     }
 
     /**
@@ -364,15 +388,60 @@ class EndomondoAPI
     {
         $dateTime = clone $trackPoint->getDateTime();
         $dateTime->setTimezone(new \DateTimeZone('UTC'));
-        return sprintf(
-            '%s;2;%s;%s;%s;%s;%s;%s;',
-            $dateTime->format('Y-m-d H:i:s \U\T\C'),
+
+        return $this->formatEndomondoTrackPoint(
+            $dateTime,
+            self::INSTRUCTION_START,
             $trackPoint->getLatitude(),
             $trackPoint->getLongitude(),
-            $distance / 1000,
+            $distance,
             $speed,
             $trackPoint->getElevation(),
             $trackPoint->hasExtension(HR::ID) ? $trackPoint->getExtension(HR::ID)->getValue() : ''
+        );
+    }
+
+    /**
+     * Format a point to send to Endomondo when posting a new workout.
+     *
+     * Type:
+     *  0 - pause
+     *  1 - running ?
+     *  2 - running
+     *  3 - stop
+     *
+     * @param DateTime $dateTime
+     * @param integer $type The post type (0-6). Don't know what they mean.
+     * @param string $lat The latitude of the point.
+     * @param string $lon The longitude of the point.
+     * @param string $distance The distance.
+     * @param string $speed The speed.
+     * @param string $elevation The elevation
+     * @param string $hr The hear rate.
+     * @return string
+     */
+    private function formatEndomondoTrackPoint(
+        DateTime $dateTime,
+        $type,
+        $lat = null,
+        $lon = null,
+        $distance = null,
+        $speed = null,
+        $elevation = null,
+        $hr = null
+    ) {
+        $dateTime = clone $dateTime;
+        $dateTime->setTimezone(new \DateTimeZone('UTC'));
+        return sprintf(
+            '%s;%s;%s;%s;%s;%s;%s;%s;',
+            $dateTime->format('Y-m-d H:i:s \U\T\C'),
+            $type,
+            $lat,
+            $lon,
+            $distance / 1000,
+            $speed,
+            $elevation,
+            $hr
         );
     }
 } 
