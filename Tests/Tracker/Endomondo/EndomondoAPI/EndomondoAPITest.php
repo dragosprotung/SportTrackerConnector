@@ -2,11 +2,14 @@
 
 namespace SportTrackerConnector\Tests\Tracker\Endomondo\EndomondoAPI;
 
-use SportTrackerConnector\Tracker\Endomondo\EndomondoAPI;
-use SportTrackerConnector\Tracker\Endomondo\Sport;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
+use SportTrackerConnector\Tracker\Endomondo\EndomondoAPI;
+use SportTrackerConnector\Tracker\Endomondo\Sport;
 
+/**
+ * Test the EndomondoAPI.
+ */
 class EndomondoAPITest extends \PHPUnit_Framework_TestCase
 {
 
@@ -25,7 +28,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testAuthenticateFailWhenTokenNotFoundInResponse()
     {
-        $this->setExpectedException('\RuntimeException', 'Authentication on endomondo failed.');
+        $this->setExpectedException('\RuntimeException', 'Authentication on Endomondo failed.');
 
         $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testAuthenticateFailWhenTokenNotFoundInResponse.txt'), null);
         $endomondo->getAuthToken();
@@ -38,7 +41,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     {
         $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testAuthenticateFailWhenWrongCredentials.txt'), null);
 
-        $this->setExpectedException('\RuntimeException', 'Authentication on endomondo failed.');
+        $this->setExpectedException('\RuntimeException', 'Authentication on Endomondo failed.');
 
         $endomondo->getAuthToken();
     }
@@ -55,15 +58,70 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get workout throws exception if Endomondo page is not found.
+     */
+    public function testGetWorkoutThrowsExceptionIfEndomondoPageIsNotFound()
+    {
+        $this->setExpectedException('\RuntimeException', 'Could not get workout "1".');
+
+        $endomondo = $this->getEndomondoMock(
+            array(
+                __DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionIfEndomondoPageIsNotFound_0.txt',
+                __DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionIfEndomondoPageIsNotFound_1.txt'
+            )
+        );
+        $endomondo->getWorkout(1);
+    }
+
+    /**
+     * Test get workout throws exception if HTTP server response is not 200.
+     */
+    public function testGetWorkoutThrowsExceptionIfServerDoesNotReturn200()
+    {
+        $this->setExpectedException('\RuntimeException', 'Could not get workout "1".');
+
+        $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionIfServerDoesNotReturn200.txt'));
+        $endomondo->getWorkout(1);
+    }
+
+    /**
+     * Test listing the workouts.
+     */
+    public function testListWorkoutsSuccess()
+    {
+        $startDate = new \DateTime('yesterday');
+        $endDate = new \DateTime('today');
+
+        $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testListWorkoutsSuccess.txt'));
+        $actual = $endomondo->listWorkouts($startDate, $endDate);
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Expected/testListWorkoutsSuccess.json', json_encode($actual));
+    }
+
+    /**
+     * Test list workouts throws exception if HTTP server response is not 200.
+     */
+    public function testListWorkoutsThrowsExceptionIfServerDoesNotReturn200()
+    {
+        $this->setExpectedException('\RuntimeException', 'Could not list workouts.');
+
+        $startDate = new \DateTime('yesterday');
+        $endDate = new \DateTime('today');
+
+        $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testListWorkoutsThrowsExceptionIfServerDoesNotReturn200.txt'));
+        $endomondo->listWorkouts($startDate, $endDate);
+    }
+
+    /**
      * Test posting a workout.
      */
-    public function testPostWorkout()
+    public function testPostWorkoutSuccess()
     {
         $endomondo = $this->getEndomondoMock(
             array(
-                __DIR__ . '/Fixtures/testPostWorkout_0.txt',
-                __DIR__ . '/Fixtures/testPostWorkout_1.txt',
-                __DIR__ . '/Fixtures/testPostWorkout_2.txt'
+                __DIR__ . '/Fixtures/testPostWorkoutSuccess_0.txt',
+                __DIR__ . '/Fixtures/testPostWorkoutSuccess_1.txt',
+                __DIR__ . '/Fixtures/testPostWorkoutSuccess_2.txt'
             )
         );
 
@@ -77,6 +135,26 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
 
         $post = $endomondo->postWorkout($workout);
         $this->assertSame(array('123456789'), $post);
+    }
+
+    /**
+     * Test posting a workout throws an exception if the response from Endomondo is not "OK" string.
+     */
+    public function testPostWorkoutThrowsExceptionIfResponseIsNotOK()
+    {
+        $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionIfResponseIsNotOK.txt'));
+
+        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
+        $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
+        $track->expects($this->once())->method('getDuration')->will($this->returnValue(new \DateInterval('PT1H5M20S')));
+        $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(50)));
+
+        $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
+        $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
+
+        $this->setExpectedException('\RuntimeException', 'Unexpected response from Endomondo. Data may be partially uploaded. Response was: ERROR');
+
+        $endomondo->postWorkout($workout);
     }
 
     /**

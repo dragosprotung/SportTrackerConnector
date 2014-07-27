@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: text/plain;charset=UTF-8
+Date: Thu, 05 Jun 2014 22:47:07 GMT
+P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX; Path=/; HttpOnly
+X-UA-Compatible: IE=9
+Content-Length: 24
+Connection: keep-alive
+
+OK
+workout.id=123456789

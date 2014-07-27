@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 27 Jul 2014 12:20:48 GMT
+P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+Server: Apache-Coyote/1.1
+Set-Cookie: JSESSIONID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX; Path=/; HttpOnly
+X-UA-Compatible: IE=9
+Content-Length: 450
+Connection: keep-alive
+
+{"data":[{"heart_rate_max": 182,"heart_rate_avg": 164,"sport": 0,"descent": 245,"privacy_workout": 1,"ascent": 275,"id": 1234567,"distance": 8.8,"duration": 3570,"lcp_count": {"peptalks": 0,"likes": 0,"comments": 0},"burgers_burned": 1.8882222,"device": {"workout_id": "-3180718134224001607"},"owner_id": 123456,"speed_avg": 8.87394957,"calories": 1019.64,"start_time": "2014-07-24 18:45:00 UTC","privacy_map": 1,"speed_max": 26.6591,"live": false}]}

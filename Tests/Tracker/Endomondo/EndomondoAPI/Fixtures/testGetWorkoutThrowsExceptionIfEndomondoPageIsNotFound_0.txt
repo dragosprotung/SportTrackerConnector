@@ -1,0 +1,8 @@
+HTTP/1.1 302 Moved Temporarily
+Content-Length: 0
+Connection: close
+Cache-Control: no-cache, max-age=0, must-revalidate, no-store
+Date: Sun, 27 Jul 2014 11:55:54 GMT
+Location: https://www.endomondo.com/404
+P3P: CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"
+Server: Apache-Coyote/1.1

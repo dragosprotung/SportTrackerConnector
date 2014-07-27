@@ -1,0 +1,4 @@
+HTTP/1.1 204 No content
+Content-Length: 0
+Connection: close
+Server: Apache-Coyote/1.1

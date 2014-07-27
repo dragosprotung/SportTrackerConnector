@@ -4,14 +4,14 @@ namespace SportTrackerConnector\Tracker\Endomondo;
 
 use DateInterval;
 use DateTime;
+use GuzzleHttp\Client;
+use GuzzleHttp\Query;
+use RuntimeException;
 use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use GuzzleHttp\Client;
-use GuzzleHttp\Query;
-use RuntimeException;
 
 /**
  * Class for working with Endomondo API.
@@ -113,12 +113,16 @@ class EndomondoAPI
             )
         );
 
-        $response = $this->httpClient->get($url);
+        try {
+            $response = $this->httpClient->get($url);
 
-        if ($response->getStatusCode() == 200) {
-            return $response->json();
-        } else {
-            throw new RuntimeException('Could not get workout "' . $idWorkout . '".');
+            if ($response->getStatusCode() == 200) {
+                return $response->json();
+            } else {
+                throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
+            }
+        } catch (\Exception $e) {
+            throw new RuntimeException('Could not get workout "' . $idWorkout . '".', null, $e);
         }
     }
 
@@ -199,7 +203,7 @@ class EndomondoAPI
         }
 
         if ($this->authToken == null) {
-            throw new RuntimeException('Authentication on endomondo failed.');
+            throw new RuntimeException('Authentication on Endomondo failed.');
         }
     }
 
@@ -224,12 +228,16 @@ class EndomondoAPI
             )
         );
 
-        $response = $this->httpClient->get($url);
+        try {
+            $response = $this->httpClient->get($url);
 
-        if ($response->getStatusCode() == 200) {
-            return $response->json();
-        } else {
-            throw new RuntimeException('Could not list workouts.');
+            if ($response->getStatusCode() == 200) {
+                return $response->json();
+            } else {
+                throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
+            }
+        } catch (\Exception $e) {
+            throw new RuntimeException('Could not list workouts.', null, $e);
         }
     }
 
@@ -307,7 +315,7 @@ class EndomondoAPI
 
             $responseLines = explode("\n", $response->getBody());
             if ($responseLines[0] !== 'OK') {
-                throw new RuntimeException('Response back unexpected. Data may be partially uploaded. Response: ' . $response->getBody());
+                throw new RuntimeException('Unexpected response from Endomondo. Data may be partially uploaded. Response was: ' . $response->getBody());
             }
 
             $workoutId = explode('=', $responseLines[1])[1];
