@@ -2,19 +2,34 @@
 
 namespace SportTrackerConnector\Tests\Tracker\Polar\Polar;
 
-use DateTimeZone;
 use DateTime;
-use SportTrackerConnector\Workout\Workout;
+use DateTimeZone;
+use SportTrackerConnector\Tracker\Polar\Polar;
+use SportTrackerConnector\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
-use SportTrackerConnector\Workout\Workout\Extension\HR;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Test the Polar tracker.
  */
 class PolarTest extends \PHPUnit_Framework_TestCase
 {
+
+    /**
+     * Test getting the ID of the tracker.
+     */
+    public function testGetID()
+    {
+        $expected = 'polar';
+
+        $this->assertSame($expected, Polar::getID());
+
+        $logger = $this->getMock('Psr\Log\LoggerInterface');
+        $polar = new Polar($logger, null, null);
+        $this->assertSame($expected, $polar->getID());
+    }
 
     /**
      * Test fetching a workout with one sport from an HTML page.
