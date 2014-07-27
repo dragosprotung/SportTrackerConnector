@@ -33,6 +33,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test fetching a workout with one sport from an HTML page.
+     * @group ttt
      */
     public function testFetchWorkoutFromHTMLWithSingleSport()
     {
@@ -45,8 +46,8 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $expected->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
-                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', '2.9', 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', '6.86', 88)
                 ),
                 SportMapperInterface::RUNNING
             )
@@ -73,8 +74,8 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $expected->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', null, 78),
-                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', null, 88)
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', '-4.11', 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', '-4.11', 88)
                 ),
                 SportMapperInterface::CYCLING_SPORT
             )
@@ -82,8 +83,8 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $expected->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.551074', '9.993671', '2014-05-30T17:12:58+00:00', null, 78),
-                    $this->getTrackPoint('53.550084', '9.992681', '2014-05-30T17:12:59+00:00', null, 88)
+                    $this->getTrackPoint('53.551074', '9.993671', '2014-05-30T17:12:58+00:00', '6.10', 78),
+                    $this->getTrackPoint('53.550084', '9.992681', '2014-05-30T17:12:59+00:00', '6.10', 88)
                 ),
                 SportMapperInterface::RUNNING
             )
