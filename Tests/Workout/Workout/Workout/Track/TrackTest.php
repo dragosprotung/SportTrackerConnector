@@ -117,14 +117,14 @@ class TrackTest extends \PHPUnit_Framework_TestCase
         );
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
 
-        $expected = 0.306503;
+        $expected = 34067.903477;
         $actual = $track->recomputeLength();
 
         $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Test recompute length returns zero if leess than two points.
+     * Test recompute length returns zero if less than two points.
      */
     public function testRecomputeLengthReturnsZeroIfLessThankTwoPoints()
     {

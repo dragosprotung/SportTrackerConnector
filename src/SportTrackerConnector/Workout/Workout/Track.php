@@ -216,9 +216,9 @@ class Track
     }
 
     /**
-     * Set the length of the track.
+     * Set the length of the track in meters.
      *
-     * @param integer $length The length of the track.
+     * @param integer $length The length of the track in meters.
      */
     public function setLength($length)
     {
@@ -226,7 +226,7 @@ class Track
     }
 
     /**
-     * Get the length of the track.
+     * Get the length of the track in meters.
      *
      * @return integer
      */
@@ -257,12 +257,7 @@ class Track
             $previousTrack = $trackPoints[$i - 1];
             $currentTrack = $trackPoints[$i];
 
-            $this->length += sqrt(
-                pow(($previousTrack->getLongitude() - $currentTrack->getLongitude()), 2) + pow(
-                    ($previousTrack->getLatitude() - $currentTrack->getLatitude()),
-                    2
-                )
-            );
+            $this->length += $currentTrack->distance($previousTrack);
         }
 
         $this->length = round($this->length, 6);
