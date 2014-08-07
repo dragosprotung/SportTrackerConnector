@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class Dump extends AbstractCommand
 {
+
     /**
      * Configures the current command.
      */
@@ -23,7 +24,7 @@ class Dump extends AbstractCommand
             ->addArgument('tracker', InputArgument::REQUIRED, 'The tracker to dump from (ex: polar, endomondo).')
             ->addArgument('id-workout', InputArgument::REQUIRED, 'The ID of the workout to dump.')
             ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'gpx')
-            ->addOption('output-file', 'f', InputOption::VALUE_REQUIRED, 'The path to the output file.', $cwd . '/dump/workout.gpx')
+            ->addOption('output-file', 'f', InputOption::VALUE_REQUIRED, 'The path to the output file.', $cwd . '/dump/[ID].[FORMAT]')
             ->addOption('output-overwrite', 'o', InputOption::VALUE_NONE, 'Flag to auto overwrite the file if it already exists.');
     }
 
@@ -35,7 +36,12 @@ class Dump extends AbstractCommand
      */
     protected function runCommand()
     {
+        $idWorkout = $this->input->getArgument('id-workout');
+        $format = $this->input->getArgument('output-format');
+
         $outputFile = $this->input->getOption('output-file');
+        $outputFile = str_replace(array('[ID]', '[FORMAT]'), array($idWorkout, $format), $outputFile);
+
         $overwriteOutput = $this->input->getOption('output-overwrite');
         $outputFile = $this->checkWritableFile($outputFile, $overwriteOutput);
         if ($outputFile === null) {
@@ -44,10 +50,9 @@ class Dump extends AbstractCommand
 
         $tracker = $this->getTrackerFromCode($this->input->getArgument('tracker'));
 
-        $idWorkout = $this->input->getArgument('id-workout');
         $workout = $tracker->downloadWorkout($idWorkout);
 
-        $dumper = $this->getDumperFromCode($this->input->getArgument('output-format'));
+        $dumper = $this->getDumperFromCode($format);
         if ($dumper->dumpToFile($workout, $outputFile, $overwriteOutput) === true) {
             $this->output->writeln('<info>Dump successfully finished. Output file: ' . $outputFile . '</info>');
             return 0;

@@ -120,6 +120,9 @@ abstract class AbstractCommand extends Command
             case 'gpx':
                 $class = 'SportTrackerConnector\Workout\Dumper\GPX';
                 break;
+            case 'tcx':
+                $class = 'SportTrackerConnector\Workout\Dumper\TCX';
+                break;
             case 'json':
                 $class = 'SportTrackerConnector\Workout\Dumper\JSON';
                 break;
@@ -143,6 +146,9 @@ abstract class AbstractCommand extends Command
         switch (strtolower($code)) {
             case 'gpx':
                 $class = 'SportTrackerConnector\Workout\Loader\GPX';
+                break;
+            case 'tcx':
+                $class = 'SportTrackerConnector\Workout\Loader\TCX';
                 break;
             default:
                 throw new InvalidArgumentException('Unknown loader "' . $code . '".');
