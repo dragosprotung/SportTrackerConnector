@@ -7,11 +7,11 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use RuntimeException;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use SportTrackerConnector\Workout\Workout;
 
 /**
  * Class for working with Endomondo API.
@@ -36,6 +36,7 @@ class EndomondoAPI
     const INSTRUCTION_LAP = 6;
 
     const UUID = '27132407-5b55-5863-b150-7925b8d092a2';
+    const HTTP_CLIENT_REQUEST_USER_AGENT = 'com.endomondo.android.pro/10.2.7 (Linux; U; Android 4.4.4; en-us; Nexus 4 Build/KTU84P; google) 768X1184 LGE Nexus 4';
 
     /**
      * Endomondo auth token.
@@ -71,13 +72,6 @@ class EndomondoAPI
      * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
      */
     protected $sportMapper;
-
-    /**
-     * The request user  agent to use.
-     *
-     * @var string
-     */
-    private $requestUserAgent = 'com.endomondo.android.pro/10.2.7 (Linux; U; Android 4.4.4; en-us; Nexus 4 Build/KTU84P; google) 768X1184 LGE Nexus 4';
 
     /**
      * The HTTP client.

@@ -12,7 +12,9 @@ It is extensible enough to support other online sport trackers, but for the mome
 [![Latest Stable Version](https://poser.pugx.org/dragosprotung/sport-tracker-connector/v/stable.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
 [![Dependency Status](https://www.versioneye.com/user/projects/53d2a96a851c56cb78000175/badge.svg)](https://www.versioneye.com/user/projects/53d2a96a851c56cb78000175)
 [![License](https://poser.pugx.org/dragosprotung/sport-tracker-connector/license.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/71ffaadd-e86b-42d4-bf5f-0b44a80f80e0/mini.png)](https://insight.sensiolabs.com/projects/71ffaadd-e86b-42d4-bf5f-0b44a80f80e0)
 [![Total Downloads](https://poser.pugx.org/dragosprotung/sport-tracker-connector/downloads.svg)](https://packagist.org/packages/dragosprotung/sport-tracker-connector)
+
 ## Installing
 
 Install PHP 5.4 or newer and composer.

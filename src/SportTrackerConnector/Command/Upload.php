@@ -2,7 +2,6 @@
 
 namespace SportTrackerConnector\Command;
 
-use SportTrackerConnector\Workout\Workout;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**

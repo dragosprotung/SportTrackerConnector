@@ -2,7 +2,6 @@
 
 namespace SportTrackerConnector\Workout\Loader;
 
-use SportTrackerConnector\Workout\Workout;
 use InvalidArgumentException;
 
 /**

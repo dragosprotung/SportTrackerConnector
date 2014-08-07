@@ -14,8 +14,6 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 
 /**
  * Polar Flow tracker.
- *
- * TODO optimize the extraction of elevation.
  */
 class Polar extends AbstractTracker
 {
@@ -164,13 +162,12 @@ class Polar extends AbstractTracker
     {
         $altitudeSamples = array();
 
-        // TODO Improve preg match.
-        $patternSingle = '/var curve = new Curve\((.*)true\}\);/s';
-        $patternMulti = '/var curve = new Curve\((.*)\]\}\);/s';
-        if (preg_match($patternSingle, $html, $matches)) {
+        $patternSingleWorkout = '/var curve = new Curve\((.*)true\}\);/s';
+        $patternMultiWorkout = '/var curve = new Curve\((.*)\]\}\);/s';
+        if (preg_match($patternSingleWorkout, $html, $matches)) {
             $match = $matches[1] . 'true}';
             $altitudeSamples = $this->parseAltitudeSamples($match);
-        } elseif (preg_match($patternMulti, $html, $matches)) {
+        } elseif (preg_match($patternMultiWorkout, $html, $matches)) {
             $match = $matches[1] . ']}';
             $altitudeSamples = $this->parseAltitudeSamples($match);
         } else {
@@ -239,7 +236,6 @@ class Polar extends AbstractTracker
 
         $json = \GuzzleHttp\json_decode($matches[1]);
 
-        $code = null;
         foreach ($json->exercises as $exercise) {
             if ($exercise->id == $idExercise) {
                 return $this->getSportMapper()->getSportFromCode($exercise->sport->name);
