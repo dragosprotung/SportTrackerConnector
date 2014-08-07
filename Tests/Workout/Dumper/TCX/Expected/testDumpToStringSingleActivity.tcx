@@ -6,7 +6,7 @@
             <Id>2014-05-30T17:12:58Z</Id>
             <Lap StartTime="2014-05-30T17:12:58Z">
                 <TotalTimeSeconds>2</TotalTimeSeconds>
-                <DistanceMeters>0.0014</DistanceMeters>
+                <DistanceMeters>128.045487</DistanceMeters>
                 <AverageHeartRateBpm xsi:type="HeartRateInBeatsPerMinute_t">
                     <Value>83</Value>
                 </AverageHeartRateBpm>
