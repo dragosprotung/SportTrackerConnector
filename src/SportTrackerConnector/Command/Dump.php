@@ -3,7 +3,6 @@
 namespace SportTrackerConnector\Command;
 
 use InvalidArgumentException;
-use SportTrackerConnector\Workout\Workout;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
