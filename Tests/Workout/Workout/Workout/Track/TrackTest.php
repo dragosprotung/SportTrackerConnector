@@ -2,10 +2,13 @@
 
 namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
 
-use SportTrackerConnector\Workout\Workout\TrackPoint;
 use DateTime;
-use DateInterval;
+use SportTrackerConnector\Date\DateInterval;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
 
+/**
+ * Test a workout track.
+ */
 class TrackTest extends \PHPUnit_Framework_TestCase
 {
 

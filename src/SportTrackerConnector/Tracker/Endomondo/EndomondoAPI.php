@@ -2,7 +2,6 @@
 
 namespace SportTrackerConnector\Tracker\Endomondo;
 
-use DateInterval;
 use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
@@ -273,7 +272,7 @@ class EndomondoAPI
     {
         $deviceWorkoutId = '-' . $this->bigRandomNumber(19);
         $sport = $this->sportMapper->getCodeFromSport($track->getSport());
-        $duration = $this->convertDateIntervalInSeconds($track->getDuration());
+        $duration = $track->getDuration()->getTotalSeconds();
 
         $workoutId = null;
         $previousPoint = null;
@@ -357,17 +356,6 @@ class EndomondoAPI
         }
 
         return $randNumber;
-    }
-
-    /**
-     * Get the number of seconds from a DateInterval.
-     *
-     * @param DateInterval $dateInterval The date interval to convert.
-     * @return integer
-     */
-    private function convertDateIntervalInSeconds(DateInterval $dateInterval)
-    {
-        return $dateInterval->days * 86400 + $dateInterval->h * 3600 + $dateInterval->i * 60 + $dateInterval->s;
     }
 
     /**

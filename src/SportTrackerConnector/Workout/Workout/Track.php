@@ -3,7 +3,7 @@
 namespace SportTrackerConnector\Workout\Workout;
 
 use DateTime;
-use DateInterval;
+use SportTrackerConnector\Date\DateInterval;
 
 /**
  * A track of a workout.
@@ -202,7 +202,17 @@ class Track
 
         $dateDifference = $start->diff($end);
 
-        return $dateDifference;
+        $dateInterval = new DateInterval('PT1S');
+        $dateInterval->y = $dateDifference->y;
+        $dateInterval->m = $dateDifference->m;
+        $dateInterval->d = $dateDifference->d;
+        $dateInterval->h = $dateDifference->h;
+        $dateInterval->i = $dateDifference->i;
+        $dateInterval->s = $dateDifference->s;
+        $dateInterval->invert = $dateDifference->invert;
+        $dateInterval->days = $dateDifference->days;
+
+        return $dateInterval;
     }
 
     /**

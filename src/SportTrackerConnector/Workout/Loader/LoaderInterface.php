@@ -10,10 +10,10 @@ interface LoaderInterface
     /**
      * Get a workout from a string.
      *
-     * @param string $gpx The data.
+     * @param string $string The data.
      * @return \SportTrackerConnector\Workout\Workout;
      */
-    public function fromString($gpx);
+    public function fromString($string);
 
     /**
      * Get a workout from a file.

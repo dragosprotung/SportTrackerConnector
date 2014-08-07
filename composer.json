@@ -1,7 +1,7 @@
 {
     "name": "dragosprotung/sport-tracker-connector",
-    "description": "A set of tools to dump / upload / port workouts from different online sport trackers to another (ex endomondo.com, flow.polar.com).",
-    "keywords": ["sport", "tracker", "fitness", "endomondo", "polar", "portal"],
+    "description": "A set of tools to dump / upload / port workouts from different online sport trackers to another (ex endomondo.com, flow.polar.com). Also provides helper classes for parsing sport data.",
+    "keywords": ["sport", "tracker", "endomondo", "polar", "gpx", "tcx"],
     "homepage": "http://github.com/dragosprotung/SportTrackerConnector",
     "license": "MIT",
     "authors": [

@@ -127,7 +127,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
 
         $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
         $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
-        $track->expects($this->once())->method('getDuration')->will($this->returnValue(new \DateInterval('PT1H5M20S')));
+        $track->expects($this->once())->method('getDuration')->willReturn($this->getDateIntervalMock(0));
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(150)));
 
         $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
@@ -146,7 +146,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
 
         $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
         $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
-        $track->expects($this->once())->method('getDuration')->will($this->returnValue(new \DateInterval('PT1H5M20S')));
+        $track->expects($this->once())->method('getDuration')->will($this->returnValue($this->getDateIntervalMock(0)));
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(50)));
 
         $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
@@ -223,5 +223,18 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         $client->getEmitter()->attach($mock);
 
         return $client;
+    }
+
+    /**
+     * Get a mock for the date interval.
+     *
+     * @param integer $seconds The number of seconds to return when calling getTotalSeconds().
+     * @return \SportTrackerConnector\Date\DateInterval
+     */
+    private function getDateIntervalMock($seconds = 0)
+    {
+        $dateInterval = $this->getMock('SportTrackerConnector\Date\DateInterval', array('getTotalSeconds'), array('PT1S'));
+        $dateInterval->expects($this->once())->method('getTotalSeconds')->willReturn($seconds);
+        return $dateInterval;
     }
 }

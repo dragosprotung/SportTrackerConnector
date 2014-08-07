@@ -21,12 +21,12 @@ class GPX extends AbstractLoader
     /**
      * Get a workout from a string.
      *
-     * @param string $gpx The data.
+     * @param string $string The data.
      * @return \SportTrackerConnector\Workout\Workout;
      */
-    public function fromString($gpx)
+    public function fromString($string)
     {
-        $simpleXML = new SimpleXMLElement($gpx);
+        $simpleXML = new SimpleXMLElement($string);
         $workout = new Workout();
 
         if (isset($simpleXML->metadata->author->name)) {
