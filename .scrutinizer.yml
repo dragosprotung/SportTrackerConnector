@@ -8,7 +8,7 @@ tools:
     php_code_sniffer:
         enabled: true
         config:
-            standard: ./ruleset.xml.dist
+            standard: ruleset.dist.xml
         filter:
             paths: ["src/*", "Tests/*"]
     php_cpd:
