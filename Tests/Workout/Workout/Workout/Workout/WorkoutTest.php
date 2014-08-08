@@ -11,7 +11,8 @@ class WorkoutTest extends \PHPUnit_Framework_TestCase
     /**
      * Test setting/getting the author.
      */
-    public function testSetGetAuthor() {
+    public function testSetGetAuthor()
+    {
         $workout = new Workout();
 
         $this->assertNull($workout->getAuthor());
@@ -20,4 +21,4 @@ class WorkoutTest extends \PHPUnit_Framework_TestCase
         $workout->setAuthor($author);
         $this->assertSame($author, $workout->getAuthor());
     }
-} 
+}

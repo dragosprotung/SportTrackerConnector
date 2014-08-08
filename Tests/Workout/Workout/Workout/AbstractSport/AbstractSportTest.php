@@ -84,4 +84,4 @@ class AbstractSportTest extends \PHPUnit_Framework_TestCase
         $actual = $mock->getCodeFromSport(SportMapperInterface::RUNNING);
         $this->assertSame('running_hard', $actual);
     }
-} 
+}

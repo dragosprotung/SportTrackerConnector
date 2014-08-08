@@ -4,12 +4,13 @@ namespace SportTrackerConnector\Tracker\Endomondo;
 
 use DateTime;
 use GuzzleHttp\Client;
+use RuntimeException;
 use SportTrackerConnector\Tracker\AbstractTracker;
 use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use SportTrackerConnector\Workout\Workout;
 
 /**
  * Endomondo tracker.
@@ -40,6 +41,7 @@ class Endomondo extends AbstractTracker
      * @param DateTime $startDate The start date for the workouts.
      * @param DateTime $endDate The end date for the workouts.
      * @return \SportTrackerConnector\Tracker\TrackerListWorkoutsResult[]
+     * @throws RuntimeException If the start date time of a workout is not valid.
      */
     public function listWorkouts(DateTime $startDate, DateTime $endDate)
     {
@@ -48,11 +50,11 @@ class Endomondo extends AbstractTracker
         $data = $this->getEndomondoAPI()->listWorkouts($startDate, $endDate);
         $this->logger->debug('Parsing data.');
         foreach ($data['data'] as $workout) {
-            $list[] = new TrackerListWorkoutsResult(
-                $workout['id'],
-                $this->getSportMapper()->getSportFromCode($workout['sport']),
-                DateTime::createFromFormat('Y-m-d H:i:s \U\T\C', $workout['start_time'])
-            );
+            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s \U\T\C', $workout['start_time']);
+            if ($startDateTime === false) {
+                throw new RuntimeException('The workout "' . $workout['id'] . '" start date time is not valid.');
+            }
+            $list[] = new TrackerListWorkoutsResult($workout['id'], $this->getSportMapper()->getSportFromCode($workout['sport']), $startDateTime);
         }
 
         return $list;

@@ -26,4 +26,4 @@ interface DumperInterface
      * @return boolean
      */
     public function dumpToFile(Workout $workout, $outputFile, $overwrite = true);
-} 
+}

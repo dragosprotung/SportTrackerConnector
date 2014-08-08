@@ -17,4 +17,4 @@ class DateInterval extends \DateInterval
     {
         return $this->days * 86400 + $this->h * 3600 + $this->i * 60 + $this->s;
     }
-} 
+}

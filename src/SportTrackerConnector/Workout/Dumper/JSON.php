@@ -2,9 +2,9 @@
 
 namespace SportTrackerConnector\Workout\Dumper;
 
-use SportTrackerConnector\Workout\Workout;
-use DateTimeZone;
 use DateTime;
+use DateTimeZone;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Dump a workout to JSON.

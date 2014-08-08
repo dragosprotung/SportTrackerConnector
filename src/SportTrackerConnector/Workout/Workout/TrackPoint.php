@@ -224,11 +224,11 @@ class TrackPoint
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(
-                sqrt(
-                    pow(sin($latDelta / 2), 2) +
-                    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
-                )
-            );
+            sqrt(
+                pow(sin($latDelta / 2), 2) +
+                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
+            )
+        );
         return $angle * $earthRadius;
     }
 
@@ -254,4 +254,4 @@ class TrackPoint
 
         return ($distance / $secondsDifference) * 3.6;
     }
-} 
+}

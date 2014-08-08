@@ -41,4 +41,4 @@ class Upload extends AbstractCommand
 
         return 0;
     }
-} 
+}

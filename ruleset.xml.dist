@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Sport Tracker Connector">
+	<description>The coding standard for Sport Tracker Connector.</description>
+
+	<!-- PSR2 -->
+	<rule ref="PSR2" />
+
+	<!-- Generic -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="375" />
+			<property name="absoluteLineLimit" value="0" />
+		</properties>
+	</rule>
+</ruleset>

@@ -91,7 +91,6 @@ abstract class AbstractCommand extends Command
             throw new InvalidArgumentException('There is no configuration specified for tracker "' . $code . '"');
         }
 
-        $class = null;
         switch ($code) {
             case 'polar':
                 $class = 'SportTrackerConnector\Tracker\Polar\Polar';
@@ -115,7 +114,6 @@ abstract class AbstractCommand extends Command
      */
     protected function getDumperFromCode($code)
     {
-        $class = null;
         switch (strtolower($code)) {
             case 'gpx':
                 $class = 'SportTrackerConnector\Workout\Dumper\GPX';
@@ -142,7 +140,6 @@ abstract class AbstractCommand extends Command
      */
     protected function getLoaderFromCode($code)
     {
-        $class = null;
         switch (strtolower($code)) {
             case 'gpx':
                 $class = 'SportTrackerConnector\Workout\Loader\GPX';
@@ -183,4 +180,4 @@ abstract class AbstractCommand extends Command
 
         return $file;
     }
-} 
+}

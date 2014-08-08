@@ -10,7 +10,7 @@ class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider for testSetGetValue();
-     * 
+     *
      * @return array
      */
     public function dataProviderTestSetGetValue()
@@ -40,4 +40,3 @@ class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($value, $mock->getValue());
     }
 }
- 

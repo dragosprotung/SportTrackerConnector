@@ -38,7 +38,7 @@ interface SportMapperInterface
 
     const WEIGHT_TRAINING = 'weight_training';
 
-    CONST OTHER = 'other';
+    const OTHER = 'other';
 
     /**
      * Get the sport code (one of the SportMapperInterface constants) from the tracker sport code.

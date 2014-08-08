@@ -53,4 +53,4 @@ class Author
     {
         return $this->name;
     }
-} 
+}

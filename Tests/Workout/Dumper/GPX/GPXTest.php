@@ -120,4 +120,4 @@ class GPXTest extends \PHPUnit_Framework_TestCase
         $trackPoint->setExtensions($extensions);
         return $trackPoint;
     }
-} 
+}

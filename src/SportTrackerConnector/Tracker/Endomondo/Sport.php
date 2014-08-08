@@ -38,4 +38,4 @@ class Sport extends AbstractSportMapper
             self::OTHER => 20,
         );
     }
-} 
+}

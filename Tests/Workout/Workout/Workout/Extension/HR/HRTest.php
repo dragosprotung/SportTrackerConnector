@@ -80,4 +80,3 @@ class HRTest extends \PHPUnit_Framework_TestCase
         $hr->setValue($value);
     }
 }
- 

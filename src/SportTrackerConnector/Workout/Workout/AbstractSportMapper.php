@@ -52,4 +52,4 @@ abstract class AbstractSportMapper implements SportMapperInterface
             return null;
         }
     }
-} 
+}

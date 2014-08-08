@@ -26,4 +26,4 @@ class ConsoleApplication extends Application
         $this->add(new Dump());
         $this->add(new DumpMulti());
     }
-} 
+}

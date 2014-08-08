@@ -42,7 +42,7 @@ class Track
     /**
      * Get the length of the track in meters.
      *
-     * @var integer
+     * @var float
      */
     protected $length = 0;
 
@@ -218,7 +218,7 @@ class Track
     /**
      * Set the length of the track in meters.
      *
-     * @param integer $length The length of the track in meters.
+     * @param float $length The length of the track in meters.
      */
     public function setLength($length)
     {
@@ -228,7 +228,7 @@ class Track
     /**
      * Get the length of the track in meters.
      *
-     * @return integer
+     * @return float
      */
     public function getLength()
     {
@@ -242,6 +242,8 @@ class Track
 
     /**
      * Recompute the length of the track.
+     *
+     * @return float
      */
     public function recomputeLength()
     {
@@ -264,4 +266,4 @@ class Track
 
         return $this->length;
     }
-} 
+}

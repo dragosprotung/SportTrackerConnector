@@ -158,4 +158,4 @@ class DumpMulti extends AbstractCommand
         fclose($fp);
         return rtrim($data);
     }
-} 
+}

@@ -8,8 +8,8 @@ use GuzzleHttp\Client;
 use RuntimeException;
 use SportTrackerConnector\Tracker\AbstractTracker;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
-use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Track;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
 
 /**
@@ -183,7 +183,8 @@ class Polar extends AbstractTracker
      * @param string $match The matched part of the HTML (json) from which to extract the data.
      * @return array
      */
-    private function parseAltitudeSamples($match) {
+    private function parseAltitudeSamples($match)
+    {
         $altitudeSamples = array();
 
         $jsonData = \GuzzleHttp\json_decode($match, true);

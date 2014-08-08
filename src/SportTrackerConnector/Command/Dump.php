@@ -61,4 +61,4 @@ class Dump extends AbstractCommand
             return 1;
         }
     }
-} 
+}

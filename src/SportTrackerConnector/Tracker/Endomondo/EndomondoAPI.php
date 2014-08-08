@@ -6,11 +6,11 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use RuntimeException;
-use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Workout\Workout;
 
 /**
  * Class for working with Endomondo API.
@@ -47,7 +47,7 @@ class EndomondoAPI
     /**
      * The logged in user.
      *
-     * @var integer
+     * @var string
      */
     protected $userID;
 
@@ -426,4 +426,4 @@ class EndomondoAPI
             $hr
         );
     }
-} 
+}

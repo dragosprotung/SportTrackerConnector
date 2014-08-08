@@ -78,4 +78,4 @@ class Workout
     {
         return $this->tracks;
     }
-} 
+}

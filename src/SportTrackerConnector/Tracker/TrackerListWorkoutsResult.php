@@ -44,4 +44,4 @@ class TrackerListWorkoutsResult
         $this->sport = $sport;
         $this->startDateTime = $startDateTime;
     }
-} 
+}

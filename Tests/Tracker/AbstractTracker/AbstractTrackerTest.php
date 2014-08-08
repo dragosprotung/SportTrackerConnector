@@ -46,4 +46,3 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $mock->getTimeZoneOffset());
     }
 }
- 

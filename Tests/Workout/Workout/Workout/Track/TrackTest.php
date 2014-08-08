@@ -153,4 +153,4 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     {
         return new TrackPoint($lat, $lon, new DateTime($dateTime));
     }
-} 
+}
