@@ -88,10 +88,10 @@ abstract class AbstractTracker implements TrackerInterface
     {
         $originDateTime = new DateTime('now', $this->getTimeZone());
 
-        $UTCTimeZone = new DateTimeZone('UTC');
-        $UTCDateTime = new DateTime('now', $UTCTimeZone);
+        $utcTimeZone = new DateTimeZone('UTC');
+        $utcDateTime = new DateTime('now', $utcTimeZone);
 
-        return $UTCTimeZone->getOffset($UTCDateTime) - $this->getTimeZone()->getOffset($originDateTime);
+        return $utcTimeZone->getOffset($utcDateTime) - $this->getTimeZone()->getOffset($originDateTime);
     }
 
     /**

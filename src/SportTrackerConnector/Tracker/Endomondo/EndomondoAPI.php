@@ -197,7 +197,7 @@ class EndomondoAPI
                     case 'authToken':
                         $this->authToken = trim($line[1]);
                         break;
-                    case 'userId';
+                    case 'userId':
                         $this->userID = trim($line[1]);
                         break;
                 }
@@ -399,7 +399,7 @@ class EndomondoAPI
      * @param string $distance The distance.
      * @param string $speed The speed.
      * @param string $elevation The elevation
-     * @param string $hr The hear rate.
+     * @param string $heartRate The heart rate.
      * @return string
      */
     private function formatEndomondoTrackPoint(
@@ -410,7 +410,7 @@ class EndomondoAPI
         $distance = null,
         $speed = null,
         $elevation = null,
-        $hr = null
+        $heartRate = null
     ) {
         $dateTime = clone $dateTime;
         $dateTime->setTimezone(new \DateTimeZone('UTC'));
@@ -423,7 +423,7 @@ class EndomondoAPI
             $distance / 1000,
             $speed,
             $elevation,
-            $hr
+            $heartRate
         );
     }
 }

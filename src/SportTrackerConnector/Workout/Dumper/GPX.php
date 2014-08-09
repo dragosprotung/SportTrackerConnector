@@ -22,118 +22,118 @@ class GPX extends AbstractDumper
      */
     public function dumpToString(Workout $workout)
     {
-        $XMLWriter = new XMLWriter();
-        $XMLWriter->openMemory();
-        $XMLWriter->setIndent(true);
-        $XMLWriter->startDocument('1.0', 'UTF-8');
-        $XMLWriter->startElement('gpx');
+        $xmlWriter = new XMLWriter();
+        $xmlWriter->openMemory();
+        $xmlWriter->setIndent(true);
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startElement('gpx');
 
-        $XMLWriter->writeAttribute('version', '1.1');
-        $XMLWriter->writeAttribute('creator', 'SportTrackerConnector');
-        $XMLWriter->writeAttributeNs(
+        $xmlWriter->writeAttribute('version', '1.1');
+        $xmlWriter->writeAttribute('creator', 'SportTrackerConnector');
+        $xmlWriter->writeAttributeNs(
             'xsi',
             'schemaLocation',
             null,
             'http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd'
         );
-        $XMLWriter->writeAttribute('xmlns', 'http://www.topografix.com/GPX/1/1');
-        $XMLWriter->writeAttributeNs('xmlns', 'gpxtpx', null, 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1');
-        $XMLWriter->writeAttributeNs('xmlns', 'gpxx', null, 'http://www.garmin.com/xmlschemas/GpxExtensions/v3');
-        $XMLWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
+        $xmlWriter->writeAttribute('xmlns', 'http://www.topografix.com/GPX/1/1');
+        $xmlWriter->writeAttributeNs('xmlns', 'gpxtpx', null, 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1');
+        $xmlWriter->writeAttributeNs('xmlns', 'gpxx', null, 'http://www.garmin.com/xmlschemas/GpxExtensions/v3');
+        $xmlWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
 
-        $this->writeMetaData($XMLWriter, $workout);
-        $this->writeTracks($XMLWriter, $workout);
+        $this->writeMetaData($xmlWriter, $workout);
+        $this->writeTracks($xmlWriter, $workout);
 
-        $XMLWriter->endElement();
-        $XMLWriter->endDocument();
+        $xmlWriter->endElement();
+        $xmlWriter->endDocument();
 
-        return $XMLWriter->outputMemory(true);
+        return $xmlWriter->outputMemory(true);
     }
 
     /**
      * Write the tracks to the GPX.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param Workout $workout The workout.
      */
-    protected function writeTracks(XMLWriter $XMLWriter, Workout $workout)
+    protected function writeTracks(XMLWriter $xmlWriter, Workout $workout)
     {
         foreach ($workout->getTracks() as $track) {
-            $XMLWriter->startElement('trk');
-            $XMLWriter->writeElement('type', $track->getSport());
-            $XMLWriter->startElement('trkseg');
-            $this->writeTrackPoints($XMLWriter, $track->getTrackpoints());
-            $XMLWriter->endElement();
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('trk');
+            $xmlWriter->writeElement('type', $track->getSport());
+            $xmlWriter->startElement('trkseg');
+            $this->writeTrackPoints($xmlWriter, $track->getTrackpoints());
+            $xmlWriter->endElement();
+            $xmlWriter->endElement();
         }
     }
 
     /**
      * Write the track points to the GPX.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param \SportTrackerConnector\Workout\Workout\TrackPoint[] $trackPoints The track points to write.
      */
-    private function writeTrackPoints(XMLWriter $XMLWriter, array $trackPoints)
+    private function writeTrackPoints(XMLWriter $xmlWriter, array $trackPoints)
     {
         foreach ($trackPoints as $trackPoint) {
-            $XMLWriter->startElement('trkpt');
+            $xmlWriter->startElement('trkpt');
 
             // Location.
-            $XMLWriter->writeAttribute('lat', $trackPoint->getLatitude());
-            $XMLWriter->writeAttribute('lon', $trackPoint->getLongitude());
+            $xmlWriter->writeAttribute('lat', $trackPoint->getLatitude());
+            $xmlWriter->writeAttribute('lon', $trackPoint->getLongitude());
 
             // Elevation.
-            $XMLWriter->writeElement('ele', $trackPoint->getElevation());
+            $xmlWriter->writeElement('ele', $trackPoint->getElevation());
 
             // Time of position
             $dateTime = clone $trackPoint->getDateTime();
             $dateTime->setTimezone(new DateTimeZone('UTC'));
-            $XMLWriter->writeElement('time', $dateTime->format(DateTime::W3C));
+            $xmlWriter->writeElement('time', $dateTime->format(DateTime::W3C));
 
             // Extensions.
-            $this->writeExtensions($XMLWriter, $trackPoint->getExtensions());
+            $this->writeExtensions($xmlWriter, $trackPoint->getExtensions());
 
-            $XMLWriter->endElement();
+            $xmlWriter->endElement();
         }
     }
 
     /**
      * Write the extensions into the GPX.
      *
-     * @param XMLWriter $XMLWriter The XMLWriter.
+     * @param XMLWriter $xmlWriter The XMLWriter.
      * @param \SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface[] $extensions The extensions to write.
      * @throws InvalidArgumentException If an extension is not known.
      */
-    protected function writeExtensions(XMLWriter $XMLWriter, array $extensions)
+    protected function writeExtensions(XMLWriter $xmlWriter, array $extensions)
     {
-        $XMLWriter->startElement('extensions');
+        $xmlWriter->startElement('extensions');
         foreach ($extensions as $extension) {
             switch ($extension->getID()) {
                 case HR::ID:
-                    $XMLWriter->startElementNs('gpxtpx', 'TrackPointExtension', null);
-                    $XMLWriter->writeElementNs('gpxtpx', 'hr', null, $extension->getValue());
-                    $XMLWriter->endElement();
+                    $xmlWriter->startElementNs('gpxtpx', 'TrackPointExtension', null);
+                    $xmlWriter->writeElementNs('gpxtpx', 'hr', null, $extension->getValue());
+                    $xmlWriter->endElement();
                     break;
             }
         }
-        $XMLWriter->endElement();
+        $xmlWriter->endElement();
     }
 
     /**
      * Write the metadata in the GPX.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param Workout $workout The workout.
      */
-    protected function writeMetaData(XMLWriter $XMLWriter, Workout $workout)
+    protected function writeMetaData(XMLWriter $xmlWriter, Workout $workout)
     {
-        $XMLWriter->startElement('metadata');
+        $xmlWriter->startElement('metadata');
         if ($workout->getAuthor() !== null) {
-            $XMLWriter->startElement('author');
-            $XMLWriter->writeElement('name', $workout->getAuthor()->getName());
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('author');
+            $xmlWriter->writeElement('name', $workout->getAuthor()->getName());
+            $xmlWriter->endElement();
         }
-        $XMLWriter->endElement();
+        $xmlWriter->endElement();
     }
 }

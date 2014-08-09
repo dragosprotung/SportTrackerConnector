@@ -25,102 +25,102 @@ class TCX extends AbstractDumper
     public function dumpToString(Workout $workout)
     {
 
-        $XMLWriter = new XMLWriter();
-        $XMLWriter->openMemory();
-        $XMLWriter->setIndent(true);
-        $XMLWriter->startDocument('1.0', 'UTF-8');
-        $XMLWriter->startElement('TrainingCenterDatabase');
+        $xmlWriter = new XMLWriter();
+        $xmlWriter->openMemory();
+        $xmlWriter->setIndent(true);
+        $xmlWriter->startDocument('1.0', 'UTF-8');
+        $xmlWriter->startElement('TrainingCenterDatabase');
 
-        $XMLWriter->writeAttributeNs(
+        $xmlWriter->writeAttributeNs(
             'xsi',
             'schemaLocation',
             null,
             'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd'
         );
-        $XMLWriter->writeAttribute('xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2');
-        $XMLWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
+        $xmlWriter->writeAttribute('xmlns', 'http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2');
+        $xmlWriter->writeAttributeNs('xmlns', 'xsi', null, 'http://www.w3.org/2001/XMLSchema-instance');
 
-        $this->writeTracks($XMLWriter, $workout);
+        $this->writeTracks($xmlWriter, $workout);
 
-        $XMLWriter->endElement();
-        $XMLWriter->endDocument();
+        $xmlWriter->endElement();
+        $xmlWriter->endDocument();
 
-        return $XMLWriter->outputMemory(true);
+        return $xmlWriter->outputMemory(true);
     }
 
     /**
      * Write the tracks to the TCX.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param Workout $workout The workout.
      */
-    protected function writeTracks(XMLWriter $XMLWriter, Workout $workout)
+    protected function writeTracks(XMLWriter $xmlWriter, Workout $workout)
     {
-        $XMLWriter->startElement('Activities');
+        $xmlWriter->startElement('Activities');
         foreach ($workout->getTracks() as $track) {
-            $XMLWriter->startElement('Activity');
-            $XMLWriter->writeAttribute('Sport', ucfirst($track->getSport()));
+            $xmlWriter->startElement('Activity');
+            $xmlWriter->writeAttribute('Sport', ucfirst($track->getSport()));
             // Use the start date time as the ID. This could be anything.
-            $XMLWriter->writeElement('Id', $this->formatDateTime($track->getStartDateTime()));
+            $xmlWriter->writeElement('Id', $this->formatDateTime($track->getStartDateTime()));
 
-            $XMLWriter->startElement('Lap');
+            $xmlWriter->startElement('Lap');
 
-            $XMLWriter->writeAttribute('StartTime', $this->formatDateTime($track->getStartDateTime()));
-            $XMLWriter->writeElement('TotalTimeSeconds', $track->getDuration()->getTotalSeconds());
-            $XMLWriter->writeElement('DistanceMeters', $track->getLength());
+            $xmlWriter->writeAttribute('StartTime', $this->formatDateTime($track->getStartDateTime()));
+            $xmlWriter->writeElement('TotalTimeSeconds', $track->getDuration()->getTotalSeconds());
+            $xmlWriter->writeElement('DistanceMeters', $track->getLength());
 
-            $this->writeLapHeartRateDate($XMLWriter, $track);
+            $this->writeLapHeartRateDate($xmlWriter, $track);
 
-            $XMLWriter->startElement('Track');
-            $this->writeTrackPoints($XMLWriter, $track->getTrackpoints());
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('Track');
+            $this->writeTrackPoints($xmlWriter, $track->getTrackpoints());
+            $xmlWriter->endElement();
 
-            $XMLWriter->endElement();
+            $xmlWriter->endElement();
 
-            $XMLWriter->endElement();
+            $xmlWriter->endElement();
         }
-        $XMLWriter->endElement();
+        $xmlWriter->endElement();
     }
 
     /**
      * Write the track points to the TCX.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param \SportTrackerConnector\Workout\Workout\TrackPoint[] $trackPoints The track points to write.
      */
-    private function writeTrackPoints(XMLWriter $XMLWriter, array $trackPoints)
+    private function writeTrackPoints(XMLWriter $xmlWriter, array $trackPoints)
     {
         foreach ($trackPoints as $trackPoint) {
-            $XMLWriter->startElement('Trackpoint');
+            $xmlWriter->startElement('Trackpoint');
 
             // Time of position
             $dateTime = clone $trackPoint->getDateTime();
             $dateTime->setTimezone(new DateTimeZone('UTC'));
-            $XMLWriter->writeElement('Time', $this->formatDateTime($dateTime));
+            $xmlWriter->writeElement('Time', $this->formatDateTime($dateTime));
 
             // Position.
-            $XMLWriter->startElement('Position');
-            $XMLWriter->writeElement('LatitudeDegrees', $trackPoint->getLatitude());
-            $XMLWriter->writeElement('LongitudeDegrees', $trackPoint->getLongitude());
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('Position');
+            $xmlWriter->writeElement('LatitudeDegrees', $trackPoint->getLatitude());
+            $xmlWriter->writeElement('LongitudeDegrees', $trackPoint->getLongitude());
+            $xmlWriter->endElement();
 
             // Elevation.
-            $XMLWriter->writeElement('AltitudeMeters', $trackPoint->getElevation());
+            $xmlWriter->writeElement('AltitudeMeters', $trackPoint->getElevation());
 
             // Extensions.
-            $this->writeExtensions($XMLWriter, $trackPoint->getExtensions());
+            $this->writeExtensions($xmlWriter, $trackPoint->getExtensions());
 
-            $XMLWriter->endElement();
+            $xmlWriter->endElement();
         }
     }
 
     /**
      * Write the heart rate data for a lap.
      *
-     * @param XMLWriter $XMLWriter The XML writer.
+     * @param XMLWriter $xmlWriter The XML writer.
      * @param \SportTrackerConnector\Workout\Workout\Track $track The track to write.
      */
-    private function writeLapHeartRateDate(XMLWriter $XMLWriter, Track $track)
+    private function writeLapHeartRateDate(XMLWriter $xmlWriter, Track $track)
     {
         $averageHeartRate = array();
         $maxHearRate = null;
@@ -134,35 +134,35 @@ class TCX extends AbstractDumper
         }
 
         if ($averageHeartRate !== array()) {
-            $XMLWriter->startElement('AverageHeartRateBpm');
-            $XMLWriter->writeAttributeNs('xsi', 'type', null, 'HeartRateInBeatsPerMinute_t');
-            $XMLWriter->writeElement('Value', array_sum($averageHeartRate) / count($averageHeartRate));
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('AverageHeartRateBpm');
+            $xmlWriter->writeAttributeNs('xsi', 'type', null, 'HeartRateInBeatsPerMinute_t');
+            $xmlWriter->writeElement('Value', array_sum($averageHeartRate) / count($averageHeartRate));
+            $xmlWriter->endElement();
         }
 
         if ($maxHearRate !== null) {
-            $XMLWriter->startElement('MaximumHeartRateBpm');
-            $XMLWriter->writeAttributeNs('xsi', 'type', null, 'HeartRateInBeatsPerMinute_t');
-            $XMLWriter->writeElement('Value', $maxHearRate);
-            $XMLWriter->endElement();
+            $xmlWriter->startElement('MaximumHeartRateBpm');
+            $xmlWriter->writeAttributeNs('xsi', 'type', null, 'HeartRateInBeatsPerMinute_t');
+            $xmlWriter->writeElement('Value', $maxHearRate);
+            $xmlWriter->endElement();
         }
     }
 
     /**
      * Write the extensions into the TCX.
      *
-     * @param XMLWriter $XMLWriter The XMLWriter.
+     * @param XMLWriter $xmlWriter The XMLWriter.
      * @param \SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface[] $extensions The extensions to write.
      * @throws InvalidArgumentException If an extension is not known.
      */
-    protected function writeExtensions(XMLWriter $XMLWriter, array $extensions)
+    protected function writeExtensions(XMLWriter $xmlWriter, array $extensions)
     {
         foreach ($extensions as $extension) {
             switch ($extension->getID()) {
                 case HR::ID:
-                    $XMLWriter->startElement('HeartRateBpm');
-                    $XMLWriter->writeElement('Value', $extension->getValue());
-                    $XMLWriter->endElement();
+                    $xmlWriter->startElement('HeartRateBpm');
+                    $xmlWriter->writeElement('Value', $extension->getValue());
+                    $xmlWriter->endElement();
                     break;
             }
         }

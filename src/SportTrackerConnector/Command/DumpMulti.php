@@ -74,10 +74,10 @@ class DumpMulti extends AbstractCommand
             $this->logger->debug('Writing list to file ' . $listFile);
             $format = $this->input->getArgument('output-format');
             $outputDirectory = rtrim($this->input->getOption('output-directory'), DIRECTORY_SEPARATOR);
-            $fh = fopen($listFile, 'w');
+            $filePointer = fopen($listFile, 'w');
             foreach ($workouts as $i => $workout) {
                 fputcsv(
-                    $fh,
+                    $filePointer,
                     array(
                         'output-format' => $format,
                         'output-file' => $outputDirectory . DIRECTORY_SEPARATOR . 'workout-' . $i . '.' . $format,
@@ -89,7 +89,7 @@ class DumpMulti extends AbstractCommand
                     )
                 );
             }
-            fclose($fh);
+            fclose($filePointer);
 
             if ($this->input->getOption('list-only') !== true) {
                 $this->processListFile($listFile);
@@ -109,8 +109,8 @@ class DumpMulti extends AbstractCommand
         $this->logger->debug('Processing list file ' . $listFile);
         $dumpCommand = new Dump();
 
-        $fh = fopen($listFile, 'r+');
-        while (($line = fgets($fh)) !== false) {
+        $filePointer = fopen($listFile, 'r+');
+        while (($line = fgets($filePointer)) !== false) {
             $data = str_getcsv($line);
             if ($data[6] == true) {
                 // Skip if the workout has been marked as processed.
@@ -131,12 +131,12 @@ class DumpMulti extends AbstractCommand
             $dumpCommand->run($input, $this->output);
 
             // Rewind to the begging of the line and
-            fseek($fh, -mb_strlen($line), SEEK_CUR);
+            fseek($filePointer, -mb_strlen($line), SEEK_CUR);
             $data[6] = 1;
             $data = $this->strPutCSV($data);
-            fwrite($fh, $data . "\n");
+            fwrite($filePointer, $data . "\n");
         }
-        fclose($fh);
+        fclose($filePointer);
     }
 
     /**
@@ -151,11 +151,11 @@ class DumpMulti extends AbstractCommand
      */
     private function strPutCSV(array $input, $delimiter = ',', $enclosure = '"')
     {
-        $fp = fopen('php://temp', 'r+');
-        fputcsv($fp, $input, $delimiter, $enclosure);
-        rewind($fp);
-        $data = fread($fp, 1048576);
-        fclose($fp);
+        $filePointer = fopen('php://temp', 'r+');
+        fputcsv($filePointer, $input, $delimiter, $enclosure);
+        rewind($filePointer);
+        $data = fread($filePointer, 1048576);
+        fclose($filePointer);
         return rtrim($data);
     }
 }

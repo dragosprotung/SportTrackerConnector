@@ -8,7 +8,7 @@
 	<!-- Generic -->
 	<rule ref="Generic.Files.LineLength">
 		<properties>
-			<property name="lineLimit" value="375" />
+			<property name="lineLimit" value="130" />
 			<property name="absoluteLineLimit" value="0" />
 		</properties>
 	</rule>
