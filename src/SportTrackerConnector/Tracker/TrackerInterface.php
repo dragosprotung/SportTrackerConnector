@@ -33,6 +33,7 @@ interface TrackerInterface
      * Set the timezone of the tracker.
      *
      * @param DateTimeZone $timeZone The timezone.
+     * @return void
      */
     public function setTimeZone(DateTimeZone $timeZone);
 
@@ -79,6 +80,7 @@ interface TrackerInterface
      * The a logger.
      *
      * @param LoggerInterface $logger The logger to set.
+     * @return void
      */
     public function setLogger(LoggerInterface $logger);
 }

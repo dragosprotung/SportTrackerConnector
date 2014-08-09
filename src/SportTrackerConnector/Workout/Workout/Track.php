@@ -49,7 +49,7 @@ class Track
     /**
      * Constructor.
      *
-     * @param array $trackPoints The track points.
+     * @param TrackPoint[] $trackPoints The track points.
      * @param mixed $sport The sport for this track.
      */
     public function __construct(array $trackPoints = array(), $sport = SportMapperInterface::OTHER)

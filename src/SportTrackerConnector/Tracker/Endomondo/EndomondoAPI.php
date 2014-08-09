@@ -265,7 +265,7 @@ class EndomondoAPI
      * Post one workout track to endomondo.
      *
      * @param Track $track
-     * @return integer
+     * @return null|string
      * @throws \RuntimeException If the uploading stops at one point.
      */
     private function postTrack(Track $track)

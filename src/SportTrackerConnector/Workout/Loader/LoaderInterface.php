@@ -19,7 +19,7 @@ interface LoaderInterface
      * Get a workout from a file.
      *
      * @param string $file The path to the file to load.
-     * @return \SportTrackerConnector\Workout\Workout;
+     * @return \SportTrackerConnector\Workout\Workout
      */
     public function fromFile($file);
 }

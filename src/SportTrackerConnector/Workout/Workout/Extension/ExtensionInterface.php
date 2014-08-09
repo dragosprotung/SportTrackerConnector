@@ -24,7 +24,7 @@ interface ExtensionInterface
     /**
      * Get the value for the extension.
      *
-     * @return mixed
+     * @return string|null
      */
     public function getValue();
 }
