@@ -21,7 +21,7 @@ class AuthorTest extends \PHPUnit_Framework_TestCase
             array(null),
             array('100'),
             array('John Doe'),
-            array(new TestSetGetNameInvalidToString('My author'))
+            array(new TestSetGetNameInvalidToString())
         );
     }
 

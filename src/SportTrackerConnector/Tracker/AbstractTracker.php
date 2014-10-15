@@ -71,7 +71,7 @@ abstract class AbstractTracker implements TrackerInterface
      */
     public static function fromConfig(LoggerInterface $logger, array $config)
     {
-        $tracker = new static($logger, $config['auth']['username'], $config['auth']['password'], $logger);
+        $tracker = new static($logger, $config['auth']['username'], $config['auth']['password']);
 
         $timeZone = new DateTimeZone($config['timezone']);
         $tracker->setTimeZone($timeZone);

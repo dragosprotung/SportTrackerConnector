@@ -195,7 +195,8 @@ class EndomondoAPI
                 $line = explode('=', $line, 2);
                 switch ($line[0]) {
                     case 'authToken':
-                        $this->authToken = trim($line[1]);
+                        $token = trim($line[1]);
+                        $this->authToken = empty($token) ? null : $token;
                         break;
                     case 'userId':
                         $this->userID = trim($line[1]);

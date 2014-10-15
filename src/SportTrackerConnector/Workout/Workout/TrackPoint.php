@@ -122,28 +122,28 @@ class TrackPoint
     /**
      * Check if an extension is present.
      *
-     * @param string $id The ID of the extension.
+     * @param string $idExtension The ID of the extension.
      * @return boolean
      */
-    public function hasExtension($id)
+    public function hasExtension($idExtension)
     {
-        return isset($this->extensions[$id]);
+        return isset($this->extensions[$idExtension]);
     }
 
     /**
      * Get an extension by ID.
      *
-     * @param string $id The ID of the extension.
+     * @param string $idExtension The ID of the extension.
      * @return ExtensionInterface
      * @throws \OutOfBoundsException If the extension is not found.
      */
-    public function getExtension($id)
+    public function getExtension($idExtension)
     {
-        if ($this->hasExtension($id) !== true) {
-            throw new \OutOfBoundsException('Extension "' . $id . '" not found.');
+        if ($this->hasExtension($idExtension) !== true) {
+            throw new \OutOfBoundsException('Extension "' . $idExtension . '" not found.');
         }
 
-        return $this->extensions[$id];
+        return $this->extensions[$idExtension];
     }
 
     /**
@@ -243,8 +243,8 @@ class TrackPoint
 
         $start = $this->getDateTime();
         $end = $trackPoint->getDateTime();
-        $dateDifference = $start->diff($end);
-        $secondsDifference = $dateDifference->days * 86400 + $dateDifference->h * 3600 + $dateDifference->i * 60 + $dateDifference->s;
+        $dateDiff = $start->diff($end);
+        $secondsDifference = $dateDiff->days * 86400 + $dateDiff->h * 3600 + $dateDiff->i * 60 + $dateDiff->s;
 
         if ($secondsDifference === 0) {
             return 0;

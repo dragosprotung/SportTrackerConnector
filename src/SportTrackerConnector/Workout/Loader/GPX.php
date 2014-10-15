@@ -22,7 +22,7 @@ class GPX extends AbstractLoader
      * Get a workout from a string.
      *
      * @param string $string The data.
-     * @return \SportTrackerConnector\Workout\Workout;
+     * @return \SportTrackerConnector\Workout\Workout
      */
     public function fromString($string)
     {
