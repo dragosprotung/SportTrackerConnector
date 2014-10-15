@@ -152,7 +152,7 @@ class EndomondoAPI
      */
     public function getAuthToken()
     {
-        if ($this->authToken == null) {
+        if ($this->authToken === null) {
             $this->fetchAuthenticationToken();
         }
 
@@ -204,7 +204,7 @@ class EndomondoAPI
             }
         }
 
-        if ($this->authToken == null) {
+        if ($this->authToken === null) {
             throw new RuntimeException('Authentication on Endomondo failed.');
         }
     }
