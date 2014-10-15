@@ -16,6 +16,25 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 class TCXTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function testElevationIsRoundedWith2Decimals()
+    {
+        $expected = new Workout();
+        $expected->addTrack(
+            new Track(
+                array(
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11.23, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10.55, 88)
+                ),
+                SportMapperInterface::RUNNING
+            )
+        );
+
+        $tcx = new TCX();
+        $actual = $tcx->fromString(file_get_contents(__DIR__ . '/Fixtures/testElevationIsRoundedWith2Decimals.tcx'));
+
+        $this->assertEquals($expected, $actual);
+    }
+
     /**
      * Test loading a workout from a TCX string with a single activity.
      */

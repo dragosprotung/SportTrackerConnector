@@ -3,13 +3,12 @@
 namespace SportTrackerConnector\Tests\Tracker\Polar\Polar;
 
 use DateTime;
-use DateTimeZone;
 use SportTrackerConnector\Tracker\Polar\Polar;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use SportTrackerConnector\Workout\Workout;
 
 /**
  * Test the Polar tracker.
@@ -35,12 +34,15 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      * Test fetching a workout with one sport from an HTML page.
      * @group ttt
      */
-    public function testFetchWorkoutFromHTMLWithSingleSport()
+    public function testDownloadWorkoutWithSingleSport()
     {
+        $idWorkout = 1;
+
         $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
 
-        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
-        $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('fetchWorkoutTCX'), array($loggerMock));
+        $workoutTCX = file_get_contents(__DIR__ . '/Fixtures/workout-single.tcx');
+        $polarMock->expects($this->once())->method('fetchWorkoutTCX')->with($idWorkout)->willReturn($workoutTCX);
 
         $expected = new Workout();
         $expected->addTrack(
@@ -53,9 +55,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $html = file_get_contents(__DIR__ . '/Fixtures/workout-single.html');
-
-        $actual = $polarMock->fetchWorkoutFromHTML($html);
+        $actual = $polarMock->downloadWorkout($idWorkout);
 
         $this->assertEquals($expected, $actual);
     }
@@ -65,10 +65,13 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetchWorkoutFromHTMLWithMultiSport()
     {
+        $idWorkout = 1;
+
         $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
 
-        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getTimeZone'), array($loggerMock));
-        $polarMock->expects($this->any())->method('getTimeZone')->will($this->returnValue(new DateTimeZone('Europe/Berlin')));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('fetchWorkoutTCX'), array($loggerMock));
+        $workoutTCX = file_get_contents(__DIR__ . '/Fixtures/workout-multi.tcx');
+        $polarMock->expects($this->once())->method('fetchWorkoutTCX')->with($idWorkout)->willReturn($workoutTCX);
 
         $expected = new Workout();
         $expected->addTrack(
@@ -90,9 +93,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $html = file_get_contents(__DIR__ . '/Fixtures/workout-multi.html');
-
-        $actual = $polarMock->fetchWorkoutFromHTML($html);
+        $actual = $polarMock->downloadWorkout($idWorkout);
 
         $this->assertEquals($expected, $actual);
     }
@@ -107,12 +108,12 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      * @param integer $hr The heart rate.
      * @return TrackPoint
      */
-    private function getTrackPoint($lat, $lon, $time, $ele, $hr)
+    private function getTrackPoint($lat, $lon, $time, $ele, $heartRate)
     {
         $trackPoint = new TrackPoint($lat, $lon, new DateTime($time));
         $trackPoint->setElevation($ele);
         $extensions = array(
-            new HR($hr)
+            new HR($heartRate)
         );
         $trackPoint->setExtensions($extensions);
         return $trackPoint;

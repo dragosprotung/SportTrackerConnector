@@ -21,7 +21,7 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
             array(new DateTimeZone('UTC'), 0),
             array(new DateTimeZone('Europe/Berlin'), -7200),
             array(new DateTimeZone('Europe/Bucharest'), -10800),
-            array(new DateTimeZone('Pacific/Auckland'), -43200),
+            array(new DateTimeZone('Pacific/Auckland'), -46800),
             array(new DateTimeZone('America/Martinique'), 14400)
         );
     }

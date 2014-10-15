@@ -46,7 +46,7 @@ class TCX extends AbstractLoader
                         $longitude = (string)$trackPoint->Position->LongitudeDegrees;
 
                         $workoutTrackPoint = new TrackPoint($latitude, $longitude, $dateTime);
-                        $workoutTrackPoint->setElevation((int)$trackPoint->AltitudeMeters);
+                        $workoutTrackPoint->setElevation(round((float)$trackPoint->AltitudeMeters, 2));
 
                         $extensions = $this->parseExtensions($trackPoint);
                         $workoutTrackPoint->setExtensions($extensions);
