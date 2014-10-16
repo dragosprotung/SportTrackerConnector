@@ -19,7 +19,7 @@ class ConsoleApplication extends Application
      */
     public function __construct()
     {
-        parent::__construct('Sport tracker connector', '0.2.2');
+        parent::__construct('Sport tracker connector', '0.3.0');
 
         $this->add(new Upload());
         $this->add(new UploadSync());
