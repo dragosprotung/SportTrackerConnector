@@ -85,8 +85,8 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $actual = $strava->listWorkouts($startDate, $endDate);
 
         $expected = array(
-            $this->getTrackerListWorkoutsResultMock('111111', '2014-10-13 19:36:48'),
-            $this->getTrackerListWorkoutsResultMock('222222', '2014-10-14 19:36:48'),
+            $this->getTrackerListWorkoutsResultMock('111111', '2014-10-13 17:36:48'),
+            $this->getTrackerListWorkoutsResultMock('222222', '2014-10-14 17:36:48'),
         );
 
         $this->assertEquals($expected, $actual);
@@ -215,7 +215,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
      */
     private function getTrackerListWorkoutsResultMock($id, $startDateTime, $sport = 'running')
     {
-        $startDateTime = new \DateTime($startDateTime);
+        $startDateTime = new \DateTime($startDateTime, new \DateTimeZone('UTC'));
         return new TrackerListWorkoutsResult($id, $sport, $startDateTime);
     }
 

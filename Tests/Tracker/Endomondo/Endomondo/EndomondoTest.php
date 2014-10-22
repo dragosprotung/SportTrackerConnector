@@ -201,7 +201,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
      */
     private function getTrackerListWorkoutsResultMock($id, $startDateTime, $sport = 'running')
     {
-        $startDateTime = new \DateTime($startDateTime);
+        $startDateTime = new \DateTime($startDateTime, new \DateTimeZone('UTC'));
         return new TrackerListWorkoutsResult($id, $sport, $startDateTime);
     }
 

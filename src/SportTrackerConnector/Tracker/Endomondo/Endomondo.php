@@ -3,6 +3,7 @@
 namespace SportTrackerConnector\Tracker\Endomondo;
 
 use DateTime;
+use DateTimeZone;
 use GuzzleHttp\Client;
 use RuntimeException;
 use SportTrackerConnector\Tracker\AbstractTracker;
@@ -50,10 +51,11 @@ class Endomondo extends AbstractTracker
         $data = $this->getEndomondoAPI()->listWorkouts($startDate, $endDate);
         $this->logger->debug('Parsing data.');
         foreach ($data['data'] as $workout) {
-            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s \U\T\C', $workout['start_time']);
+            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s \U\T\C', $workout['start_time'], new DateTimeZone('UTC'));
             if ($startDateTime === false) {
                 throw new RuntimeException('The workout "' . $workout['id'] . '" start date time is not valid.');
             }
+            $startDateTime->setTimezone($this->getTimeZone());
             $list[] = new TrackerListWorkoutsResult($workout['id'], $this->getSportMapper()->getSportFromCode($workout['sport']), $startDateTime);
         }
 
