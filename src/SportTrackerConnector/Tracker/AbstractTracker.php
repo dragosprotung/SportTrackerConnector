@@ -4,6 +4,7 @@ namespace SportTrackerConnector\Tracker;
 
 use DateTime;
 use DateTimeZone;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -11,6 +12,8 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractTracker implements TrackerInterface
 {
+
+    use LoggerAwareTrait;
 
     /**
      * Username for polar.
@@ -39,13 +42,6 @@ abstract class AbstractTracker implements TrackerInterface
      * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
      */
     protected $sportMapper;
-
-    /**
-     * Logger.
-     *
-     * @var \Psr\Log\LoggerInterface
-     */
-    protected $logger;
 
     /**
      * Constructor.
@@ -134,14 +130,4 @@ abstract class AbstractTracker implements TrackerInterface
      * @return \SportTrackerConnector\Workout\Workout\SportMapperInterface
      */
     abstract protected function constructSportMapper();
-
-    /**
-     * The a logger.
-     *
-     * @param LoggerInterface $logger The logger to set.
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
 }

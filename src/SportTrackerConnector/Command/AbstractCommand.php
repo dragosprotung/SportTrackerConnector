@@ -98,6 +98,9 @@ abstract class AbstractCommand extends Command
             case 'endomondo':
                 $class = 'SportTrackerConnector\Tracker\Endomondo\Endomondo';
                 break;
+            case 'strava':
+                $class = 'SportTrackerConnector\Tracker\Strava\Strava';
+                break;
             default:
                 throw new InvalidArgumentException('Unknown tracker "' . $code . '".');
         }

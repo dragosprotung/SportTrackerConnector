@@ -1,0 +1,13 @@
+HTTP/1.1 400 Bad Request
+Cache-Control: no-cache
+Content-Type: application/json; charset=utf-8
+Date: Wed, 22 Oct 2014 19:48:34 GMT
+Set-Cookie: _strava3_session=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX; domain=strava.com; path=/; HttpOnly
+Status: 400 Bad Request
+X-RateLimit-Limit: 600,30000
+X-RateLimit-Usage: 2,10
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Length: 243
+Connection: keep-alive
+
+{"id":123456789,"external_id":"SportTrackerConnectorWorkout_54480a0bd9828.tcx","error":"SportTrackerConnectorWorkout_54480a0bd9828.tcx duplicate of activity 111111","status":"There was an error processing your activity.","activity_id":null}

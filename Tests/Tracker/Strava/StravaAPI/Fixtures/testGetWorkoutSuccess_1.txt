@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Cache-Control: must-revalidate, private, max-age=0
+Content-Type: application/json; charset=utf-8
+Date: Tue, 21 Oct 2014 21:54:07 GMT
+Set-Cookie: _strava3_session=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX; domain=strava.com; path=/; HttpOnly
+Status: 200 OK
+X-RateLimit-Limit: 600,30000
+X-RateLimit-Usage: 4,27
+X-UA-Compatible: IE=Edge,chrome=1
+transfer-encoding: chunked
+Connection: keep-alive
+
+[{"type":"latlng","data":[[53.53,10.10],[53.54,10.11],[53.55,10.12]],"series_type":"distance","original_size":3,"resolution":"high"},{"type":"time","data":[0,1,2],"series_type":"distance","original_size":3,"resolution":"high"},{"type":"distance","data":[0.0,1.8,3.9],"series_type":"distance","original_size":3,"resolution":"high"},{"type":"altitude","data":[6.0,6.1,6.2],"series_type":"distance","original_size":3,"resolution":"high"},{"type":"heartrate","data":[95,96,97],"series_type":"distance","original_size":3,"resolution":"high"}]

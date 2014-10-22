@@ -4,13 +4,14 @@ namespace SportTrackerConnector\Tracker;
 
 use DateTime;
 use DateTimeZone;
+use Psr\Log\LoggerAwareInterface;
 use SportTrackerConnector\Workout\Workout;
 use Psr\Log\LoggerInterface;
 
 /**
  * Interface for trackers.
  */
-interface TrackerInterface
+interface TrackerInterface extends LoggerAwareInterface
 {
 
     /**
@@ -75,12 +76,4 @@ interface TrackerInterface
      * @return \SportTrackerConnector\Workout\Workout\SportMapperInterface
      */
     public function getSportMapper();
-
-    /**
-     * The a logger.
-     *
-     * @param LoggerInterface $logger The logger to set.
-     * @return void
-     */
-    public function setLogger(LoggerInterface $logger);
 }

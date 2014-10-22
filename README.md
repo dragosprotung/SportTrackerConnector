@@ -2,10 +2,13 @@
 
 ## Overview
 
-A set of tools to dump / upload / port workouts from / to online sport trackers (ex: endomondo.com, flow.polar.com).
+A set of tools to dump / upload / port workouts from / to online sport trackers.
 
-I create it as i wanted to import all my workouts from flow.polar.com to endomondo.com.
-It is extensible enough to support other online sport trackers, but for the moment only polar & endomondo are supported.
+Supported trackers:
+
+* endomondo.com
+* strava.com
+* flow.polar.com
 
 
 [![Build Status](https://travis-ci.org/dragosprotung/SportTrackerConnector.svg?branch=master)](https://travis-ci.org/dragosprotung/SportTrackerConnector)

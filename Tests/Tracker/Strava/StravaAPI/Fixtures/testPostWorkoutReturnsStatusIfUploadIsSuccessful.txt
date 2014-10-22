@@ -1,0 +1,14 @@
+HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+Date: Wed, 22 Oct 2014 19:52:03 GMT
+ETag: "f3236a43ec656968e8d6ceda4085183a"
+Set-Cookie: _strava3_session=BAh7B0kiD3Nlc3Npb25faWQGOgZFRkkiJWEzNTc5NzMxYzk1Y2ViNmIzYzllMjEyYjYxMGNiNGM2BjsAVEkiEGNsZWFyX2NsaWNrBjsARlQ%3D--f4c79a677027fdd09e5fcfbb6185f68fd9084133; domain=strava.com; path=/; HttpOnly
+Status: 201 Created
+X-RateLimit-Limit: 600,30000
+X-RateLimit-Usage: 3,11
+X-UA-Compatible: IE=Edge,chrome=1
+Content-Length: 162
+Connection: keep-alive
+
+{"id":123456789,"external_id":"SportTrackerConnectorWorkout_54480add6f5ca.tcx","error":null,"status":"Your activity is still being processed.","activity_id":null}
