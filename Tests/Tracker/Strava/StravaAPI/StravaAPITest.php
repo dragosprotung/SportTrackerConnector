@@ -98,8 +98,10 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
 
         $workout = new Workout();
 
-        $this->setExpectedException('RuntimeException',
-            'Could not upload workout to strava.com. There was an error processing your activity. Error: ');
+        $this->setExpectedException(
+            'RuntimeException',
+            'Could not upload workout to strava.com. There was an error processing your activity. Error: '
+        );
 
         $strava->postWorkout($workout);
     }
@@ -135,7 +137,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
     /**
      * Get an StravaAPI mock.
      *
-     * @param array $responses The responses for the client.
+     * @param string[] $responses The responses for the client.
      * @param string $accessToken The token for auth.
      * @return StravaAPI
      */

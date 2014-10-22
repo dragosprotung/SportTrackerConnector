@@ -43,6 +43,13 @@ class StravaAPI
     protected $accessToken;
 
     /**
+     * The sport mapper.
+     *
+     * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
+     */
+    protected $sportMapper;
+
+    /**
      * Constructor.
      *
      * @param ClientInterface $client The HTTP client.

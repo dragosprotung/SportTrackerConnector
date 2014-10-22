@@ -139,7 +139,6 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test downloading a workout with points.
-     * @group ttt
      */
     public function testDownloadWorkoutWithPoints()
     {
@@ -176,7 +175,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     /**
      * Get an EndomondoAPI mock.
      *
-     * @param array $mockMethods The methods to mock.
+     * @param string[] $mockMethods The methods to mock.
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getEndomondoAPIMock($mockMethods = array())

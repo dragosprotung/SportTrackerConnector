@@ -56,9 +56,9 @@ class Dump extends AbstractCommand
         if ($dumper->dumpToFile($workout, $outputFile, $overwriteOutput) === true) {
             $this->output->writeln('<info>Dump successfully finished. Output file: ' . $outputFile . '</info>');
             return 0;
-        } else {
-            $this->output->writeln('<error>Could not dump workout</error>');
-            return 1;
         }
+
+        $this->output->writeln('<error>Could not dump workout</error>');
+        return 1;
     }
 }

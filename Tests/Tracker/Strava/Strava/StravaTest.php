@@ -74,8 +74,8 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $endDate = new \DateTime('today');
 
         $stravaAPI = $this->getStravaAPIMock(array('listWorkouts'));
-        $APIReturn = json_decode(file_get_contents(__DIR__ . '/Fixtures/testListWorkoutsSuccess.json'), true);
-        $stravaAPI->expects($this->once())->method('listWorkouts')->with($startDate, $endDate)->willReturn($APIReturn);
+        $apiReturn = json_decode(file_get_contents(__DIR__ . '/Fixtures/testListWorkoutsSuccess.json'), true);
+        $stravaAPI->expects($this->once())->method('listWorkouts')->with($startDate, $endDate)->willReturn($apiReturn);
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $accessToken = '1234567890abc';
@@ -188,7 +188,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
     /**
      * Get an StravaAPI mock.
      *
-     * @param array $mockMethods The methods to mock.
+     * @param string[] $mockMethods The methods to mock.
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getStravaAPIMock($mockMethods = array())

@@ -194,7 +194,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     /**
      * Get an EndomondoAPI mock.
      *
-     * @param array $responses The responses for the client.
+     * @param string[] $responses The responses for the client.
      * @param string $token The token for auth.
      * @return EndomondoAPI
      */

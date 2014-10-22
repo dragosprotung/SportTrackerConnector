@@ -32,7 +32,6 @@ class PolarTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test fetching a workout with one sport from an HTML page.
-     * @group ttt
      */
     public function testDownloadWorkoutWithSingleSport()
     {
@@ -105,7 +104,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
      * @param string $lon The longitude.
      * @param string $time The time.
      * @param integer $ele The elevation.
-     * @param integer $hr The heart rate.
+     * @param integer $heartRate The heart rate.
      * @return TrackPoint
      */
     private function getTrackPoint($lat, $lon, $time, $ele, $heartRate)

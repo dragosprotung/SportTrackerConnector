@@ -15,7 +15,7 @@ class TrackerListWorkoutsResult
      *
      * @var integer
      */
-    public $id;
+    public $idWorkout;
 
     /**
      * The sport. One of the constants from SportMapperInterface.
@@ -34,13 +34,13 @@ class TrackerListWorkoutsResult
     /**
      * Constructor.
      *
-     * @param integer $id The ID of the workout.
+     * @param integer $idWorkout The ID of the workout.
      * @param string $sport The sport. One of the constants from SportMapperInterface.
      * @param DateTime $startDateTime The start date time of the workout.
      */
-    public function __construct($id, $sport, DateTime $startDateTime)
+    public function __construct($idWorkout, $sport, DateTime $startDateTime)
     {
-        $this->id = $id;
+        $this->idWorkout = $idWorkout;
         $this->sport = $sport;
         $this->startDateTime = $startDateTime;
     }

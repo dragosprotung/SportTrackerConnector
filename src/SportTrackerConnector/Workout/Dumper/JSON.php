@@ -21,7 +21,8 @@ class JSON extends AbstractDumper
     public function dumpToString(Workout $workout)
     {
         $data = array();
-        foreach ($workout->getTracks() as $track) {
+        $tracks = $workout->getTracks();
+        foreach ($tracks as $track) {
             $workout = array('points' => $this->writeTrackPoints($track->getTrackpoints()));
             $data[] = array('workout' => $workout);
         }

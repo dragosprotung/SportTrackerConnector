@@ -83,7 +83,7 @@ class DumpMulti extends AbstractCommand
                         'output-file' => $outputDirectory . DIRECTORY_SEPARATOR . 'workout-' . $i . '.' . $format,
                         'output-overwrite' => (int)$this->input->getOption('output-overwrite'),
                         'tracker' => $tracker->getID(),
-                        'id' => $workout->id,
+                        'id' => $workout->idWorkout,
                         'startDateTime' => $workout->startDateTime->format(DateTime::W3C),
                         'processed' => '0'
                     )

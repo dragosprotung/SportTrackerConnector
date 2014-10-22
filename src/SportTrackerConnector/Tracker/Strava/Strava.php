@@ -40,13 +40,6 @@ class Strava extends AbstractTracker
     protected $accessToken;
 
     /**
-     * The HTTP client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    private $httpClient;
-
-    /**
      * The Strava API.
      *
      * @var \SportTrackerConnector\Tracker\Strava\StravaAPI
@@ -65,14 +58,6 @@ class Strava extends AbstractTracker
         $this->accessToken = $accessToken;
 
         $this->timeZone = new DateTimeZone('UTC');
-
-        $this->httpClient = new Client(
-            [
-                'defaults' => [
-                    'headers' => ['Authorization' => 'Bearer ' . $this->accessToken],
-                ]
-            ]
-        );
     }
 
     /**
@@ -163,7 +148,8 @@ class Strava extends AbstractTracker
             $workoutDetails = $this->getStravaAPI()->getWorkout($idWorkout);
 
             $this->logger->debug('Writing track points.');
-            for ($i = 0; $i < count(reset($workoutDetails)); $i++) {
+            $pointsSize = count(reset($workoutDetails));
+            for ($i = 0; $i < $pointsSize; $i++) {
                 $latitude = $workoutDetails['latlng'][$i][0];
                 $longitude = $workoutDetails['latlng'][$i][1];
                 $dateTime = $workoutDetails['time'][$i];
