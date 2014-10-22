@@ -75,11 +75,11 @@ class StravaAPI
     public function getWorkout($idWorkout)
     {
         $workoutSummaryURL = sprintf(self::STRAVA_URL_WORKOUT_SUMMARY, $idWorkout);
-        $workoutDetailsURL = sprintf(self::STRAVA_URL_WORKOUT_DETAILS, 11111);
+        $workoutDetailsURL = sprintf(self::STRAVA_URL_WORKOUT_DETAILS, $idWorkout);
         try {
             $workoutSummary = $this->httpClient->get($workoutSummaryURL)->json();
 
-            $workoutStartDateTime = new DateTime($workoutSummary['start_date']);
+            $workoutStartDateTime = DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $workoutSummary['start_date'], new \DateTimeZone('UTC'));
 
             $workoutStreams = $this->httpClient->get($workoutDetailsURL)->json();
 

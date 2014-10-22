@@ -153,6 +153,8 @@ class Strava extends AbstractTracker
                 $latitude = $workoutDetails['latlng'][$i][0];
                 $longitude = $workoutDetails['latlng'][$i][1];
                 $dateTime = $workoutDetails['time'][$i];
+                $dateTime->setTimezone($this->getTimeZone());
+
                 $trackPoint = new TrackPoint($latitude, $longitude, $dateTime);
                 if (isset($workoutDetails['altitude'])) {
                     $trackPoint->setElevation($workoutDetails['altitude'][$i]);

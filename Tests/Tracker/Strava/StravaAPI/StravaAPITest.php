@@ -35,9 +35,9 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
                 ),
             'time' =>
                 array(
-                    new \DateTime('2014-10-13 17:36:48', new \DateTimeZone('+00:00')),
-                    new \DateTime('2014-10-13 17:36:49', new \DateTimeZone('+00:00')),
-                    new \DateTime('2014-10-13 17:36:50', new \DateTimeZone('+00:00')),
+                    new \DateTime('2014-10-13 17:36:48', new \DateTimeZone('UTC')),
+                    new \DateTime('2014-10-13 17:36:49', new \DateTimeZone('UTC')),
+                    new \DateTime('2014-10-13 17:36:50', new \DateTimeZone('UTC')),
                 ),
             'altitude' => array(6.0, 6.1, 6.2),
             'heartrate' => array(95, 96, 97)
