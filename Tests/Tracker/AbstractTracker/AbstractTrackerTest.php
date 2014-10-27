@@ -3,6 +3,7 @@
 namespace SportTrackerConnector\Tests\Tracker\AbstractTracker;
 
 use DateTimeZone;
+use DateTime;
 
 /**
  * Test for AbstractTracker.
@@ -17,13 +18,25 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderTestGetTimeZoneOffset()
     {
-        return array(
-            array(new DateTimeZone('UTC'), 0),
-            array(new DateTimeZone('Europe/Berlin'), -7200),
-            array(new DateTimeZone('Europe/Bucharest'), -10800),
-            array(new DateTimeZone('Pacific/Auckland'), -46800),
-            array(new DateTimeZone('America/Martinique'), 14400)
-        );
+        $data = array();
+        $data[] = array(new DateTimeZone('UTC'), 0);
+        $data[] = array(new DateTimeZone('Europe/Berlin'), $this->isDST('Europe/Berlin') ? -7200 : -3600);
+        $data[] = array(new DateTimeZone('Europe/Bucharest'), $this->isDST('Europe/Bucharest') ? -10800 : -7200);
+        $data[] = array(new DateTimeZone('America/Los_Angeles'), $this->isDST('America/Los_Angeles') ? 25200 : 28800);
+        $data[] = array(new DateTimeZone('Pacific/Auckland'), $this->isDST('Pacific/Auckland') ? -46800 : -43200);
+
+        return $data;
+    }
+
+    /**
+     * Check if a timezone is in daylight saving time.
+     *
+     * @param string $timezone The timezone to check.
+     * @return boolean
+     */
+    private function isDST($timezone) {
+        $date = new DateTime('now', new DateTimeZone($timezone));
+        return (boolean)$date->format('I');
     }
 
     /**
