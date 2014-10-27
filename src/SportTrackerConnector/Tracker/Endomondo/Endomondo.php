@@ -56,7 +56,11 @@ class Endomondo extends AbstractTracker
                 throw new RuntimeException('The workout "' . $workout['id'] . '" start date time is not valid.');
             }
             $startDateTime->setTimezone($this->getTimeZone());
-            $list[] = new TrackerListWorkoutsResult($workout['id'], $this->getSportMapper()->getSportFromCode($workout['sport']), $startDateTime);
+            $list[] = new TrackerListWorkoutsResult(
+                $workout['id'],
+                $this->getSportMapper()->getSportFromCode($workout['sport']),
+                $startDateTime
+            );
         }
 
         return $list;
@@ -91,6 +95,7 @@ class Endomondo extends AbstractTracker
 
         $workout = new Workout();
         $track = new Track();
+        $track->setSport($this->getSportMapper()->getSportFromCode($json['sport']));
 
         if (isset($json['points'])) {
             $this->logger->debug('Writing track points.');

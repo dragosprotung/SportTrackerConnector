@@ -35,7 +35,7 @@ class Sport extends AbstractSportMapper
             self::HIKING => 16,
             self::SKATING => 4,
             self::WEIGHT_TRAINING => 46,
-            self::OTHER => 20,
+            self::OTHER => 22,
         );
     }
 }

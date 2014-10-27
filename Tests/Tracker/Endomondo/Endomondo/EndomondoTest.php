@@ -8,6 +8,7 @@ use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
 
 /**
@@ -121,7 +122,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $idWorkout = 1;
 
         $endomondoAPI = $this->getEndomondoAPIMock(array('getWorkout'));
-        $endomondoAPI->expects($this->once())->method('getWorkout')->with($idWorkout)->willReturn(array());
+        $endomondoAPI->expects($this->once())->method('getWorkout')->with($idWorkout)->willReturn(array('sport' => 0));
 
         $logger = $this->getMockForAbstractClass('Psr\Log\LoggerInterface', array('warning'));
         $logger->expects($this->once())->method('warning')->with('No track points found for workout "' . $idWorkout . '".');
@@ -132,7 +133,9 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $actual = $endomondo->downloadWorkout($idWorkout);
 
         $expected = new Workout();
-        $expected->addTrack(new Track());
+        $track = new Track();
+        $track->setSport(SportMapperInterface::RUNNING);
+        $expected->addTrack($track);
 
         $this->assertEquals($expected, $actual);
     }
@@ -147,6 +150,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $endomondoAPI = $this->getEndomondoAPIMock(array('getWorkout'));
         $endomondoAPI->expects($this->once())->method('getWorkout')->with($idWorkout)->willReturn(
             array(
+                'sport' => 15,
                 'points' => array(
                     array('lat' => '10.0', 'lng' => '53.0', 'time' => '2014-07-27 20:33:15'),
                     array('lat' => '10.1', 'lng' => '53.1', 'time' => '2014-07-27 20:33:16', 'alt' => 10, 'hr' => 140),
@@ -164,6 +168,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
 
         $expected = new Workout();
         $track = new Track();
+        $track->setSport(SportMapperInterface::GOLF);
         $track->addTrackPoint($this->getTrackPoint(10, 53, '2014-07-27 20:33:15'));
         $track->addTrackPoint($this->getTrackPoint(10.1, 53.1, '2014-07-27 20:33:16', 10, 140));
         $track->addTrackPoint($this->getTrackPoint(10.2, 53.2, '2014-07-27 20:33:17', -2, 150));
