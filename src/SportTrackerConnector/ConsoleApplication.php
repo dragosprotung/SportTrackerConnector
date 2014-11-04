@@ -6,6 +6,7 @@ use SportTrackerConnector\Command\Dump;
 use SportTrackerConnector\Command\DumpMulti;
 use SportTrackerConnector\Command\Upload;
 use SportTrackerConnector\Command\UploadSync;
+use SportTrackerConnector\Tracker\Strava\Command\GetToken;
 use Symfony\Component\Console\Application;
 
 /**
@@ -19,11 +20,14 @@ class ConsoleApplication extends Application
      */
     public function __construct()
     {
-        parent::__construct('Sport tracker connector', '0.3.0');
+        parent::__construct('Sport tracker connector', '0.4.0');
 
         $this->add(new Upload());
         $this->add(new UploadSync());
         $this->add(new Dump());
         $this->add(new DumpMulti());
+
+        // Tracker specific commands.
+        $this->add(new GetToken());
     }
 }

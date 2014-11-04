@@ -75,7 +75,7 @@ class EndomondoAPI
     /**
      * The HTTP client.
      *
-     * @var \GuzzleHttp\Client
+     * @var \GuzzleHttp\ClientInterface
      */
     private $httpClient;
 
@@ -118,7 +118,7 @@ class EndomondoAPI
         try {
             $response = $this->httpClient->get($url);
 
-            if ($response->getStatusCode() == 200) {
+            if ($response->getStatusCode() === 200) {
                 return $response->json();
             } else {
                 throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
@@ -234,7 +234,7 @@ class EndomondoAPI
         try {
             $response = $this->httpClient->get($url);
 
-            if ($response->getStatusCode() == 200) {
+            if ($response->getStatusCode() === 200) {
                 return $response->json();
             } else {
                 throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');

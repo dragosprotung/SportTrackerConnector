@@ -10,8 +10,11 @@ endomondo:
     token: XXXXXXXXXXXXXXXXX # If you have a token set it here to skip the token fetching. If you do not know your token leave field empty.
   timezone: "Europe/Berlin"
 strava:
-  auth: # Register for an API at http://www.strava.com/developers
+  # See README.md for information.
+  auth: # Register for an API at http://www.strava.com/developers.
+    username: your@email.com
+    password: your-password
     clientID: 12345
-    accessToken: XXXXXXXXXXXXXXXXX
     secretToken: XXXXXXXXXXXXXXXXX
+    accessToken: XXXXXXXXXXXXXXXXX
   timezone: "Europe/Berlin"

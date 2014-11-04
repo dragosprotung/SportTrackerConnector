@@ -180,7 +180,7 @@ class StravaAPI
 
             $responseData = $response->json();
 
-            if ($response->getStatusCode() !== '201' || $responseData['error'] !== null) {
+            if ($response->getStatusCode() !== 201 || $responseData['error'] !== null) {
                 throw new RuntimeException('Strava returned error message: ' . $responseData['error'] . ' Status: ' . $responseData['status']);
             }
 

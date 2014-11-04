@@ -29,9 +29,9 @@ abstract class AbstractSportMapper implements SportMapperInterface
         $codes = array_flip(static::getMap());
         if (isset($codes[$code])) {
             return $codes[$code];
-        } else {
-            return self::OTHER;
         }
+
+        return self::OTHER;
     }
 
     /**
@@ -48,8 +48,8 @@ abstract class AbstractSportMapper implements SportMapperInterface
             return $codes[$sport];
         } elseif (isset($codes[self::OTHER])) {
             return $codes[self::OTHER];
-        } else {
-            return null;
         }
+
+        return null;
     }
 }
