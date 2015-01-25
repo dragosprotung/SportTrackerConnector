@@ -2,9 +2,9 @@
 
 namespace SportTrackerConnector\Workout\Workout;
 
-use SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface;
 use DateTime;
 use InvalidArgumentException;
+use SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface;
 
 /**
  * A point in a track.
@@ -25,6 +25,13 @@ class TrackPoint
      * @var float
      */
     protected $longitude;
+
+    /**
+     * The distance in meters from start to this point.
+     *
+     * @var float
+     */
+    protected $distance;
 
     /**
      * Elevation of the point.
@@ -206,6 +213,36 @@ class TrackPoint
     }
 
     /**
+     * Set the distance from start to this point.
+     *
+     * @param float $distance The distance from start to this point.
+     */
+    public function setDistance($distance)
+    {
+        $this->distance = (float)$distance;
+    }
+
+    /**
+     * Check if the point has a distance set from start to this point.
+     *
+     * @return boolean
+     */
+    public function hasDistance()
+    {
+        return $this->distance !== null;
+    }
+
+    /**
+     * Get the distance from start to this point.
+     *
+     * @return float
+     */
+    public function getDistance()
+    {
+        return $this->distance;
+    }
+
+    /**
      * Get the distance between this point and another point in meters.
      *
      * @param TrackPoint $trackPoint The other point.
@@ -224,11 +261,11 @@ class TrackPoint
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(
-            sqrt(
-                pow(sin($latDelta / 2), 2) +
-                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
-            )
-        );
+                sqrt(
+                    pow(sin($latDelta / 2), 2) +
+                    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
+                )
+            );
         return $angle * $earthRadius;
     }
 
@@ -240,7 +277,6 @@ class TrackPoint
      */
     public function speed(TrackPoint $trackPoint)
     {
-
         $start = $this->getDateTime();
         $end = $trackPoint->getDateTime();
         $dateDiff = $start->diff($end);
@@ -250,7 +286,11 @@ class TrackPoint
             return 0;
         }
 
-        $distance = $this->distance($trackPoint);
+        if ($this->hasDistance() === true) {
+            $distance = $this->getDistance();
+        } else {
+            $distance = $this->distance($trackPoint);
+        }
 
         return ($distance / $secondsDifference) * 3.6;
     }

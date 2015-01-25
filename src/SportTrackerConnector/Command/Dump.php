@@ -23,7 +23,7 @@ class Dump extends AbstractCommand
             ->setDescription('Fetch a workout from a tracker and save it to a file.')
             ->addArgument('tracker', InputArgument::REQUIRED, 'The tracker to dump from (ex: polar, endomondo).')
             ->addArgument('id-workout', InputArgument::REQUIRED, 'The ID of the workout to dump.')
-            ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'gpx')
+            ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'tcx')
             ->addOption('output-file', 'f', InputOption::VALUE_REQUIRED, 'The path to the output file.', $cwd . '/dump/[ID].[FORMAT]')
             ->addOption('output-overwrite', 'o', InputOption::VALUE_NONE, 'Flag to auto overwrite the file if it already exists.');
     }

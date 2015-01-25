@@ -6,11 +6,11 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use RuntimeException;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\Track;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
-use SportTrackerConnector\Workout\Workout;
 
 /**
  * Class for working with Endomondo API.
@@ -98,7 +98,8 @@ class EndomondoAPI
     /**
      * Get the details of a workout.
      *
-     * Possible fields when getting the workout: device,simple,basic,motivation,interval,hr_zones,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures,feed.
+     * Possible fields when getting the workout:
+     *  device,simple,basic,motivation,interval,hr_zones,weather,polyline_encoded_small,points,lcp_count,tagged_users,pictures,feed
      *
      * @param integer $idWorkout The ID of the workout.
      * @return array
@@ -236,9 +237,9 @@ class EndomondoAPI
 
             if ($response->getStatusCode() === 200) {
                 return $response->json();
-            } else {
-                throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
             }
+
+            throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
         } catch (\Exception $e) {
             throw new RuntimeException('Could not list workouts.', null, $e);
         }
@@ -284,8 +285,12 @@ class EndomondoAPI
             $data = array();
             foreach ($trackPoints as $trackPoint) {
                 /** @var \SportTrackerConnector\Workout\Workout\TrackPoint $trackPoint */
-                if ($previousPoint !== null) {
+                if ($trackPoint->hasDistance() === true) {
+                    $distance = $trackPoint->getDistance();
+                } elseif ($previousPoint !== null) {
                     $distance += $trackPoint->distance($previousPoint);
+                }
+                if ($previousPoint !== null) {
                     $speed = $trackPoint->speed($previousPoint);
                 }
                 $data[] = $this->flattenTrackPoint($trackPoint, $distance, $speed);

@@ -126,9 +126,10 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         );
 
         $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
-        $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
+        $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::SWIMMING));
         $track->expects($this->once())->method('getDuration')->willReturn($this->getDateIntervalMock(0));
-        $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(150)));
+        $trackPoints = array_merge($this->getTrackPointMocks(150, true), $this->getTrackPointMocks(150));
+        $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
 
         $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
@@ -152,7 +153,10 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
 
-        $this->setExpectedException('\RuntimeException', 'Unexpected response from Endomondo. Data may be partially uploaded. Response was: ERROR');
+        $this->setExpectedException(
+            '\RuntimeException',
+            'Unexpected response from Endomondo. Data may be partially uploaded. Response was: ERROR'
+        );
 
         $endomondo->postWorkout($workout);
     }
@@ -161,13 +165,14 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
      * Get a number of track point mocks.
      *
      * @param integer $number Number of mocks to get.
+     * @param boolean $distance Flag if distance should be present in the track point.
      * @return \SportTrackerConnector\Workout\Workout\TrackPoint[]
      */
-    private function getTrackPointMocks($number)
+    private function getTrackPointMocks($number, $distance = false)
     {
         $mocks = array();
         for ($i = 0; $i < $number; $i++) {
-            $mocks[] = $this->getTrackPointMock();
+            $mocks[] = $this->getTrackPointMock($distance ? $i : null);
         }
 
         return $mocks;
@@ -176,9 +181,10 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     /**
      * Get a track point mock.
      *
+     * @param integer $distance The distance for the point.
      * @return \SportTrackerConnector\Workout\Workout\TrackPoint
      */
-    private function getTrackPointMock()
+    private function getTrackPointMock($distance = null)
     {
         $trackPointMock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\TrackPoint')
             ->disableOriginalConstructor()
@@ -187,6 +193,10 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
         $trackPointMock->expects($this->once())->method('getLatitude')->will($this->returnValue(rand(5353579, 5353479) / 100000));
         $trackPointMock->expects($this->once())->method('getLongitude')->will($this->returnValue(rand(10000000, 10100000) / 1000000));
         $trackPointMock->expects($this->once())->method('getElevation')->will($this->returnValue(rand(0, 100)));
+        if ($distance !== null) {
+            $trackPointMock->expects($this->once())->method('hasDistance')->will($this->returnValue(true));
+            $trackPointMock->expects($this->once())->method('getDistance')->will($this->returnValue($distance));
+        }
         $trackPointMock->expects($this->once())->method('hasExtension')->with('HR')->will($this->returnValue(false));
         return $trackPointMock;
     }

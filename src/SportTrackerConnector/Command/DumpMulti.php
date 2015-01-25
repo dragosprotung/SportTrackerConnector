@@ -27,7 +27,7 @@ class DumpMulti extends AbstractCommand
                 InputArgument::OPTIONAL,
                 'The tracker to dump from (ex: polar, endomondo). Optional only if provided a resume list.'
             )
-            ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'gpx')
+            ->addArgument('output-format', InputArgument::OPTIONAL, 'The format to dump it.', 'tcx')
             ->addOption('output-directory', 'd', InputOption::VALUE_REQUIRED, 'The directory where to dump the workouts.', $cwd . 'dump')
             ->addOption('output-overwrite', 'o', InputOption::VALUE_NONE, 'Flag to auto overwrite the file if it already exists.')
             ->addOption(
