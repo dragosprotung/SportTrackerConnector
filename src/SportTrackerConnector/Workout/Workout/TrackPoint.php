@@ -219,7 +219,10 @@ class TrackPoint
      */
     public function setDistance($distance)
     {
-        $this->distance = (float)$distance;
+        if ($distance !== null) {
+            $distance = (float)$distance;
+        }
+        $this->distance = $distance;
     }
 
     /**
@@ -261,11 +264,11 @@ class TrackPoint
         $lonDelta = $lonTo - $lonFrom;
 
         $angle = 2 * asin(
-                sqrt(
-                    pow(sin($latDelta / 2), 2) +
-                    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
-                )
-            );
+            sqrt(
+                pow(sin($latDelta / 2), 2) +
+                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
+            )
+        );
         return $angle * $earthRadius;
     }
 
@@ -286,8 +289,8 @@ class TrackPoint
             return 0;
         }
 
-        if ($this->hasDistance() === true) {
-            $distance = $this->getDistance();
+        if ($this->hasDistance() === true && $trackPoint->hasDistance()) {
+            $distance = abs($this->getDistance() - $trackPoint->hasDistance());
         } else {
             $distance = $this->distance($trackPoint);
         }

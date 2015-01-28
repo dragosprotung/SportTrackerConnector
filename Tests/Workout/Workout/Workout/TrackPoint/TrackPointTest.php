@@ -44,11 +44,11 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testSpeed().
+     * Data provider for testSpeedForPointsWithoutDistance().
      *
      * @return array
      */
-    public function dataProviderTestSpeed()
+    public function dataProviderTestSpeedForPointsWithoutDistance()
     {
         return array(
             array(new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00')), 0),
@@ -62,18 +62,55 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test speed calculation between 2 points.
+     * Test speed calculation between 2 points that do not have the distance set.
      *
-     * @dataProvider dataProviderTestSpeed
+     * @dataProvider dataProviderTestSpeedForPointsWithoutDistance
      * @param TrackPoint $destinationTrackPoint The destination track point.
      * @param float $expected The expected speed.
      */
-    public function testSpeed(TrackPoint $destinationTrackPoint, $expected)
+    public function testSpeedForPointsWithoutDistance(TrackPoint $destinationTrackPoint, $expected)
     {
-        $starPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
+        $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
 
-        $actual = $starPoint->speed($destinationTrackPoint);
+        $actual = $startPoint->speed($destinationTrackPoint);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Test speed calculation where the start point has a distance but destination point does not.
+     */
+    public function testSpeedForPointsWhereStartPointHasDistanceAndDestinationDoesNot() {
+        $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
+        $startPoint->setDistance(1000);
+        $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:05:00'));
+
+        $actual = $startPoint->speed($destinationTrackPoint);
+        $this->assertEquals(0.00016926749741346, $actual);
+    }
+
+    /**
+     * Test speed calculation where the start point does not have a distance but destination point has.
+     */
+    public function testSpeedForPointsWhereStartPointDoesNotHaveDistanceAndDestinationHas() {
+        $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
+        $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:05:00'));
+        $destinationTrackPoint->setDistance(1000);
+
+        $actual = $startPoint->speed($destinationTrackPoint);
+        $this->assertEquals(0.00016926749741346, $actual);
+    }
+
+    /**
+     * Test speed calculation where the start point and destination point have a distance.
+     */
+    public function testSpeedForPointsWhereStartAndDestinationPointsHaveDistance() {
+        $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
+        $startPoint->setDistance(250);
+        $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:01:01'));
+        $destinationTrackPoint->setDistance(1000);
+
+        $actual = $startPoint->speed($destinationTrackPoint);
+        $this->assertEquals(14.6950819672131149, $actual);
     }
 
     /**
@@ -188,16 +225,16 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     /**
      * Get a mock of an extension.
      *
-     * @param string $id The ID of the extension.
+     * @param string $extensionID The ID of the extension.
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function getExtensionMock($id)
+    private function getExtensionMock($extensionID)
     {
         $extensionMock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\Extension\ExtensionInterface')
             ->setMethods(array('getID'))
             ->getMockForAbstractClass();
 
-        $extensionMock->expects($this->any())->method('getID')->willReturn($id);
+        $extensionMock->expects($this->any())->method('getID')->willReturn($extensionID);
 
         return $extensionMock;
     }

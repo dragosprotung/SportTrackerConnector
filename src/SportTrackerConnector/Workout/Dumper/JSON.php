@@ -23,8 +23,11 @@ class JSON extends AbstractDumper
         $data = array();
         $tracks = $workout->getTracks();
         foreach ($tracks as $track) {
-            $workout = array('points' => $this->writeTrackPoints($track->getTrackpoints()));
-            $data[] = array('workout' => $workout);
+            $data[] = array(
+                'workout' => array(
+                    'points' => $this->writeTrackPoints($track->getTrackpoints())
+                )
+            );
         }
 
         return json_encode($data, JSON_PRETTY_PRINT);
@@ -44,9 +47,10 @@ class JSON extends AbstractDumper
             $dateTime->setTimezone(new DateTimeZone('UTC'));
             $point = array(
                 'time' => $dateTime->format(DateTime::W3C),
-                'lat' => $trackPoint->getLatitude(),
-                'lon' => $trackPoint->getLongitude(),
-                'ele' => $trackPoint->getElevation(),
+                'latitude' => $trackPoint->getLatitude(),
+                'longitude' => $trackPoint->getLongitude(),
+                'elevation' => $trackPoint->getElevation(),
+                'distance' => $trackPoint->getDistance(),
                 'extensions' => $this->writeExtensions($trackPoint->getExtensions())
             );
 

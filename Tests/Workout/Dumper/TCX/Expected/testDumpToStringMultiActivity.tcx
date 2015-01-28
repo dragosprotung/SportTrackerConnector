@@ -32,6 +32,7 @@
                             <LongitudeDegrees>9.992682</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>10</AltitudeMeters>
+                        <DistanceMeters>128</DistanceMeters>
                         <HeartRateBpm>
                             <Value>88</Value>
                         </HeartRateBpm>
@@ -58,6 +59,7 @@
                             <LongitudeDegrees>9.991672</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>9</AltitudeMeters>
+                        <DistanceMeters>258</DistanceMeters>
                         <HeartRateBpm>
                             <Value>98</Value>
                         </HeartRateBpm>
@@ -69,6 +71,7 @@
                             <LongitudeDegrees>9.990682</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>8</AltitudeMeters>
+                        <DistanceMeters>456</DistanceMeters>
                         <HeartRateBpm>
                             <Value>108</Value>
                         </HeartRateBpm>

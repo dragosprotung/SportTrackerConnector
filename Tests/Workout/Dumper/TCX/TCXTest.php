@@ -25,8 +25,8 @@ class TCXTest extends \PHPUnit_Framework_TestCase
         $workout->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78),
-                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:13:00+00:00', 10, 88)
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 0, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:13:00+00:00', 10, 128, 88)
                 ),
                 SportMapperInterface::RUNNING
             )
@@ -47,8 +47,8 @@ class TCXTest extends \PHPUnit_Framework_TestCase
         $workout->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, 78),
-                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10, 88)
+                    $this->getTrackPoint('53.551075', '9.993672', '2014-05-30T17:12:58+00:00', 11, null, 78),
+                    $this->getTrackPoint('53.550085', '9.992682', '2014-05-30T17:12:59+00:00', 10, 128, 88)
                 ),
                 SportMapperInterface::RUNNING
             )
@@ -56,8 +56,8 @@ class TCXTest extends \PHPUnit_Framework_TestCase
         $workout->addTrack(
             new Track(
                 array(
-                    $this->getTrackPoint('53.549075', '9.991672', '2014-05-30T17:13:00+00:00', 9, 98),
-                    $this->getTrackPoint('53.548085', '9.990682', '2014-05-30T17:13:01+00:00', 8, 108)
+                    $this->getTrackPoint('53.549075', '9.991672', '2014-05-30T17:13:00+00:00', 9, 258, 98),
+                    $this->getTrackPoint('53.548085', '9.990682', '2014-05-30T17:13:01+00:00', 8, 456, 108)
                 ),
                 SportMapperInterface::SWIMMING
             )
@@ -72,21 +72,23 @@ class TCXTest extends \PHPUnit_Framework_TestCase
     /**
      * Get a track point.
      *
-     * @param string $lat The latitude.
-     * @param string $lon The longitude.
+     * @param string $latitude The latitude.
+     * @param string $longitude The longitude.
      * @param string $time The time.
-     * @param integer $ele The elevation.
-     * @param integer $hr The heart rate.
+     * @param float $distance The distance from start to that point.
+     * @param integer $elevation The elevation.
+     * @param integer $heartRate The heart rate.
      * @return TrackPoint
      */
-    private function getTrackPoint($lat, $lon, $time, $ele, $hr)
+    private function getTrackPoint($latitude, $longitude, $time, $elevation, $distance = null, $heartRate = null)
     {
-        $trackPoint = new TrackPoint($lat, $lon, new DateTime($time));
-        $trackPoint->setElevation($ele);
-        $extensions = array(
-            new HR($hr)
-        );
-        $trackPoint->setExtensions($extensions);
+        $trackPoint = new TrackPoint($latitude, $longitude, new DateTime($time));
+        $trackPoint->setElevation($elevation);
+        $trackPoint->setDistance($distance);
+        if ($heartRate !== null) {
+            $trackPoint->setExtensions(array(new HR($heartRate)));
+        }
+
         return $trackPoint;
     }
 }

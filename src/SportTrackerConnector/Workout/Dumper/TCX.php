@@ -5,9 +5,9 @@ namespace SportTrackerConnector\Workout\Dumper;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
+use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\Track;
-use SportTrackerConnector\Workout\Workout;
 use XMLWriter;
 
 /**
@@ -106,6 +106,11 @@ class TCX extends AbstractDumper
 
             // Elevation.
             $xmlWriter->writeElement('AltitudeMeters', $trackPoint->getElevation());
+
+            // Distance.
+            if ($trackPoint->hasDistance() === true) {
+                $xmlWriter->writeElement('DistanceMeters', $trackPoint->getDistance());
+            }
 
             // Extensions.
             $this->writeExtensions($xmlWriter, $trackPoint->getExtensions());

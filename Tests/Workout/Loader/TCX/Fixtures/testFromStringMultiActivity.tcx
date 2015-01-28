@@ -24,6 +24,7 @@
                             <LongitudeDegrees>9.993672</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>11</AltitudeMeters>
+                        <DistanceMeters>0</DistanceMeters>
                         <HeartRateBpm>
                             <Value>78</Value>
                         </HeartRateBpm>
@@ -35,6 +36,7 @@
                             <LongitudeDegrees>9.992682</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>10</AltitudeMeters>
+                        <DistanceMeters>128</DistanceMeters>
                         <HeartRateBpm>
                             <Value>88</Value>
                         </HeartRateBpm>
@@ -43,7 +45,7 @@
             </Lap>
         </Activity>
         <Activity Sport="Swimming">
-            <Id>2014-08-06T08:26:30Z</Id>
+            <Id>2014-08-06T08:26:31Z</Id>
             <Lap StartTime="2014-08-05T19:04:09Z">
                 <TotalTimeSeconds>1.0</TotalTimeSeconds>
                 <DistanceMeters>12345</DistanceMeters>
@@ -75,6 +77,7 @@
                             <LongitudeDegrees>9.990682</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>8</AltitudeMeters>
+                        <DistanceMeters>258</DistanceMeters>
                         <HeartRateBpm>
                             <Value>108</Value>
                         </HeartRateBpm>

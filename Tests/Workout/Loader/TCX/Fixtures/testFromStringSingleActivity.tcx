@@ -24,6 +24,7 @@
                             <LongitudeDegrees>9.993672</LongitudeDegrees>
                         </Position>
                         <AltitudeMeters>11</AltitudeMeters>
+                        <DistanceMeters>200</DistanceMeters>
                         <HeartRateBpm>
                             <Value>78</Value>
                         </HeartRateBpm>
