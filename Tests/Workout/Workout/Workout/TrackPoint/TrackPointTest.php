@@ -1,9 +1,9 @@
 <?php
 
-namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\TrackPoint;
 
-use SportTrackerConnector\Workout\Workout\TrackPoint;
 use DateTime;
+use SportTrackerConnector\Workout\Workout\TrackPoint;
 
 /**
  * Test for a workout track point.
@@ -79,7 +79,8 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     /**
      * Test speed calculation where the start point has a distance but destination point does not.
      */
-    public function testSpeedForPointsWhereStartPointHasDistanceAndDestinationDoesNot() {
+    public function testSpeedForPointsWhereStartPointHasDistanceAndDestinationDoesNot()
+    {
         $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
         $startPoint->setDistance(1000);
         $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:05:00'));
@@ -91,7 +92,8 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     /**
      * Test speed calculation where the start point does not have a distance but destination point has.
      */
-    public function testSpeedForPointsWhereStartPointDoesNotHaveDistanceAndDestinationHas() {
+    public function testSpeedForPointsWhereStartPointDoesNotHaveDistanceAndDestinationHas()
+    {
         $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
         $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:05:00'));
         $destinationTrackPoint->setDistance(1000);
@@ -103,7 +105,8 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     /**
      * Test speed calculation where the start point and destination point have a distance.
      */
-    public function testSpeedForPointsWhereStartAndDestinationPointsHaveDistance() {
+    public function testSpeedForPointsWhereStartAndDestinationPointsHaveDistance()
+    {
         $startPoint = new TrackPoint('-38.691450', '176.079795', new DateTime('2014-06-01 00:00:00'));
         $startPoint->setDistance(250);
         $destinationTrackPoint = new TrackPoint('-38.6914501', '176.0797951', new DateTime('2014-06-01 00:01:01'));
@@ -132,11 +135,11 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
     {
         $trackPoint = new TrackPoint(null, null, new DateTime());
 
-        $id = 'existing-extension';
-        $extensionMock = $this->getExtensionMock($id);
+        $idExtension = 'existing-extension';
+        $extensionMock = $this->getExtensionMock($idExtension);
         $trackPoint->addExtension($extensionMock);
 
-        $this->assertSame($extensionMock, $trackPoint->getExtension($id));
+        $this->assertSame($extensionMock, $trackPoint->getExtension($idExtension));
     }
 
     /**

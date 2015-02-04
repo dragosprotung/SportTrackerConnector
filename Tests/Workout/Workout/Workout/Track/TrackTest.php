@@ -1,6 +1,6 @@
 <?php
 
-namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Workout;
+namespace SportTrackerConnector\Tests\Workout\Workout\Workout\Track;
 
 use DateTime;
 use SportTrackerConnector\Date\DateInterval;

@@ -121,9 +121,8 @@ class EndomondoAPI
 
             if ($response->getStatusCode() === 200) {
                 return $response->json();
-            } else {
-                throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
             }
+            throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
         } catch (\Exception $e) {
             throw new RuntimeException('Could not get workout "' . $idWorkout . '".', null, $e);
         }

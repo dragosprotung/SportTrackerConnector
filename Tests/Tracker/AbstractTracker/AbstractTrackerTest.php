@@ -2,8 +2,8 @@
 
 namespace SportTrackerConnector\Tests\Tracker\AbstractTracker;
 
-use DateTimeZone;
 use DateTime;
+use DateTimeZone;
 
 /**
  * Test for AbstractTracker.
@@ -34,7 +34,8 @@ class AbstractTrackerTest extends \PHPUnit_Framework_TestCase
      * @param string $timezone The timezone to check.
      * @return boolean
      */
-    private function isDST($timezone) {
+    private function isDST($timezone)
+    {
         $date = new DateTime('now', new DateTimeZone($timezone));
         return (boolean)$date->format('I');
     }
