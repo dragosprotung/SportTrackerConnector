@@ -70,7 +70,27 @@ class Polar extends AbstractTracker
     public function fetchWorkoutTCX($idWorkout)
     {
         $this->logger->debug('Logging into polar.');
+        $client = $this->loginIntoPolar();
 
+        $this->logger->debug('Fetching the workout TCX.');
+
+        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
+        $tempWorkoutZipFile = tempnam(sys_get_temp_dir(), 'stc_polar_workout_');
+        $this->logger->debug('Downloading zip file with workout to "' . $tempWorkoutZipFile . '"');
+
+        $response = $client->get($workoutURL, ['cookies' => true]);
+        file_put_contents($tempWorkoutZipFile, $response->getBody());
+
+        return $this->getTCXFromPolarZipArchive($tempWorkoutZipFile);
+    }
+
+    /**
+     * Login to polar website.
+     *
+     * @return Client
+     */
+    public function loginIntoPolar()
+    {
         $client = new Client();
         $client->post(
             self::POLAR_FLOW_URL_LOGIN,
@@ -80,12 +100,29 @@ class Polar extends AbstractTracker
             )
         );
 
-        $this->logger->debug('Fetching the workout TCX.');
+        return $client;
+    }
 
-        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
-        $response = $client->get($workoutURL, ['cookies' => true]);
+    /**
+     * Get the TCX content from the zip file downloaded from Polar.
+     *
+     * @param string $zipFile The zip file containing the workout.
+     * @return string
+     * @throws \RuntimeException If the zip file is corrupted or can not read the file from it.
+     */
+    private function getTCXFromPolarZipArchive($zipFile)
+    {
+        $zipArchive = new \ZipArchive();
+        $open = $zipArchive->open($zipFile);
+        if ($open !== true) {
+            throw new \RuntimeException('Could not open the zip file acquired from Polar. File might be corrupted.');
+        }
+        $data = $zipArchive->getFromIndex(0);
+        if ($data === false) {
+            throw new RuntimeException('There is no file in the zip from Polar.');
+        }
 
-        return (string)$response->getBody();
+        return $data;
     }
 
     /**
