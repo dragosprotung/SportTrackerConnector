@@ -113,7 +113,7 @@ class TrackPointTest extends \PHPUnit_Framework_TestCase
         $destinationTrackPoint->setDistance(1000);
 
         $actual = $startPoint->speed($destinationTrackPoint);
-        $this->assertEquals(14.6950819672131149, $actual);
+        $this->assertEquals(44.2622950819672169, $actual);
     }
 
     /**

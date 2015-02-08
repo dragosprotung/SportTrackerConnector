@@ -290,7 +290,7 @@ class TrackPoint
         }
 
         if ($this->hasDistance() === true && $trackPoint->hasDistance()) {
-            $distance = abs($this->getDistance() - $trackPoint->hasDistance());
+            $distance = abs($this->getDistance() - $trackPoint->getDistance());
         } else {
             $distance = $this->distance($trackPoint);
         }
