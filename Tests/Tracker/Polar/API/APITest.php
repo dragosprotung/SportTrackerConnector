@@ -26,9 +26,9 @@ class APITest extends \PHPUnit_Framework_TestCase
             array(
                 'Content-Type' => 'application/x-download',
                 'Content-Description' => 'File Transfer',
-                'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-15-00.zip"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.zip',
+                'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-10-00.zip"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.zip',
             ),
-            Stream::factory(fopen(__DIR__ . '/Fixtures/workout-single.zip', 'r+'))
+            new Stream(fopen(__DIR__ . '/Fixtures/workout-single.zip', 'r+'))
         );
         $clientMock = $this->getClientMock(array($response));
         $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
@@ -38,6 +38,24 @@ class APITest extends \PHPUnit_Framework_TestCase
         $actual = $polarMock->fetchWorkoutTCX($idWorkout);
         $expected = file_get_contents(__DIR__ . '/Fixtures/workout-single.tcx');
         $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * Test fetching a list of calendar events returns an array of calendar entries.
+     */
+    public function testListCalendarEventsReturnsArrayOfCalendarEntries()
+    {
+        $startDate = new \DateTime('yesterday');
+        $endDate = new \DateTime('today');
+
+        $clientMock = $this->getClientMock(array(__DIR__ . '/Fixtures/testListCalendarEventsReturnsArrayOfCalendarEntries.txt'));
+        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\API', array('loginIntoPolar'), array($clientMock, null, null, $sportMapper));
+        $actual = $polarMock->listCalendarEvents($startDate, $endDate);
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Expected/testListCalendarEventsReturnsArrayOfCalendarEntries.json',
+            json_encode($actual, JSON_PRETTY_PRINT));
     }
 
     /**

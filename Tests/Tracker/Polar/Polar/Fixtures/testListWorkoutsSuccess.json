@@ -1,0 +1,22 @@
+[
+  {
+    "type": "EXERCISE",
+    "listItemId": 111111,
+    "start": 1430492478
+  },
+  {
+    "type": "OTHER",
+    "listItemId": 123456,
+    "start": 1430574057
+  },
+  {
+    "type": "EXERCISE",
+    "listItemId": 222222,
+    "start": 1430574057
+  },
+  {
+    "type": "EXERCISE",
+    "listItemId": 333333,
+    "start": 1431282454
+  }
+]

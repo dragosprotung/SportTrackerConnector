@@ -2,9 +2,10 @@
 
 namespace SportTrackerConnector\Tracker\Polar;
 
+use DateTime;
 use GuzzleHttp\Client;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use RuntimeException;
+use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 
 /**
  * Class for working with Polar API.
@@ -15,6 +16,8 @@ class API
     const POLAR_FLOW_URL_ROOT = 'https://flow.polar.com';
 
     const POLAR_FLOW_URL_LOGIN = 'https://flow.polar.com/login';
+
+    const POLAR_FLOW_URL_WORKOUTS = 'https://flow.polar.com/training/getCalendarEvents?start=%s&end=%s';
 
     const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx';
 
@@ -76,6 +79,31 @@ class API
                 'cookies' => true
             )
         );
+    }
+
+    /**
+     * Get a list of all calendar events in a date interval.
+     *
+     * @param DateTime $startDate The start date for the events.
+     * @param DateTime $endDate The end date for the events.
+     * @return array
+     * @throws \RuntimeException If the request does not return the expected data.
+     */
+    public function listCalendarEvents(DateTime $startDate, DateTime $endDate)
+    {
+        $url = sprintf(self::POLAR_FLOW_URL_WORKOUTS, $startDate->format('d.m.Y'), $endDate->format('d.m.Y'));
+
+        try {
+            $response = $this->httpClient->get($url, ['cookies' => true]);
+
+            if ($response->getStatusCode() === 200) {
+                return $response->json();
+            }
+
+            throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
+        } catch (\Exception $e) {
+            throw new RuntimeException('Could not list events.', null, $e);
+        }
     }
 
     /**

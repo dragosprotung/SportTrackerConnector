@@ -6,6 +6,7 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
 use SportTrackerConnector\Tracker\Polar\Polar;
+use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\SportMapperInterface;
@@ -106,6 +107,33 @@ class PolarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test fetching a list of workouts.
+     */
+    public function testListWorkoutsSuccess()
+    {
+        $startDate = new \DateTime('yesterday');
+        $endDate = new \DateTime('today');
+        $loggerMock = $this->getMock('Psr\Log\LoggerInterface');
+
+        $APIReturn = json_decode(file_get_contents(__DIR__ . '/Fixtures/testListWorkoutsSuccess.json'), true);
+        $polarAPIMock = $this->getPolarAPIMock(array('listCalendarEvents'));
+        $polarAPIMock->expects($this->once())->method('listCalendarEvents')->with($startDate, $endDate)->willReturn($APIReturn);
+
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getPolarAPI'), array($loggerMock));
+        $polarMock->expects($this->once())->method('getPolarAPI')->willReturn($polarAPIMock);
+
+        $actual = $polarMock->listWorkouts($startDate, $endDate);
+
+        $expected = array(
+            $this->getTrackerListWorkoutsResultMock('111111', '2015-05-01 15:01:18'),
+            $this->getTrackerListWorkoutsResultMock('222222', '2015-05-02 13:40:57'),
+            $this->getTrackerListWorkoutsResultMock('333333', '2015-05-10 18:27:34')
+        );
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * Get a track point.
      *
      * @param string $lat The latitude.
@@ -146,5 +174,18 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         );
 
         return $polarAPI;
+    }
+
+    /**
+     * Get a mock (not really) of a tracker list workout result.
+     *
+     * @param string $id The ID of the workout.
+     * @param string $startDateTime The start date and time of the workout.
+     * @return TrackerListWorkoutsResult
+     */
+    private function getTrackerListWorkoutsResultMock($id, $startDateTime)
+    {
+        $startDateTime = new \DateTime($startDateTime, new \DateTimeZone('UTC'));
+        return new TrackerListWorkoutsResult($id, SportMapperInterface::OTHER, $startDateTime);
     }
 }

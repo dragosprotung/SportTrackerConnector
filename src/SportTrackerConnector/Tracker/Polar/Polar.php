@@ -6,6 +6,7 @@ use BadMethodCallException;
 use DateTime;
 use GuzzleHttp\Client;
 use SportTrackerConnector\Tracker\AbstractTracker;
+use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Loader\TCX;
 use SportTrackerConnector\Workout\Workout;
 
@@ -42,7 +43,25 @@ class Polar extends AbstractTracker
      */
     public function listWorkouts(DateTime $startDate, DateTime $endDate)
     {
-        throw new BadMethodCallException('Polar Flow does not support workout listing.');
+        $list = array();
+
+        $this->logger->debug('Downloading calendar events.');
+        $data = $this->getPolarAPI()->listCalendarEvents($startDate, $endDate);
+
+        $this->logger->debug('Parsing data.');
+        foreach ($data as $workout) {
+            if ($workout['type'] !== 'EXERCISE') {
+                continue;
+            }
+
+            $list[] = new TrackerListWorkoutsResult(
+                $workout['listItemId'],
+                Workout\SportMapperInterface::OTHER,
+                new DateTime('@' . $workout['start'])
+            );
+        }
+
+        return $list;
     }
 
     /**
