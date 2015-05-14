@@ -1,10 +1,10 @@
 <?php
 
-namespace Tracker\Strava\Strava;
+namespace SportTrackerConnector\Tests\Tracker\Strava\Tracker;
 
 use GuzzleHttp\Client;
 use SportTrackerConnector\Tracker\Exception\NoTrackPointsFoundException;
-use SportTrackerConnector\Tracker\Strava\Strava;
+use SportTrackerConnector\Tracker\Strava\Tracker as StravaTracker;
 use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
@@ -14,7 +14,7 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 /**
  * Strava tracker test.
  */
-class StravaTest extends \PHPUnit_Framework_TestCase
+class TrackerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -24,10 +24,10 @@ class StravaTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'strava';
 
-        $this->assertSame($expected, Strava::getID());
+        $this->assertSame($expected, StravaTracker::getID());
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $strava = new Strava($logger, null);
+        $strava = new StravaTracker($logger, null);
         $this->assertSame($expected, $strava->getID());
     }
 
@@ -37,10 +37,10 @@ class StravaTest extends \PHPUnit_Framework_TestCase
     public function testGettingTheStravaAPIReturnsSameObject()
     {
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $strava = new Strava($logger, null);
+        $strava = new StravaTracker($logger, null);
 
         $stravaAPI = $strava->getStravaAPI();
-        $this->assertInstanceOf('SportTrackerConnector\Tracker\Strava\StravaAPI', $stravaAPI);
+        $this->assertInstanceOf('SportTrackerConnector\Tracker\Strava\API', $stravaAPI);
 
         $this->assertSame($stravaAPI, $strava->getStravaAPI());
     }
@@ -58,7 +58,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $accessToken = '1234567890abc';
-        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Strava', array('getStravaAPI'), array($logger, $accessToken));
+        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Tracker', array('getStravaAPI'), array($logger, $accessToken));
         $strava->expects($this->once())->method('getStravaAPI')->willReturn($stravaAPI);
 
         $actual = $strava->listWorkouts($startDate, $endDate);
@@ -79,7 +79,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
         $accessToken = '1234567890abc';
-        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Strava', array('getStravaAPI'), array($logger, $accessToken));
+        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Tracker', array('getStravaAPI'), array($logger, $accessToken));
         $strava->expects($this->once())->method('getStravaAPI')->willReturn($stravaAPI);
 
         $actual = $strava->listWorkouts($startDate, $endDate);
@@ -107,7 +107,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
         $accessToken = '1234567890abc';
 
-        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Strava', array('getStravaAPI'), array($logger, $accessToken));
+        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Tracker', array('getStravaAPI'), array($logger, $accessToken));
         $strava->expects($this->once())->method('getStravaAPI')->willReturn($stravaAPI);
 
         $actual = $strava->downloadWorkout($idWorkout);
@@ -147,7 +147,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
         $accessToken = '1234567890abc';
 
-        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Strava', array('getStravaAPI'), array($logger, $accessToken));
+        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Tracker', array('getStravaAPI'), array($logger, $accessToken));
         $strava->expects($this->once())->method('getStravaAPI')->willReturn($stravaAPI);
 
         $actual = $strava->downloadWorkout($idWorkout);
@@ -177,7 +177,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
 
         $accessToken = '1234567890abc';
 
-        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Strava', array('getStravaAPI'), array($logger, $accessToken));
+        $strava = $this->getMock('SportTrackerConnector\Tracker\Strava\Tracker', array('getStravaAPI'), array($logger, $accessToken));
         $strava->expects($this->once())->method('getStravaAPI')->willReturn($stravaAPI);
 
         $actual = $strava->uploadWorkout($workout);
@@ -186,7 +186,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get an StravaAPI mock.
+     * Get an Strava API mock.
      *
      * @param string[] $mockMethods The methods to mock.
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -197,7 +197,7 @@ class StravaTest extends \PHPUnit_Framework_TestCase
         $accessToken = '1234567890abc';
         $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
         $stravaAPI = $this->getMock(
-            'SportTrackerConnector\Tracker\Strava\StravaAPI',
+            'SportTrackerConnector\Tracker\Strava\API',
             $mockMethods,
             array($client, $accessToken, $sportMapper)
         );
@@ -210,13 +210,12 @@ class StravaTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $id The ID of the workout.
      * @param string $startDateTime The start date and time of the workout.
-     * @param string $sport The sport.
      * @return TrackerListWorkoutsResult
      */
-    private function getTrackerListWorkoutsResultMock($id, $startDateTime, $sport = 'running')
+    private function getTrackerListWorkoutsResultMock($id, $startDateTime)
     {
         $startDateTime = new \DateTime($startDateTime, new \DateTimeZone('UTC'));
-        return new TrackerListWorkoutsResult($id, $sport, $startDateTime);
+        return new TrackerListWorkoutsResult($id, 'running', $startDateTime);
     }
 
     /**

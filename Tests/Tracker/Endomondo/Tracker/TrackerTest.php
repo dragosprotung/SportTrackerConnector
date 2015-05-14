@@ -1,9 +1,9 @@
 <?php
 
-namespace SportTrackerConnector\Tests\Tracker\Endomondo\Endomondo;
+namespace SportTrackerConnector\Tests\Tracker\Endomondo\Tracker;
 
 use GuzzleHttp\Client;
-use SportTrackerConnector\Tracker\Endomondo\Endomondo;
+use SportTrackerConnector\Tracker\Endomondo\Tracker as EndomondoTracker;
 use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
 use SportTrackerConnector\Workout\Workout\Track;
@@ -12,9 +12,9 @@ use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 use SportTrackerConnector\Workout\Workout\TrackPoint;
 
 /**
- * Endomondo test.
+ * Endomondo tracker test.
  */
-class EndomondoTest extends \PHPUnit_Framework_TestCase
+class TrackerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -24,10 +24,10 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'endomondo';
 
-        $this->assertSame($expected, Endomondo::getID());
+        $this->assertSame($expected, EndomondoTracker::getID());
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = new Endomondo($logger, null, null);
+        $endomondo = new EndomondoTracker($logger, null, null);
         $this->assertSame($expected, $endomondo->getID());
     }
 
@@ -37,10 +37,10 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     public function testGettingTheEndomondoAPIReturnsSameObject()
     {
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = new Endomondo($logger, null, null);
+        $endomondo = new EndomondoTracker($logger, null, null);
 
         $endomondoAPI = $endomondo->getEndomondoAPI();
-        $this->assertInstanceOf('SportTrackerConnector\Tracker\Endomondo\EndomondoAPI', $endomondoAPI);
+        $this->assertInstanceOf('SportTrackerConnector\Tracker\Endomondo\API', $endomondoAPI);
 
         $this->assertSame($endomondoAPI, $endomondo->getEndomondoAPI());
 
@@ -58,7 +58,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $endomondoAPI->expects($this->once())->method('postWorkout')->with($workoutMock)->willReturn($workoutID);
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Tracker', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->uploadWorkout($workoutMock);
@@ -80,7 +80,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $endomondoAPI->expects($this->once())->method('listWorkouts')->with($startDate, $endDate)->willReturn($APIReturn);
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Tracker', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->listWorkouts($startDate, $endDate);
@@ -100,7 +100,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $endomondoAPI->expects($this->once())->method('listWorkouts')->with($startDate, $endDate)->willReturn($APIReturn);
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Tracker', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->listWorkouts($startDate, $endDate);
@@ -127,7 +127,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $logger = $this->getMockForAbstractClass('Psr\Log\LoggerInterface', array('warning'));
         $logger->expects($this->once())->method('warning')->with('No track points found for workout "' . $idWorkout . '".');
 
-        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Tracker', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->downloadWorkout($idWorkout);
@@ -161,7 +161,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMockForAbstractClass('Psr\Log\LoggerInterface');
 
-        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Endomondo', array('getEndomondoAPI'), array($logger));
+        $endomondo = $this->getMock('SportTrackerConnector\Tracker\Endomondo\Tracker', array('getEndomondoAPI'), array($logger));
         $endomondo->expects($this->once())->method('getEndomondoAPI')->willReturn($endomondoAPI);
 
         $actual = $endomondo->downloadWorkout($idWorkout);
@@ -178,7 +178,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get an EndomondoAPI mock.
+     * Get an Endomondo API mock.
      *
      * @param string[] $mockMethods The methods to mock.
      * @return \PHPUnit_Framework_MockObject_MockObject
@@ -188,7 +188,7 @@ class EndomondoTest extends \PHPUnit_Framework_TestCase
         $client = new Client();
         $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
         $endomondoAPI = $this->getMock(
-            'SportTrackerConnector\Tracker\Endomondo\EndomondoAPI',
+            'SportTrackerConnector\Tracker\Endomondo\API',
             $mockMethods,
             array($client, null, null, $sportMapper)
         );

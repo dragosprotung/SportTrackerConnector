@@ -15,7 +15,7 @@ use SportTrackerConnector\Workout\Workout\SportMapperInterface;
 /**
  * Class for working with Strava API.
  */
-class StravaAPI
+class API
 {
 
     const STRAVA_URL_WORKOUTS = 'https://www.strava.com/api/v3/activities';

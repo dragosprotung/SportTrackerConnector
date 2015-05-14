@@ -1,16 +1,16 @@
 <?php
 
-namespace Tracker\Strava\StravaAPI;
+namespace SportTrackerConnector\Tests\Tracker\Strava\API;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
-use SportTrackerConnector\Tracker\Strava\StravaAPI;
+use SportTrackerConnector\Tracker\Strava\API;
 use SportTrackerConnector\Workout\Workout;
 
 /**
- * Test the StravaAPI.
+ * Test the Strava API.
  */
-class StravaAPITest extends \PHPUnit_Framework_TestCase
+class APITest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWorkoutSuccess()
     {
-        $strava = $this->getStravaAPIMock(
+        $strava = $this->getAPIMock(
             array(
                 __DIR__ . '/Fixtures/testGetWorkoutSuccess_0.txt',
                 __DIR__ . '/Fixtures/testGetWorkoutSuccess_1.txt'
@@ -51,7 +51,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWorkoutThrowsExceptionWhenNoStreamsAreFound()
     {
-        $strava = $this->getStravaAPIMock(
+        $strava = $this->getAPIMock(
             array(
                 __DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionWhenNoStreamsAreFound_0.txt',
                 __DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionWhenNoStreamsAreFound_1.txt'
@@ -68,7 +68,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWorkoutThrowsExceptionWhenWorkoutIsNotFound()
     {
-        $strava = $this->getStravaAPIMock(array(__DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionWhenWorkoutIsNotFound.txt'));
+        $strava = $this->getAPIMock(array(__DIR__ . '/Fixtures/testGetWorkoutThrowsExceptionWhenWorkoutIsNotFound.txt'));
 
         $this->setExpectedException('RuntimeException', 'Workout "111111" not found.');
 
@@ -83,7 +83,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
         $startDate = new \DateTime('2014-10-13');
         $endDate = new \DateTime('2014-10-15');
 
-        $strava = $this->getStravaAPIMock(array(__DIR__ . '/Fixtures/testListWorkoutsSuccess.txt'));
+        $strava = $this->getAPIMock(array(__DIR__ . '/Fixtures/testListWorkoutsSuccess.txt'));
         $actual = $strava->listWorkouts($startDate, $endDate);
 
         $this->assertJsonStringEqualsJsonFile(__DIR__ . '/Expected/testListWorkoutsSuccess.json', json_encode($actual));
@@ -94,7 +94,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testPostWorkoutThrowsExceptionWhenResponseIsNot20X()
     {
-        $strava = $this->getStravaAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionWhenResponseIsNot20X.txt'));
+        $strava = $this->getAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionWhenResponseIsNot20X.txt'));
 
         $workout = new Workout();
 
@@ -111,7 +111,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testPostWorkoutThrowsExceptionWhenJSONResponseErrorFieldIsNotNull()
     {
-        $strava = $this->getStravaAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionWhenJSONResponseErrorFieldIsNotNull.txt'));
+        $strava = $this->getAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionWhenJSONResponseErrorFieldIsNotNull.txt'));
 
         $workout = new Workout();
 
@@ -125,7 +125,7 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
      */
     public function testPostWorkoutReturnsStatusIfUploadIsSuccessful()
     {
-        $strava = $this->getStravaAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutReturnsStatusIfUploadIsSuccessful.txt'));
+        $strava = $this->getAPIMock(array(__DIR__ . '/Fixtures/testPostWorkoutReturnsStatusIfUploadIsSuccessful.txt'));
 
         $workout = new Workout();
 
@@ -135,18 +135,18 @@ class StravaAPITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get an StravaAPI mock.
+     * Get an Strava API mock.
      *
      * @param string[] $responses The responses for the client.
      * @param string $accessToken The token for auth.
-     * @return StravaAPI
+     * @return API
      */
-    private function getStravaAPIMock(array $responses, $accessToken = '1234567890abc')
+    private function getAPIMock(array $responses, $accessToken = '1234567890abc')
     {
         $client = $this->getClientMock($responses);
         $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
 
-        return new StravaAPI($client, $accessToken, $sportMapper);
+        return new API($client, $accessToken, $sportMapper);
     }
 
     /**

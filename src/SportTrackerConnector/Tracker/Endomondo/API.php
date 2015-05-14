@@ -15,7 +15,7 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 /**
  * Class for working with Endomondo API.
  */
-class EndomondoAPI
+class API
 {
 
     const URL_BASE = 'https://api.mobile.endomondo.com/mobile';

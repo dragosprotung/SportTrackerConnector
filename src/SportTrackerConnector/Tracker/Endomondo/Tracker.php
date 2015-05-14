@@ -16,13 +16,13 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 /**
  * Endomondo tracker.
  */
-class Endomondo extends AbstractTracker
+class Tracker extends AbstractTracker
 {
 
     /**
      * The Endomondo API.
      *
-     * @var EndomondoAPI
+     * @var API
      */
     protected $endomondoAPI;
 
@@ -69,13 +69,13 @@ class Endomondo extends AbstractTracker
     /**
      * Get the Endomondo API.
      *
-     * @return EndomondoAPI
+     * @return API
      */
     public function getEndomondoAPI()
     {
         if ($this->endomondoAPI === null) {
             $client = new Client();
-            $this->endomondoAPI = new EndomondoAPI($client, $this->username, $this->password, $this->getSportMapper());
+            $this->endomondoAPI = new API($client, $this->username, $this->password, $this->getSportMapper());
         }
 
         return $this->endomondoAPI;

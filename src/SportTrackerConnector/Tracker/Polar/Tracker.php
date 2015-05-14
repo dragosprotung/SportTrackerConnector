@@ -13,7 +13,7 @@ use SportTrackerConnector\Workout\Workout;
 /**
  * Polar Flow tracker.
  */
-class Polar extends AbstractTracker
+class Tracker extends AbstractTracker
 {
 
     /**

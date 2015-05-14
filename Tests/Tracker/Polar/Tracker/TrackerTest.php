@@ -1,11 +1,11 @@
 <?php
 
-namespace SportTrackerConnector\Tests\Tracker\Polar\Polar;
+namespace SportTrackerConnector\Tests\Tracker\Polar\Tracker;
 
 use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
-use SportTrackerConnector\Tracker\Polar\Polar;
+use SportTrackerConnector\Tracker\Polar\Tracker as PolarTracker;
 use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
 use SportTrackerConnector\Workout\Workout;
 use SportTrackerConnector\Workout\Workout\Extension\HR;
@@ -16,7 +16,7 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 /**
  * Test the Polar tracker.
  */
-class PolarTest extends \PHPUnit_Framework_TestCase
+class TrackerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -26,10 +26,10 @@ class PolarTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'polar';
 
-        $this->assertSame($expected, Polar::getID());
+        $this->assertSame($expected, PolarTracker::getID());
 
         $logger = $this->getMock('Psr\Log\LoggerInterface');
-        $polar = new Polar($logger, null, null);
+        $polar = new PolarTracker($logger, null, null);
         $this->assertSame($expected, $polar->getID());
     }
 
@@ -46,7 +46,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $polarAPIMock = $this->getPolarAPIMock(array('fetchWorkoutTCX'));
         $polarAPIMock->expects($this->once())->method('fetchWorkoutTCX')->with($idWorkout)->willReturn($workoutTCX);
 
-        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getPolarAPI'), array($loggerMock));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Tracker', array('getPolarAPI'), array($loggerMock));
         $polarMock->expects($this->once())->method('getPolarAPI')->willReturn($polarAPIMock);
 
         $expected = new Workout();
@@ -78,7 +78,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $polarAPIMock = $this->getPolarAPIMock(array('fetchWorkoutTCX'));
         $polarAPIMock->expects($this->once())->method('fetchWorkoutTCX')->with($idWorkout)->willReturn($workoutTCX);
 
-        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getPolarAPI'), array($loggerMock));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Tracker', array('getPolarAPI'), array($loggerMock));
         $polarMock->expects($this->once())->method('getPolarAPI')->willReturn($polarAPIMock);
 
         $expected = new Workout();
@@ -119,7 +119,7 @@ class PolarTest extends \PHPUnit_Framework_TestCase
         $polarAPIMock = $this->getPolarAPIMock(array('listCalendarEvents'));
         $polarAPIMock->expects($this->once())->method('listCalendarEvents')->with($startDate, $endDate)->willReturn($APIReturn);
 
-        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Polar', array('getPolarAPI'), array($loggerMock));
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\Tracker', array('getPolarAPI'), array($loggerMock));
         $polarMock->expects($this->once())->method('getPolarAPI')->willReturn($polarAPIMock);
 
         $actual = $polarMock->listWorkouts($startDate, $endDate);

@@ -1,16 +1,16 @@
 <?php
 
-namespace SportTrackerConnector\Tests\Tracker\Endomondo\EndomondoAPI;
+namespace SportTrackerConnector\Tests\Tracker\Endomondo\API;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
-use SportTrackerConnector\Tracker\Endomondo\EndomondoAPI;
+use SportTrackerConnector\Tracker\Endomondo\API as EndomondoAPI;
 use SportTrackerConnector\Tracker\Endomondo\Sport;
 
 /**
- * Test the EndomondoAPI.
+ * Test the Endomondo API.
  */
-class EndomondoAPITest extends \PHPUnit_Framework_TestCase
+class APITest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -202,7 +202,7 @@ class EndomondoAPITest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Get an EndomondoAPI mock.
+     * Get an Endomondo API mock.
      *
      * @param string[] $responses The responses for the client.
      * @param string $token The token for auth.

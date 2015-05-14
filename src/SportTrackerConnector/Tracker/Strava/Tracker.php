@@ -19,7 +19,7 @@ use SportTrackerConnector\Workout\Workout\TrackPoint;
 /**
  * Tracker for strava.com
  */
-class Strava extends AbstractTracker
+class Tracker extends AbstractTracker
 {
 
     const STRAVA_URL_WORKOUTS = 'https://www.strava.com/api/v3/activities';
@@ -42,7 +42,7 @@ class Strava extends AbstractTracker
     /**
      * The Strava API.
      *
-     * @var \SportTrackerConnector\Tracker\Strava\StravaAPI
+     * @var \SportTrackerConnector\Tracker\Strava\API
      */
     protected $stravaAPI;
 
@@ -178,13 +178,13 @@ class Strava extends AbstractTracker
     /**
      * Get the Strava API.
      *
-     * @return StravaAPI
+     * @return API
      */
     public function getStravaAPI()
     {
         if ($this->stravaAPI === null) {
             $client = new Client();
-            $this->stravaAPI = new StravaAPI($client, $this->accessToken, $this->getSportMapper());
+            $this->stravaAPI = new API($client, $this->accessToken, $this->getSportMapper());
         }
 
         return $this->stravaAPI;

@@ -93,13 +93,13 @@ abstract class AbstractCommand extends Command
 
         switch ($code) {
             case 'polar':
-                $class = 'SportTrackerConnector\Tracker\Polar\Polar';
+                $class = 'SportTrackerConnector\Tracker\Polar\Tracker';
                 break;
             case 'endomondo':
-                $class = 'SportTrackerConnector\Tracker\Endomondo\Endomondo';
+                $class = 'SportTrackerConnector\Tracker\Endomondo\Tracker';
                 break;
             case 'strava':
-                $class = 'SportTrackerConnector\Tracker\Strava\Strava';
+                $class = 'SportTrackerConnector\Tracker\Strava\Tracker';
                 break;
             default:
                 throw new InvalidArgumentException('Unknown tracker "' . $code . '".');
