@@ -52,14 +52,14 @@ class EndomondoAPI
     protected $userID;
 
     /**
-     * Username for polar.
+     * Username for endomondo.
      *
      * @var string
      */
     protected $username;
 
     /**
-     * Password for polar.
+     * Password for endomondo.
      *
      * @var string
      */
@@ -83,8 +83,8 @@ class EndomondoAPI
      * Constructor.
      *
      * @param Client $client The HTTP client.
-     * @param string $username Username for polar.
-     * @param string $password Password for polar.
+     * @param string $username Username for endomondo website.
+     * @param string $password Password for endomondo website.
      * @param SportMapperInterface $sportMapper The sport mapper.
      */
     public function __construct(Client $client, $username, $password, SportMapperInterface $sportMapper)
