@@ -15,9 +15,9 @@ class APITest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Test fetching a workout TCX extracts the TCX from the zip archive coming from Polar.
+     * Test fetching a workout TCX from Polar.
      */
-    public function testFetchWorkoutTCXExtractsTCXFromZip()
+    public function testFetchWorkoutTCX()
     {
         $idWorkout = 1;
 
