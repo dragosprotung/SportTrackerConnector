@@ -19,7 +19,7 @@ class API
 
     const POLAR_FLOW_URL_WORKOUTS = 'https://flow.polar.com/training/getCalendarEvents?start=%s&end=%s';
 
-    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx';
+    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx/true';
 
     /**
      * Username for polar.
