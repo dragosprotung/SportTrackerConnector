@@ -65,7 +65,7 @@ class Tracker extends AbstractTracker
     }
 
     /**
-     * Download a workout.
+     * Download a workout from a TCX.
      *
      * @param integer $idWorkout The ID of the workout to download.
      * @return Workout
@@ -77,6 +77,19 @@ class Tracker extends AbstractTracker
         $loader = new TCX();
         $polarWorkoutTCX = $this->getPolarAPI()->fetchWorkoutTCX($idWorkout);
         return $loader->fromString($polarWorkoutTCX);
+    }
+
+    /**
+     * Download a workout in CSV format.
+     *
+     * @param integer $idWorkout The ID of the workout to download.
+     * @return Workout
+     */
+    public function downloadCSVWorkout($idWorkout)
+    {
+        $this->logger->debug('Downloading CSV for workout "' . $idWorkout . '"');
+
+        return $this->getPolarAPI()->fetchWorkoutCSV($idWorkout);
     }
 
     /**

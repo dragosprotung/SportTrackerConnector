@@ -15,6 +15,32 @@ class APITest extends \PHPUnit_Framework_TestCase
 {
 
     /**
+     * Test fetching a workout CSV from Polar.
+     */
+    public function testFetchWorkoutCSV()
+    {
+        $idWorkout = 1;
+
+        $response = new Response(
+            200,
+            array(
+                'Content-Type' => 'application/x-download',
+                'Content-Description' => 'File Transfer',
+                'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-10-00.csv"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.csv',
+            ),
+            new Stream(fopen(__DIR__ . '/Fixtures/workout-single.csv', 'r+'))
+        );
+        $clientMock = $this->getClientMock(array($response));
+        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+
+        $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\API', array('loginIntoPolar'), array($clientMock, null, null, $sportMapper));
+
+        $actual = $polarMock->fetchWorkoutCSV($idWorkout);
+        $expected = file_get_contents(__DIR__ . '/Fixtures/workout-single.csv');
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
      * Test fetching a workout TCX from Polar.
      */
     public function testFetchWorkoutTCX()
@@ -26,7 +52,7 @@ class APITest extends \PHPUnit_Framework_TestCase
             array(
                 'Content-Type' => 'application/x-download',
                 'Content-Description' => 'File Transfer',
-                'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-10-00.zip"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.zip',
+                'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-10-00.tcx"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.tcx',
             ),
             new Stream(fopen(__DIR__ . '/Fixtures/workout-single.tcx', 'r+'))
         );
