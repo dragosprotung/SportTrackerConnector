@@ -28,7 +28,7 @@ class APITest extends \PHPUnit_Framework_TestCase
                 'Content-Description' => 'File Transfer',
                 'Content-Disposition' => 'attachment; filename="John_Doe_2015-01-01_00-10-00.zip"; filename*=UTF-8\'\'John_Doe_2015-01-01_00-15-00.zip',
             ),
-            new Stream(fopen(__DIR__ . '/Fixtures/workout-single.zip', 'r+'))
+            new Stream(fopen(__DIR__ . '/Fixtures/workout-single.tcx', 'r+'))
         );
         $clientMock = $this->getClientMock(array($response));
         $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');

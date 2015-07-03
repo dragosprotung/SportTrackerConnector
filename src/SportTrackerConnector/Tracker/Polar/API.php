@@ -19,7 +19,7 @@ class API
 
     const POLAR_FLOW_URL_WORKOUTS = 'https://flow.polar.com/training/getCalendarEvents?start=%s&end=%s';
 
-    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx/true';
+    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx/false';
 
     /**
      * Username for polar.
@@ -107,7 +107,7 @@ class API
     }
 
     /**
-     * Fetch the HTML page of a workout.
+     * Fetch the TCX content of a workout.
      *
      * @param integer $idWorkout The ID of the workout.
      * @return string
@@ -116,33 +116,8 @@ class API
     public function fetchWorkoutTCX($idWorkout)
     {
         $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
-        $tempWorkoutZipFile = tempnam(sys_get_temp_dir(), 'stc_polar_workout_');
-
         $response = $this->httpClient->get($workoutURL, ['cookies' => true]);
-        file_put_contents($tempWorkoutZipFile, $response->getBody());
 
-        return $this->getTCXFromPolarZipArchive($tempWorkoutZipFile);
-    }
-
-    /**
-     * Get the TCX content from the zip file downloaded from Polar.
-     *
-     * @param string $zipFile The zip file containing the workout.
-     * @return string
-     * @throws RuntimeException If the zip file is corrupted or can not read the file from it.
-     */
-    private function getTCXFromPolarZipArchive($zipFile)
-    {
-        $zipArchive = new \ZipArchive();
-        $open = $zipArchive->open($zipFile);
-        if ($open !== true) {
-            throw new RuntimeException('Could not open the zip file acquired from Polar. File might be corrupted.');
-        }
-        $data = $zipArchive->getFromIndex(0);
-        if ($data === false) {
-            throw new RuntimeException('There is no file in the zip from Polar.');
-        }
-
-        return $data;
+        return (string) $response->getBody(true);
     }
 }
