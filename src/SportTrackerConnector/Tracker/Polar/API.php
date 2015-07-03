@@ -118,6 +118,6 @@ class API
         $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
         $response = $this->httpClient->get($workoutURL, ['cookies' => true]);
 
-        return $response->getBody();
+        return (string) $response->getBody(true);
     }
 }
