@@ -120,7 +120,12 @@ class API
             $response = $this->httpClient->get($url);
 
             if ($response->getStatusCode() === 200) {
-                return $response->json();
+                $json = $response->json();
+                if (isset($json['error'])) {
+                    throw new \Exception('Endomondo returned an unexpected error :"' . json_encode($json['error']));
+                }
+
+                return $json;
             }
             throw new \Exception('Unexpected "' . $response->getStatusCode() . '"response code from Endomondo.');
         } catch (\Exception $e) {
@@ -299,7 +304,41 @@ class API
             $workoutId = $this->postWorkoutData($deviceWorkoutId, $sport, $duration, $data);
         }
 
+        // End of workout data.
+//        $data = $this->flattenEndWorkoutTrackPoint($track, $speed);
+//        $workoutId = $this->postWorkoutData($deviceWorkoutId, $sport, $duration, array($data));
+
         return $workoutId;
+    }
+
+    /**
+     * Post the workout end data.
+     *
+     * TODO Implement.
+     *
+     * @param Track $track The track.
+     * @param float $speed The speed for the last point.
+     * @return string The workout ID.
+     */
+    private function flattenEndWorkoutTrackPoint(Track $track, $speed)
+    {
+        $endDateTime = clone $track->getEndDateTime();
+        $endDateTime->setTimezone(new \DateTimeZone('UTC'));
+        $distance = $track->getLength();
+        $lastTrackPoint = $track->getLastTrackPoint();
+
+        $totalAscent = $lastTrackPoint->getElevation(); // TODO Compute it from the track, this is not correct.
+
+        return $this->formatEndomondoTrackPoint(
+            $endDateTime,
+            self::INSTRUCTION_STOP,
+            $lastTrackPoint->getLatitude(),
+            $lastTrackPoint->getLongitude(),
+            $distance,
+            $speed,
+            $totalAscent,
+            $lastTrackPoint->hasExtension(HR::ID) ? $lastTrackPoint->getExtension(HR::ID)->getValue() : ''
+        );
     }
 
     /**
@@ -401,10 +440,11 @@ class API
      * @param integer $type The post type (0-6). Don't know what they mean.
      * @param string $lat The latitude of the point.
      * @param string $lon The longitude of the point.
-     * @param string $distance The distance.
-     * @param string $speed The speed.
+     * @param string $distance The distance in meters.
+     * @param string $speed The speed in km/h.
      * @param string $elevation The elevation
      * @param string $heartRate The heart rate.
+     * @param string $cadence The cadence (in rpm).
      * @return string
      */
     private function formatEndomondoTrackPoint(
@@ -415,12 +455,13 @@ class API
         $distance = null,
         $speed = null,
         $elevation = null,
-        $heartRate = null
+        $heartRate = null,
+        $cadence = null
     ) {
         $dateTime = clone $dateTime;
         $dateTime->setTimezone(new \DateTimeZone('UTC'));
         return sprintf(
-            '%s;%s;%s;%s;%s;%s;%s;%s;',
+            '%s;%s;%s;%s;%s;%s;%s;%s;%s;',
             $dateTime->format('Y-m-d H:i:s \U\T\C'),
             $type,
             $lat,
@@ -428,7 +469,8 @@ class API
             $distance / 1000,
             $speed,
             $elevation,
-            $heartRate
+            $heartRate,
+            $cadence
         );
     }
 }

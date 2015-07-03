@@ -109,6 +109,19 @@ class Track
     }
 
     /**
+     * Get the last track point.
+     *
+     * @return TrackPoint
+     */
+    public function getLastTrackPoint()
+    {
+        $lastTrackPoint = end($this->trackPoints);
+        reset($this->trackPoints);
+
+        return $lastTrackPoint;
+    }
+
+    /**
      * Set the start date and time of the track.
      *
      * @param DateTime $startDateTime The start date and time.
