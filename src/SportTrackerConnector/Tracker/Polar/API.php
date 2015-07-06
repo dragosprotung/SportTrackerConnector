@@ -19,7 +19,7 @@ class API
 
     const POLAR_FLOW_URL_WORKOUTS = 'https://flow.polar.com/training/getCalendarEvents?start=%s&end=%s';
 
-    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/tcx/false';
+    const POLAR_FLOW_URL_WORKOUT = 'https://flow.polar.com/training/analysis/%s/export/%s/false';
 
     /**
      * Username for polar.
@@ -115,7 +115,22 @@ class API
      */
     public function fetchWorkoutTCX($idWorkout)
     {
-        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout);
+        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout, 'tcx');
+        $response = $this->httpClient->get($workoutURL, ['cookies' => true]);
+
+        return (string) $response->getBody(true);
+    }
+
+    /**
+     * Fetch the CSV content of a workout.
+     *
+     * @param integer $idWorkout The ID of the workout.
+     * @return string
+     * @throws RuntimeException If the login fails.
+     */
+    public function fetchWorkoutCSV($idWorkout)
+    {
+        $workoutURL = sprintf(self::POLAR_FLOW_URL_WORKOUT, $idWorkout, 'csv');
         $response = $this->httpClient->get($workoutURL, ['cookies' => true]);
 
         return (string) $response->getBody(true);
