@@ -47,7 +47,7 @@ abstract class AbstractCommand extends Command
      */
     protected function configure()
     {
-        $this->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', getcwd() . DIRECTORY_SEPARATOR . 'config.yaml');
+        $this->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', getcwd() . DIRECTORY_SEPARATOR . 'config.yml');
     }
 
     /**

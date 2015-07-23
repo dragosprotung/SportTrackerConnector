@@ -2,6 +2,6 @@
 dump/
 vendor/
 reports/
-config.yaml
-config.*.yaml
+config.yml
+config.*.yml
 phpunit.xml
