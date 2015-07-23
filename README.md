@@ -30,7 +30,7 @@ composer.phar install
 
 ## Configuration
 
-Copy or rename *config.example.yaml* to *config.yaml*
+Copy or rename *config.example.yml* to *config.yml*
 Make sure you fill up the values with your credentials. Some trackers (ex. strava.com) have more complex authentication mechanism.
 For that see help `connector help` for a list of specific tracker commands and help.
 
@@ -38,8 +38,8 @@ Example is strava.com: `connector strava:get-token`
 
 ## Usage
 
-You will need to create a config.yaml file and put in your credentials for the services.
-You can rename and modify config.example.yaml
+You will need to create a config.yml file and put in your credentials for the services.
+You can rename and modify config.example.yml
 
 Available commands for working with workouts:
 

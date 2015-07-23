@@ -24,7 +24,7 @@ class GetToken extends Command
     {
         $this->setName('strava:get-token')
             ->setDescription('Give access to the application to access your account and generate a token with writing and access to private workouts. Put this token in your configuration file.')
-            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', getcwd() . DIRECTORY_SEPARATOR . 'config.yaml');
+            ->addOption('config-file', 'c', InputOption::VALUE_REQUIRED, 'The configuration file.', getcwd() . DIRECTORY_SEPARATOR . 'config.yml');
     }
 
     /**
