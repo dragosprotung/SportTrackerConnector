@@ -6,12 +6,12 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
 use SportTrackerConnector\Tracker\Polar\Tracker as PolarTracker;
-use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
-use SportTrackerConnector\Workout\Workout;
-use SportTrackerConnector\Workout\Workout\Extension\HR;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
-use SportTrackerConnector\Workout\Workout\Track;
-use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Core\Tracker\TrackerListWorkoutsResult;
+use SportTrackerConnector\Core\Workout\Workout;
+use SportTrackerConnector\Core\Workout\Extension\HR;
+use SportTrackerConnector\Core\Workout\SportMapperInterface;
+use SportTrackerConnector\Core\Workout\Track;
+use SportTrackerConnector\Core\Workout\TrackPoint;
 
 /**
  * Test the Polar tracker.
@@ -166,7 +166,7 @@ class TrackerTest extends \PHPUnit_Framework_TestCase
         $mock = new Mock(array(__DIR__ . '/Fixtures/loginIntoPolar.txt'));
         $client->getEmitter()->attach($mock);
 
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
         $polarAPI = $this->getMock(
             '\SportTrackerConnector\Tracker\Polar\API',
             $mockMethods,

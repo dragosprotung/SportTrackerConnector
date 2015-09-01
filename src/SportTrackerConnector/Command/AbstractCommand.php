@@ -2,9 +2,9 @@
 
 namespace SportTrackerConnector\Command;
 
-use SportTrackerConnector\Tracker\TrackerInterface;
-use SportTrackerConnector\Workout\Dumper\DumperInterface;
-use SportTrackerConnector\Workout\Loader\LoaderInterface;
+use SportTrackerConnector\Core\Tracker\TrackerInterface;
+use SportTrackerConnector\Core\Workout\Dumper\DumperInterface;
+use SportTrackerConnector\Core\Workout\Loader\LoaderInterface;
 use InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Symfony\Component\Console\Command\Command;
@@ -119,13 +119,13 @@ abstract class AbstractCommand extends Command
     {
         switch (strtolower($code)) {
             case 'gpx':
-                $class = 'SportTrackerConnector\Workout\Dumper\GPX';
+                $class = 'SportTrackerConnector\Core\Workout\Dumper\GPX';
                 break;
             case 'tcx':
-                $class = 'SportTrackerConnector\Workout\Dumper\TCX';
+                $class = 'SportTrackerConnector\Core\Workout\Dumper\TCX';
                 break;
             case 'json':
-                $class = 'SportTrackerConnector\Workout\Dumper\JSON';
+                $class = 'SportTrackerConnector\Core\Workout\Dumper\JSON';
                 break;
             default:
                 throw new InvalidArgumentException('Unknown dumper "' . $code . '".');

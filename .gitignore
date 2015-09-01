@@ -2,6 +2,7 @@
 dump/
 vendor/
 reports/
+composer.phar
 config.yml
 config.*.yml
 phpunit.xml

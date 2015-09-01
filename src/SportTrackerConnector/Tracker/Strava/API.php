@@ -7,10 +7,10 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Post\PostFile;
 use RuntimeException;
-use SportTrackerConnector\Tracker\Exception\NoTrackPointsFoundException;
-use SportTrackerConnector\Workout\Dumper\TCX as TCXDumper;
-use SportTrackerConnector\Workout\Workout;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Core\Tracker\Exception\NoTrackPointsFoundException;
+use SportTrackerConnector\Core\Workout\Dumper\TCX as TCXDumper;
+use SportTrackerConnector\Core\Workout\Workout;
+use SportTrackerConnector\Core\Workout\SportMapperInterface;
 
 /**
  * Class for working with Strava API.
@@ -45,7 +45,7 @@ class API
     /**
      * The sport mapper.
      *
-     * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
+     * @var \SportTrackerConnector\Core\Workout\SportMapperInterface
      */
     protected $sportMapper;
 

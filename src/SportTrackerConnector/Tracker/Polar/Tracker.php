@@ -5,10 +5,11 @@ namespace SportTrackerConnector\Tracker\Polar;
 use BadMethodCallException;
 use DateTime;
 use GuzzleHttp\Client;
-use SportTrackerConnector\Tracker\AbstractTracker;
-use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
-use SportTrackerConnector\Workout\Loader\TCX;
-use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Core\Workout\SportMapperInterface;
+use SportTrackerConnector\Core\Tracker\AbstractTracker;
+use SportTrackerConnector\Core\Tracker\TrackerListWorkoutsResult;
+use SportTrackerConnector\Core\Workout\Loader\TCX;
+use SportTrackerConnector\Core\Workout\Workout;
 
 /**
  * Polar Flow tracker.
@@ -24,9 +25,7 @@ class Tracker extends AbstractTracker
     protected $polarAPI;
 
     /**
-     * Get the ID of the tracker.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public static function getID()
     {
@@ -34,12 +33,7 @@ class Tracker extends AbstractTracker
     }
 
     /**
-     * Get a list of workouts.
-     *
-     * @param DateTime $startDate The start date for the workouts.
-     * @param DateTime $endDate The end date for the workouts.
-     * @return \SportTrackerConnector\Tracker\TrackerListWorkoutsResult[]
-     * @throws BadMethodCallException Functionality yet not supported.
+     * {@inheritdoc}
      */
     public function listWorkouts(DateTime $startDate, DateTime $endDate)
     {
@@ -56,7 +50,7 @@ class Tracker extends AbstractTracker
 
             $list[] = new TrackerListWorkoutsResult(
                 $workout['listItemId'],
-                Workout\SportMapperInterface::OTHER,
+                SportMapperInterface::OTHER,
                 new DateTime('@' . $workout['start'])
             );
         }
@@ -93,11 +87,7 @@ class Tracker extends AbstractTracker
     }
 
     /**
-     * Upload a workout.
-     *
-     * @param Workout $workout The workout to upload.
-     * @return boolean
-     * @throws BadMethodCallException Functionality not supported.
+     * {@inheritdoc}
      */
     public function uploadWorkout(Workout $workout)
     {
@@ -105,9 +95,7 @@ class Tracker extends AbstractTracker
     }
 
     /**
-     * Construct the sport mapper.
-     *
-     * @return \SportTrackerConnector\Workout\Workout\SportMapperInterface
+     * {@inheritdoc}
      */
     protected function constructSportMapper()
     {

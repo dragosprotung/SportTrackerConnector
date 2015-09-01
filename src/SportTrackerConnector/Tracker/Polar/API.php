@@ -5,7 +5,7 @@ namespace SportTrackerConnector\Tracker\Polar;
 use DateTime;
 use GuzzleHttp\Client;
 use RuntimeException;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
+use SportTrackerConnector\Core\Workout\SportMapperInterface;
 
 /**
  * Class for working with Polar API.
@@ -38,7 +38,7 @@ class API
     /**
      * The sport mapper.
      *
-     * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
+     * @var \SportTrackerConnector\Core\Workout\SportMapperInterface
      */
     protected $sportMapper;
 

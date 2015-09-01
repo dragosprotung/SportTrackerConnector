@@ -6,11 +6,11 @@ use DateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\Query;
 use RuntimeException;
-use SportTrackerConnector\Workout\Workout;
-use SportTrackerConnector\Workout\Workout\Extension\HR;
-use SportTrackerConnector\Workout\Workout\SportMapperInterface;
-use SportTrackerConnector\Workout\Workout\Track;
-use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Core\Workout\Workout;
+use SportTrackerConnector\Core\Workout\Extension\HR;
+use SportTrackerConnector\Core\Workout\SportMapperInterface;
+use SportTrackerConnector\Core\Workout\Track;
+use SportTrackerConnector\Core\Workout\TrackPoint;
 
 /**
  * Class for working with Endomondo API.
@@ -68,7 +68,7 @@ class API
     /**
      * The sport mapper.
      *
-     * @var \SportTrackerConnector\Workout\Workout\SportMapperInterface
+     * @var \SportTrackerConnector\Core\Workout\SportMapperInterface
      */
     protected $sportMapper;
 
@@ -288,7 +288,7 @@ class API
         foreach (array_chunk($track->getTrackPoints(), 100) as $trackPoints) {
             $data = array();
             foreach ($trackPoints as $trackPoint) {
-                /** @var \SportTrackerConnector\Workout\Workout\TrackPoint $trackPoint */
+                /** @var \SportTrackerConnector\Core\Workout\TrackPoint $trackPoint */
                 if ($trackPoint->hasDistance() === true) {
                     $distance = $trackPoint->getDistance();
                 } elseif ($previousPoint !== null) {

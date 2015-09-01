@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Subscriber\Mock;
-use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Core\Workout\Workout;
 
 /**
  * Test the Polar API.
@@ -31,7 +31,7 @@ class APITest extends \PHPUnit_Framework_TestCase
             new Stream(fopen(__DIR__ . '/Fixtures/workout-single.csv', 'r+'))
         );
         $clientMock = $this->getClientMock(array($response));
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
 
         $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\API', array('loginIntoPolar'), array($clientMock, null, null, $sportMapper));
 
@@ -57,7 +57,7 @@ class APITest extends \PHPUnit_Framework_TestCase
             new Stream(fopen(__DIR__ . '/Fixtures/workout-single.tcx', 'r+'))
         );
         $clientMock = $this->getClientMock(array($response));
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
 
         $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\API', array('loginIntoPolar'), array($clientMock, null, null, $sportMapper));
 
@@ -75,7 +75,7 @@ class APITest extends \PHPUnit_Framework_TestCase
         $endDate = new \DateTime('today');
 
         $clientMock = $this->getClientMock(array(__DIR__ . '/Fixtures/testListCalendarEventsReturnsArrayOfCalendarEntries.txt'));
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
 
         $polarMock = $this->getMock('SportTrackerConnector\Tracker\Polar\API', array('loginIntoPolar'), array($clientMock, null, null, $sportMapper));
         $actual = $polarMock->listCalendarEvents($startDate, $endDate);

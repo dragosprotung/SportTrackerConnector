@@ -5,7 +5,7 @@ namespace SportTrackerConnector\Tests\Tracker\Strava\API;
 use GuzzleHttp\Client;
 use GuzzleHttp\Subscriber\Mock;
 use SportTrackerConnector\Tracker\Strava\API;
-use SportTrackerConnector\Workout\Workout;
+use SportTrackerConnector\Core\Workout\Workout;
 
 /**
  * Test the Strava API.
@@ -144,7 +144,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     private function getAPIMock(array $responses, $accessToken = '1234567890abc')
     {
         $client = $this->getClientMock($responses);
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
 
         return new API($client, $accessToken, $sportMapper);
     }

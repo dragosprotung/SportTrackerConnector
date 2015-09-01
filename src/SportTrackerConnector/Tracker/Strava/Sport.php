@@ -2,7 +2,7 @@
 
 namespace SportTrackerConnector\Tracker\Strava;
 
-use SportTrackerConnector\Workout\Workout\AbstractSportMapper;
+use SportTrackerConnector\Core\Workout\AbstractSportMapper;
 
 /**
  * Sport mapper for Polar tracker.

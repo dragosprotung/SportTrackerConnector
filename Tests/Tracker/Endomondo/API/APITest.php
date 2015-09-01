@@ -125,13 +125,13 @@ class APITest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
+        $track = $this->getMock('SportTrackerConnector\Core\Workout\Track');
         $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::SWIMMING));
         $track->expects($this->once())->method('getDuration')->willReturn($this->getDateIntervalMock(0));
         $trackPoints = array_merge($this->getTrackPointMocks(150, true), $this->getTrackPointMocks(150));
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($trackPoints));
 
-        $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
+        $workout = $this->getMock('SportTrackerConnector\Core\Workout\Workout');
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
 
         $post = $endomondo->postWorkout($workout);
@@ -145,12 +145,12 @@ class APITest extends \PHPUnit_Framework_TestCase
     {
         $endomondo = $this->getEndomondoMock(array(__DIR__ . '/Fixtures/testPostWorkoutThrowsExceptionIfResponseIsNotOK.txt'));
 
-        $track = $this->getMock('SportTrackerConnector\Workout\Workout\Track');
+        $track = $this->getMock('SportTrackerConnector\Core\Workout\Track');
         $track->expects($this->once())->method('getSport')->will($this->returnValue(Sport::CYCLING_SPORT));
         $track->expects($this->once())->method('getDuration')->will($this->returnValue($this->getDateIntervalMock(0)));
         $track->expects($this->once())->method('getTrackPoints')->will($this->returnValue($this->getTrackPointMocks(50)));
 
-        $workout = $this->getMock('SportTrackerConnector\Workout\Workout');
+        $workout = $this->getMock('SportTrackerConnector\Core\Workout\Workout');
         $workout->expects($this->once())->method('getTracks')->will($this->returnValue(array($track)));
 
         $this->setExpectedException(
@@ -166,7 +166,7 @@ class APITest extends \PHPUnit_Framework_TestCase
      *
      * @param integer $number Number of mocks to get.
      * @param boolean $distance Flag if distance should be present in the track point.
-     * @return \SportTrackerConnector\Workout\Workout\TrackPoint[]
+     * @return \SportTrackerConnector\Core\Workout\TrackPoint[]
      */
     private function getTrackPointMocks($number, $distance = false)
     {
@@ -182,11 +182,11 @@ class APITest extends \PHPUnit_Framework_TestCase
      * Get a track point mock.
      *
      * @param integer $distance The distance for the point.
-     * @return \SportTrackerConnector\Workout\Workout\TrackPoint
+     * @return \SportTrackerConnector\Core\Workout\TrackPoint
      */
     private function getTrackPointMock($distance = null)
     {
-        $trackPointMock = $this->getMockBuilder('SportTrackerConnector\Workout\Workout\TrackPoint')
+        $trackPointMock = $this->getMockBuilder('SportTrackerConnector\Core\Workout\TrackPoint')
             ->disableOriginalConstructor()
             ->getMock();
         $trackPointMock->expects($this->once())->method('getDateTime')->will($this->returnValue(new \DateTime()));
@@ -211,7 +211,7 @@ class APITest extends \PHPUnit_Framework_TestCase
     private function getEndomondoMock(array $responses, $token = '123456')
     {
         $client = $this->getClientMock($responses);
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
 
         $endomondo = new EndomondoAPI($client, 'email', 'test', $sportMapper);
         $endomondo->setAuthToken($token);
@@ -239,11 +239,11 @@ class APITest extends \PHPUnit_Framework_TestCase
      * Get a mock for the date interval.
      *
      * @param integer $seconds The number of seconds to return when calling getTotalSeconds().
-     * @return \SportTrackerConnector\Date\DateInterval
+     * @return \SportTrackerConnector\Core\Date\DateInterval
      */
     private function getDateIntervalMock($seconds = 0)
     {
-        $dateInterval = $this->getMock('SportTrackerConnector\Date\DateInterval', array('getTotalSeconds'), array('PT1S'));
+        $dateInterval = $this->getMock('SportTrackerConnector\Core\Date\DateInterval', array('getTotalSeconds'), array('PT1S'));
         $dateInterval->expects($this->once())->method('getTotalSeconds')->willReturn($seconds);
         return $dateInterval;
     }

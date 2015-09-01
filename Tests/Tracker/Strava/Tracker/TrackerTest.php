@@ -3,13 +3,13 @@
 namespace SportTrackerConnector\Tests\Tracker\Strava\Tracker;
 
 use GuzzleHttp\Client;
-use SportTrackerConnector\Tracker\Exception\NoTrackPointsFoundException;
+use SportTrackerConnector\Core\Tracker\Exception\NoTrackPointsFoundException;
 use SportTrackerConnector\Tracker\Strava\Tracker as StravaTracker;
-use SportTrackerConnector\Tracker\TrackerListWorkoutsResult;
-use SportTrackerConnector\Workout\Workout;
-use SportTrackerConnector\Workout\Workout\Extension\HR;
-use SportTrackerConnector\Workout\Workout\Track;
-use SportTrackerConnector\Workout\Workout\TrackPoint;
+use SportTrackerConnector\Core\Tracker\TrackerListWorkoutsResult;
+use SportTrackerConnector\Core\Workout\Workout;
+use SportTrackerConnector\Core\Workout\Extension\HR;
+use SportTrackerConnector\Core\Workout\Track;
+use SportTrackerConnector\Core\Workout\TrackPoint;
 
 /**
  * Strava tracker test.
@@ -195,7 +195,7 @@ class TrackerTest extends \PHPUnit_Framework_TestCase
     {
         $client = new Client();
         $accessToken = '1234567890abc';
-        $sportMapper = $this->getMock('SportTrackerConnector\Workout\Workout\SportMapperInterface');
+        $sportMapper = $this->getMock('SportTrackerConnector\Core\Workout\SportMapperInterface');
         $stravaAPI = $this->getMock(
             'SportTrackerConnector\Tracker\Strava\API',
             $mockMethods,
@@ -226,7 +226,7 @@ class TrackerTest extends \PHPUnit_Framework_TestCase
      * @param string $dateTime The date and time of the point.
      * @param integer $elevation The elevation (in meters).
      * @param integer $hr The hear rate.
-     * @return \SportTrackerConnector\Workout\Workout\TrackPoint
+     * @return \SportTrackerConnector\Core\Workout\TrackPoint
      */
     private function getTrackPoint($latitude, $longitude, $dateTime, $elevation = null, $hr = null)
     {
